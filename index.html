@@ -3,12 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <!--Ensures the page is displayed correctly on different devices-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timetable - SRM University</title>
-    <!--Adds the Tailwind CSS library for styling-->
+    <title>Timetable - SRM University (BCA 4th Sem)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!--Link to Google Fonts for a clean, modern typeface-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -87,8 +84,8 @@
             --dark-color-info: var(--color-gray-300);
             --dark-color-focus-ring: rgba(50, 184, 198, 0.4);
             --dark-color-btn-primary-text: var(--color-slate-900);
-            --dark-color-card-border: rgba(119, 124, 124, 0.15);
-            --dark-color-card-border-inner: rgba(119, 124, 124, 0.15);
+            --dark-color-card-border: var(--dark-color-card-border);
+            --dark-color-card-border-inner: var(--dark-color-card-border-inner);
             --dark-color-select-caret: rgba(245, 245, 245, 0.8);
             --dark-color-exam: var(--color-blue-500);
             --dark-color-assignment: var(--color-green-500);
@@ -173,8 +170,9 @@
             --color-info: var(--dark-color-info);
             --color-focus-ring: var(--dark-color-focus-ring);
             --color-btn-primary-text: var(--dark-color-btn-primary-text);
-            --color-card-border: var(--dark-color-card-border);
-            --color-card-border-inner: var(--dark-color-card-border-inner);
+            --dark-color-card-border: var(--dark-color-card-border);
+            --dark-color-card-border-inner: var(--dark-color-card-border-inner);
+            --color-select-caret: rgba(245, 245, 245, 0.8);
             --color-exam: var(--dark-color-exam);
             --color-assignment: var(--dark-color-assignment);
             --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
@@ -506,8 +504,9 @@
             color: var(--color-text);
         }
 
+        /* MODIFIED: Labs now use the same Teal color as Subjects */
         .grid-cell.lab {
-            background-color: rgba(107, 33, 168, 0.15);
+            background-color: rgba(var(--color-primary-rgb), 0.15);
             color: var(--color-text);
         }
 
@@ -620,8 +619,9 @@
             background-color: rgba(var(--color-primary-rgb), 0.6);
         }
 
+        /* MODIFIED: Labs color box also uses Teal */
         .color-box.lab {
-            background-color: rgba(107, 33, 168, 0.6);
+            background-color: rgba(var(--color-primary-rgb), 0.6);
         }
 
         .color-box.lunch {
@@ -1812,11 +1812,11 @@
                 <div class="university-info">
                     <h1 class="university-name">SRM University</h1>
                     <div class="program-details">
-                        <span class="program">BCA Semester III, Section B</span>
+                        <span class="program">BCA Semester IV, Section B</span>
                         <span class="separator">•</span>
                         <span class="room">Room: A-403</span>
                         <span class="separator">•</span>
-                        <span class="session">Session: 2025 (ODD Semester)</span>
+                        <span class="session">Session: 2026 (Even Semester)</span>
                     </div>
                 </div>
                 <div class="header-controls">
@@ -2032,7 +2032,7 @@
                     <a href="#" id="madeByLink" class="footer-link">Made by: Mohammad Ahsan Neyaz</a>
                 </div>
                 <div class="footer-links">
-                    <span>Class In-Charge: Ms. Arul Paul</span>
+                    <span>Class In-Charge: Ms. Arul</span>
                     <span class="separator">•</span>
                     <span>Program Coordinator: Dr. Neeraj Dahiya</span>
                 </div>
@@ -2130,250 +2130,130 @@
             "Name": "Mohammad Ahsan Neyaz",
             "Reg. No.": "42224210112",
             "Age": "21",
-            "Course": "Bachelor of Computer Applications (B.C.A.), 3rd Semester",
-            "Section": "3B",
+            "Course": "Bachelor of Computer Applications (B.C.A.), 4th Semester",
+            "Section": "4B",
             "Location": "India",
             "Motto": '"Work smart. Stay consistent. Always Keep growing."'
         };
 
         const timetableData = {
             "timetable": {
-                "MONDAY": { "9:30-10:30": "Sports,Yoga and Fitness", "10:30-11:30": "Sports,Yoga and Fitness", "11:30-12:30": "Data Communication & Networks", "12:30-1:30": "German-I/French-I", "1:30-2:30": "LUNCH", "2:30-3:30": "Electoral Literacy in India", "3:30-4:30": "Env. Studies" },
-                "TUESDAY": { "9:30-10:30": "Electoral Literacy in India", "10:30-11:30": "FREE", "11:30-12:30": "Operating Systems Concept", "12:30-1:30": "Env. Studies", "1:30-2:30": "LUNCH", "2:30-3:30": "FREE", "3:30-4:30": "Presentation Skills" },
-                "WEDNESDAY": { "9:30-10:30": "Operating Systems Concept", "10:30-11:30": "Database Management Systems", "11:30-12:30": "Env. Studies", "12:30-1:30": "Sports,Yoga and Fitness", "1:30-2:30": "LUNCH", "2:30-3:30": "Data Communication & Networks", "3:30-4:30": "Presentation Skills" },
-                "THURSDAY": { "9:30-10:30": "Operating Systems Concept", "10:30-11:30": "Env. Studies", "11:30-12:30": "Data Communication & Networks", "12:30-1:30": "Database Management Systems", "1:30-2:30": "LUNCH", "2:30-3:30": "Electoral Literacy in India", "3:30-4:30": "FREE" },
-                "FRIDAY": { "9:30-10:30": "Database Management Systems", "10:30-11:30": "SPSS", "11:30-12:30": "SPSS", "12:30-1:30": "German-I/French-I", "1:30-2:30": "LUNCH", "2:30-3:30": "DBMS LAB", "3:30-4:30": "DBMS LAB" }
+                "MONDAY": { "9:30-10:30": "Web Technologies", "10:30-11:30": "Computer Multimedia & Animation", "11:30-12:30": "AI & ML", "12:30-1:30": "German-II/French-II", "1:30-2:30": "LUNCH", "2:30-3:30": "Software Engineering", "3:30-4:30": "Fundamental of E-commerce" },
+                "TUESDAY": { "9:30-10:30": "Software Engineering", "10:30-11:30": "Computer Multimedia & Animation", "11:30-12:30": "Professional Skills", "12:30-1:30": "Live Project/Vacational", "1:30-2:30": "LUNCH", "2:30-3:30": "R Lang (G1) / Multi M (G2)", "3:30-4:30": "R Lang (G1) / Multi M (G2)" },
+                "WEDNESDAY": { "9:30-10:30": "Web Technologies", "10:30-11:30": "Live Project/Vacational", "11:30-12:30": "LUNCH", "12:30-1:30": "MultiM (G1) / WT (G2)", "1:30-2:30": "MultiM (G1) / WT (G2)", "2:30-3:30": "Free", "3:30-4:30": "Fundamental of E-commerce" },
+                "THURSDAY": { "9:30-10:30": "Software Engineering", "10:30-11:30": "Fundamental of E-commerce", "11:30-12:30": "Professional Skills", "12:30-1:30": "LUNCH", "1:30-2:30": "Web Technologies", "2:30-3:30": "Computer Multimedia & Animation", "3:30-4:30": "Free" },
+                "FRIDAY": { "9:30-10:30": "AI & ML", "10:30-11:30": "R Lang (G2) / WT (G1)", "11:30-12:30": "R Lang (G2) / WT (G1)", "12:30-1:30": "German-II/French-II", "1:30-2:30": "LUNCH", "2:30-3:30": "Fundamental of E-commerce", "3:30-4:30": "Software Engineering" }
             },
+            // Updated Subject Data with Abbreviations
             "subjects": {
-                "Database Management Systems": { "code": "24BCA301", "name": "Database Management Systems (DBMS)", "faculty": "Dr. Kaleem", "department": "CSE" },
-                "Data Communication & Networks": { "code": "24BCA302", "name": "Data Communication and Networks (DCN)", "faculty": "Dr. Syed Mohtashim Mian", "department": "CSE" },
-                "Operating Systems Concept": { "code": "24BCA303", "name": "Operating Systems Concept (OS)", "faculty": "Mr. Rachit", "department": "CSE" },
-                "DBMS LAB": { "code": "24BCA304", "name": "Database Management Systems Lab (DBMS LAB)", "faculty": "Dr. Kaleem", "department": "CSE" },
-                "Env. Studies": { "code": "23ESUG201", "name": "Environmental Studies (Env. Studies)", "faculty": "Uqab Ali Baba", "department": "ENV. SCIENCE" },
-                "Electoral Literacy in India": { "code": "24MDCxx", "name": "Electoral Literacy in India (ELI)", "faculty": "Dr. Abhishank Mishra", "department": "POL.SC." },
-                "German-I/French-I": { "code": "23AECxxx", "name": "German-I/French-I", "faculty": "Mr.Sudip Das/Mr.Ashish Verma", "department": "LANGUAGE" },
-                "Sports,Yoga and Fitness": { "code": "23VACxxx", "name": "Sports,Yoga and Fitness (SYF)", "faculty": "Ms.Komal", "department": "SPORTS" },
-                "Presentation Skills": { "code": "23SS353", "name": "Presentation Skills (PS)", "faculty": "Sahil Dahiya", "department": "PD" },
-                "SPSS": { "code": "23SS303", "name": "Statistical Skills with SPSS (SPSS)", "faculty": "Dr.Rashi Malik", "department": "MBA" }
+                "Web Technologies": { "code": "24BCA401", "name": "Web Technologies (WT)", "abbrev": "WT", "faculty": "Dr. Kaleem", "department": "CSE" },
+                "Computer Multimedia & Animation": { "code": "24BCA402", "name": "Computer Multimedia & Animation (MA)", "abbrev": "CM&A", "faculty": "Dr. Syed", "department": "CSE" },
+                "Software Engineering": { "code": "23BCA403", "name": "Software Engineering (SE)", "abbrev": "SE", "faculty": "Dr. Indu", "department": "CSE" },
+                "Fundamental of E-commerce": { "code": "23BCA404", "name": "Fundamental of E-commerce (E Comm)", "abbrev": "E-Comm", "faculty": "Dr. Pawan", "department": "Management" },
+                "AI & ML": { "code": "23VACxxx", "name": "AI & ML", "abbrev": "AI/ML", "faculty": "Dr. Dilshad", "department": "CSE" },
+                "German-II/French-II": { "code": "23UAEC 401", "name": "German-II/French-II", "abbrev": "Lang", "faculty": "TBA", "department": "LANGUAGE" },
+                "Professional Skills": { "code": "21SS454", "name": "Professional Skills (PS)", "abbrev": "PS", "faculty": "Mr. Kulvinder Singh", "department": "PD" },
+                "Live Project/Vacational": { "code": "23BCA 407", "name": "Live Project - III/Vacational Courses / Summer Internship", "abbrev": "Project", "faculty": "Ms. Arul", "department": "CSE" },
+                "R Lang (G1) / Multi M (G2)": { "code": "23SS404 / 23BCA405", "name": "R Language (G1) / Multimedia Lab (G2)", "abbrev": "R/MM Lab", "faculty": "Dr. Syamsunder / Dr. Syed", "department": "Math / CSE" },
+                "MultiM (G1) / WT (G2)": { "code": "23BCA405 / 23BCA406", "name": "Multimedia Lab (G1) / Web Tech Lab (G2)", "abbrev": "MM/WT Lab", "faculty": "Dr. Syed / Dr. Kaleem", "department": "CSE" },
+                "R Lang (G2) / WT (G1)": { "code": "23SS404 / 23BCA406", "name": "R Language (G2) / Web Tech Lab (G1)", "abbrev": "R/WT Lab", "faculty": "Dr. Syamsunder / Dr. Kaleem", "department": "Math / CSE" }
             },
             "timeSlots": ["9:30-10:30", "10:30-11:30", "11:30-12:30", "12:30-1:30", "1:30-2:30", "2:30-3:30", "3:30-4:30"],
             "days": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"]
         };
 
         const syllabusData = {
-            "Data Communication & Networks": `
+            "Computer Multimedia & Animation": `
                 <h4>Unit-1: INTRODUCTION</h4>
-                <p>Internet: A brief History; TCP/IP Model; OSI Model; Types of Networks : Local Area Networks, Metropolitan Area Networks, Wide Area Network; Topologies: Bus, Star, Ring, Hybrid, Tree, Complete, Irregular - Topology; Guided and unguided transmission media.</p>
-                <h4>Unit-2: DATA LINK LAYERS</h4>
-                <p>Data link Layer design issues: Framing, Error Detection & Correction: Checksum, CRC, Hamming codes; Elementary Data link Protocols- Sliding window Protocols; Media access control  Random Access: Aloha, CSMA; Controlled Access: Token Passing, Polling, Reservation; Channelization; Ethernet Standard;</p>
-                <h4>Unit-3: NETWORK LAYERS PROTOCOLS</h4>
-                <p>IPV4 Addressing  classful and classless, Network Address Translation, IPV4 Packet Format, Circuit Switching, Packet Switching, ARP, RARP, DHCP, ICMP and IGMP.</p>
-                <h4>Unit-4: NETWORK ROUTING</h4>
-                <p>LAN interconnecting devices: Hubs, Switches, Bridges, Routers, Gateways; Routing and Forwarding, Routing Table, Intra- and inter-domain routing, Distance vector routing, DVR Instability problem and solutions, RIP, Link State Routing, OSPF; Virtual Private Networks;</p>
-                <h4>Unit-5: TRANSPORT & APPLICATION LAYER</h4>
-                <p>Transmission Control Protocol; 3-way handshaking in TCP; User Datagram Protocol; Congestion control mechanisms; Application Layer: Email  SMTP, POP, IMAP; FTP, NNTP, HTTP, DNS, WWW, Firewall.</p>
+                <p>Introduction to multimedia, Key elements of multimedia: text, audio, video, graphics, animation,Hardware and software requirements for multimedia Applications of multimedia, Introduction to Animation -History of Animation-Types of Animation - Basic Principles of Animation</p>
+                <h4>Unit-2: DESKTOP PUBLISHING</h4>
+                <p>Desktop publishing- Basic design concepts, User interface design, Hypermedia authoring concept, Photoshop, Coral Draw, and PageMaker.</p>
+                <h4>Unit-3: MULTIMEDIA PRODUCTION</h4>
+                <p>Process of multimedia production. Various file formats of text, audio, video, graphics, and animation. File compression techniques, creating web-based multimedia, Social Media Production, Digital Presenting, Video Studio Production.</p>
+                <h4>Unit-4: KIOSKS</h4>
+                <p>Multimedia-based presentations, Concept of interactive learning material, Multimedia networks: retail and banking business, Application in interactive television, Types of kiosks</p>
+                <h4>Unit-5: CONCEPT GENERATION OF MULTIMEDIA</h4>
+                <p>Concept generation of multimedia, Project process and stages of multimedia production, Implementation and distribution of multimedia products.</p>
             `,
-            "Database Management Systems": `
-                <h4>Unit-1: Introduction To Data And Information</h4>
-                <p>Basic Concepts - Data Information, difference between data and information, Records and files,Traditional file - based Systems- File Based Approach- limitation of files Based Approach, Database Approach- characteristics of Database Approach, Database Management Systems (DBMS), Components of DBMS Environment, DBMS Functions and Components, Advantage and Disadvantage of DBMS.</p>
-                <h4>Unit-2: Architecture</h4>
-                <p>Database System Architecture - Three levels of Architecture, External, Conceptual and Internal Levels, Schemas, Mapping and Instance, Data Independence - Logical and Physical Data Independence. Classification of Database Management System, Centralization and client-Server Architecture to DBMS. Data Models: Records-based Data Models, Object-based data Models, object-based Data Models, physical Data Models and Conceptual Modeling.</p>
-                <h4>Unit-3: E-R Modelling</h4>
-                <p>Entry-Relationships Models -Entity Types, Entity Sets, Attribute Relationship Types, Relationship Instances and E-R Diagram, Basic Concepts of Hierarchal and network Data Models, difference between relational, hierarchical and network model, Relational Data Model: - Brief History, Relational Model Terminology-Relational Data Structure, Database Relations, Properties of Relations, Keys, Domains, and Integrity Constrains over Relations, Base table and views.</p>
-                <h4>Unit-4: Normalization</h4>
-                <p>Introduction to Schema Refinement -  Problems caused by redundancy, Decompositions - Problems related to decomposition, Functional Dependencies - Reasoning about FDS,Normal Forms - First, Second,Third Normal forms.</p>
-                <h4>Unit-5: Transaction & Recovery</h4>
-                <p>Transaction management ACID Properties, Transaction states, Concurrency control: Concurrency Control-Overview, Concurrency control problems, Locks, Locking Protocols, and Deadlocks.</p>
+            "Fundamental of E-commerce": `
+                <h4>Unit-1</h4>
+                <p>E-commerce: The revolution is just beginning, Ecommerce: A Brief History, Understanding E-commerce.</p>
+                <h4>Unit-2</h4>
+                <p>E-commerce Business Models, B2C, B2B, Business models in emerging E-commerce areas, How the Internet and the web change business: strategy, structure and process</p>
+                <h4>Unit-3</h4>
+                <p>Building an E-commerce Web Site: A systematic Approach, The e-commerce security environment, Security threats in the e-commerce environment</p>
+                <h4>Unit-4</h4>
+                <p>Business Models: Evolution of Internet Business Models, Business Models in Practice, Business Model: The Six Components, Security in Electronic Business</p>
+                <h4>Unit-5</h4>
+                <p>Encryption-Cryptography, Encryption, Digital Signature, E-Payment Systems: B2B Electronic Payments, Third-Party Payment Processing, Electronic Payment Gateway</p>
             `,
-            "DBMS LAB": `
-                <h4>List of Experiments</h4>
-                <p>(A Student is suppose to complete/perform minimum 9 experiment)</p>
-                <h5>EMPLOYEE Schema</h5>
-                <table class="syllabus-table">
-                    <thead><tr><th>FIELD</th><th>TYPE</th><th>NULL</th><th>KEY</th><th>DEFAULT</th></tr></thead>
-                    <tbody>
-                        <tr><td>Eno.</td><td>Char(3)</td><td>NO</td><td>PRI</td><td>NIL</td></tr>
-                        <tr><td>Ename</td><td>Varchar(50)</td><td>NO</td><td></td><td>NIL</td></tr>
-                        <tr><td>job_type</td><td>Varchar(50)</td><td>NO</td><td></td><td>NIL</td></tr>
-                        <tr><td>Manager</td><td>Char(3)</td><td>YES</td><td>FK</td><td>NIL</td></tr>
-                        <tr><td>Hire_data</td><td>Date</td><td>NO</td><td></td><td>NIL</td></tr>
-                        <tr><td>Dno.</td><td>Integer</td><td>YES</td><td>FK</td><td>NIL</td></tr>
-                        <tr><td>Commission</td><td>Decimal(10,2)</td><td>YES</td><td></td><td>NIL</td></tr>
-                        <tr><td>Salary</td><td>Decimal(7,2)</td><td>NO</td><td></td><td>NIL</td></tr>
-                    </tbody>
-                </table>
-                <h5>DEPARTMENT Scheme</h5>
-                <table class="syllabus-table">
-                    <thead><tr><th>FIELD</th><th>TYPE</th><th>NULL</th><th>KEY</th><th>DEFAULT</th></tr></thead>
-                    <tbody>
-                        <tr><td>Dno.</td><td>Integer</td><td>NO</td><td>PRI</td><td>NULL</td></tr>
-                        <tr><td>Dname</td><td>Varchar(50)</td><td>YES</td><td></td><td>NULL</td></tr>
-                        <tr><td>Location</td><td>Varchar(50)</td><td>YES</td><td></td><td>NEW DELHI</td></tr>
-                    </tbody>
-                </table>
+            "Multimedia & Animation Lab": `
+                <h4>COURSE LEARNING OUTCOMES (CLOs)</h4>
+                <p>After completion of course, students would be able to:
                 <ol>
-                    <li>Query to display Employee Name, job, Hire Date,Employee Number; for each employee with the Employee Number appearing first.</li>
-                    <li>Query to display unique job from the Employee Table.</li>
-                    <li>Query to display the Employee Name concatenated by a job separated by a comma.</li>
-                    <li>Query to display all the data from the Employee Table. Separate each Column by a comma and name the said column as THE_OUTPUT.</li>
-                    <li>Query to display the Employee Name and Salary of all theemployees earning more than $2850.</li>
-                    <li>Query to display Employee Name and Department Numberfor the Employee No= 7900.</li>
-                    <li>Query to display Employee Name and Salary for allemployees whose salary is not in range of $1500 and $2850.</li>
-                    <li>Query to display Employee Name and Department No. of all the employees in Dept 10 and Dept 30 in the alphabeticalorder by name</li>
-                    <li>Query to display Name and Hire Date of every Employeewho was hired in 1981.</li>
-                    <li>Query to display Name and job of all employees who don'thave a current Manager.</li>
+                    <li>Students will demonstrate proficiency in using multimedia software tools like Photoshop, Flash, and Dreamweaver to create and edit multimedia content.</li>
+                    <li>Students will be able to design and develop functional websites incorporating multimedia elements such as images, videos, and animations.</li>
+                    <li>Students will apply multimedia concepts to design and develop interactive games, understanding the basics of game design and user engagement.</li>
+                    <li>Students will explore and illustrate the use of multimedia in different fields, creating projects that show its application in education, business, and communication.</li>
+                    <li>Students will complete projects that simulate real-world scenarios, demonstrating their ability to apply multimedia tools and concepts to practical problems and scenarios.</li>
+                </ol></p>
+                <h4>LIST OF EXPERIMENT</h4>
+                <ol>
+                    <li>To study MULTIMEDIA HARDWARE tools and also they can interact with multimedia practically.</li>
+                    <li>To study the Multimedia BASIC SOFTWARE tools and also they can interact with multimedia practically.</li>
+                    <li>Design a poster for the 2024 election and show the difference in resolution and quality for Print and Web.</li>
+                    <li>Implement different software tools of multimedia like Photoshop, flash, and Dreamweaver.</li>
+                    <li>Write a program to show a bitmap image on your computer screen.</li>
+                    <li>Write a program to produce animation effects of a triangle transforming into a square and then into a circle.</li>
+                    <li>Design the scenery of a park using different tools of Photoshop.</li>
+                    <li>Take images from different image sources to show variation in Resolution.</li>
+                    <li>Use Effective Cropping Techniques to design a collage.</li>
+                    <li>Design a scenery showing correction of Image tonality.</li>
                 </ol>
             `,
-
-            "Operating Systems Concept": `
-                <h4>Unit-1: INTRODUCTION</h4>
-                <p>Basic OS functions, resource abstraction, types of operating systems-multiprogramming systems, multi-threading, batch systems, time sharing systems; case studies of real-life scenarios.</p>
-
-                <h4>Unit-2: PROCESS MANAGEMENT</h4>
-                <!-- <p>System View of Processes and Resources, Process Concepts: Process States (New, Ready, Running, Waiting, Terminated)Process Control Block (PCB), Process Lifecycle and Hierarchy, Threading Concepts: Single vs. Multi-threaded processes, Process Creation, Termination, Role of Operating System in Process Scheduling and Coordination, Analyze process structure and manage processes effectively using OS principles.</p> -->
-                <p>System view of the process and resources, initiating the OS, process address space, process abstraction, resource abstraction, process hierarchy, Process Control Block (PCB), States of a process.</p>
-                <h4>Unit-3: CPU SCHEDULING</h4>
-                <!-- <p>CPU Scheduling: Concepts and Criteria, Scheduling Algorithms: First Come First Serve (FCFS) Shortest Job First (SJF),Shortest Remaining Time First(SRTF)Round Robin (RR),Priority Scheduling, Highest Response Ratio Next (HRRN), Introduction to Multitasking and Context Switching, Concurrency and Race Conditions, Critical Section Problem, Synchronization Techniques: Semaphores (Binary and Counting), Mutual Exclusion (Mutex), Apply scheduling and synchronization techniques to optimize CPU performance.</p> -->
-                    <p>Process Scheduling, non-pre-emptive and pre-emptive scheduling algorithms; Scheduling algorithms (FCFS, SJF, SRTF, RR, HRRN), concurrent and processes, critical section, semaphores.</p>
-                <h4>Unit-4: DEADLOCK</h4>
-                <p>System model, Deadlock Characterization, Methods for Handling Deadlocks, Deadlock prevention, Deadlock Avoidance, Deadlock Detection and Recovery from Deadlock, Resource Allocation Graph (RAG), Banker's Algorithm for Deadlock.</p>
-
-                <h4>Unit-5: MEMORY MANAGEMENT</h4>
-                <p>Swapping, Contiguous memory Allocation( First Fit, Best Fit, Worst First)Paging,segmentation, segmentation with paging, Demand Paging, Process creation, Page Replacement.
-                <br><br><em>Virtual Memory [Not in the syllabus]</em></p>
+            "Web Technologies": `
+                <h4>Syllabus Content</h4>
+                <p>Syllabus details for Web Technologies will be updated soon.</p>
             `,
-
-            "Env. Studies": `
-                <h4>Unit 1: Introduction to enviromental studies</h4>
-                    <p><ul>
-                        <li>Mutidisciplinary nature of enviromental studies</li>
-                        <li>Scope and imprtance;Concept of sustainability and sustainable development.</li>
-                    </ul></p>
-                
-                    <h4>Unit 2:</h4>
-                <p>what is an ecosystem? Structure and function of ecosystem; Energy flow in an ecosystem:food chains,food webs and ecological succession. Case studies of the following ecosystems : a) Forest ecosystem b) Grassland ecosystem c) Desert ecosystem d) Aquatic ecosystems (ponds,streams,lakes,rivers, oceans, estuarie)</p>
-                
-                <h4>Unit 3: Natural Resources : Renewable and Non-renewable Resources</h4>
-                <p>Land resources and landuse change; Land degradation, soil erosion and desertification.
-                <ul>
-                    <li>Deforestation: Causes and impacts due to mining, dam building on environment, forests, biodiversity, and tribal populations.</li>
-                    <li>Water: Use and over-exploitation of surface and ground water, floods, droughts, conflicts over water (international & inter-state).</li>
-                    <li>Energy resources: Renewable and non-renewable energy sources, use of alternate energy sources, growing energy needs, case studies.</li>
-                </ul>
-                </p>
-                
-                <h4>Unit 4: Biodiversity and Conservation</h4>
-                <p>
-                    <ul>
-                        <li>Levels of biological diversity: genetic, species and ecosystem diversity; Biogeographic zones of India; Biodiversity patterns and global biodiversity hot spots</li>
-                        <li>India as a mega-biodiversity nation; Endangered and endemic species of India</li>
-                        <li>Threats to biodiversity: Habitat loss, poaching of wildlife, man-wildlife conflicts, biological invasions; Conservation of biodiversity: In-situ and Ex-situ conservation of biodiversity.</li>
-                        <li>Ecosystem and biodiversity services: Ecological, economic, social, ethical, aesthetic and Informational value.</li>
-                    </ul>    
-                </p>
-                
-                <h4>Unit 5: Environmental Pollution</h4>    
-                <p>
-                    <ul>
-                        <li>Environmental pollution: types, causes, effects, and controls; Air, water, soil and noise pollution</li>
-                        <li>Nuclear hazards and human health risks</li>
-                        <li>Solid waste management: Control measures of urban and industrial waste.</li>
-                        <li>Pollution case studies.</li>
-                    </ul>
-                </p>    
-
-                <h4>Unit 6 : Environmental Policies & Practices</h4>    
-                <p>
-                    <ul>
-                        <li>Climate change, global warming, ozone layer depletion, acid rain and impacts on human communities and agriculture</li>
-                        <li>Environment Laws: Environment Protection Act; Air (Prevention & Control of Pollution) Act; Water (Prevention and control of Pollution) Act; Wildlife Protection Act; Forest Conservation Act. International agreements: Montreal and Kyoto protocols and Convention on Biological Diversity (CBD).</li>
-                        <li>Nature reserves, tribal populations and rights, and human wildlife conflicts in Indian context</li>
-                    </ul>
-                </p>  
-
-                <h4>Unit 7: Human Communities and the Environment</h4>    
-                <p>
-                    <ul>
-                        <li>Human population growth: Impacts on environment, human health, and welfare.</li>
-                        <li>Resettlement and rehabilitation of project affected persons, case studies.</li>
-                        <li>Disaster management: floods, earthquake, cyclones, and landslides.</li>
-                        <li>Environmental movements: Chipko, Silent valley, Bishnoi’s of Rajasthan.</li>
-                        <li>Environmental ethics: Role of Indian and other religions and cultures in environmental conservation. • Environmental communication and public awareness, case studies (e.g., CNG vehicles in Delhi).</li>
-                    </ul>
-                </p>  
-                <h4>Unit 8: Field work</h4>    
-                <p>
-                    <ul>
-                        <li>Visit to an area to document environmental assets: river/ forest/ flora/fauna, etc.</li>
-                        <li>Visit to a local polluted site-Urban/Rural/Industrial/Agricultural.</li>
-                        <li>Study of common plants, insects, birds and basic principles of identification.</li>
-                        <li>Study of simple ecosystems-pond, river, Delhi Ridge, etc.</li>
-                    </ul>
-                </p>  
-
+            "Software Engineering": `
+                <h4>Syllabus Content</h4>
+                <p>Syllabus details for Software Engineering will be updated soon.</p>
             `,
-
-            "Electoral Literacy in India": `
-                <h4>UNIT-1: Elections in India</h4>
-                <p>Suffrage, Types, and Methods of Elections<br> 
-Parliamentary elections: Lok Sabha & Rajya Sabha <br>
-Presidential Elections <br>
-State Legislative Assembly Elections  <br>
-Local Body Elections </p>
-
-                <h4>UNIT-2: Electoral Institutions </h4>  
-                    <p>Election Commission (EC) <br>
-State Election Commission <br>
-Part-XV of Indian Constitution <br> </p>
-
-                 <h4>UNIT-3: Political Parties in India </h4>  
-                    <p>One-party, Two Party, Multi-party system <br>
-Model Code of Conduct, Party Funding, and Campaign  <p>
-
-                <h4>UNIT-4: Elections: Issues and Challenges</hr>
-                    `
+            "AI & ML": `
+                <h4>Syllabus Content</h4>
+                <p>Syllabus details for AI & ML will be updated soon.</p>
+            `
         };
+
 
         const academicEvents = {
             // --- HOLIDAYS ---
-            "2025-08-09": [{ type: "holiday", remarks: "Raksha bandhan" }],
-            "2025-08-15": [{ type: "holiday", remarks: "Independence Day" }],
-            "2025-08-20": [{ type: "holiday", remarks: "Orientation" }],
-            "2025-08-21": [{ type: "holiday", remarks: "Induction" }],
-            "2025-09-05": [{ type: "holiday", remarks: "Milad-un-nabi" }],
-            "2025-09-22": [{ type: "holiday", remarks: "Maharaja Agrasen Jayanti" }],
-            "2025-09-23": [{ type: "holiday", remarks: "Haryana War heroes Martyrdom Day" }],
-            "2025-10-02": [{ type: "holiday", remarks: "Mahatma Gandhi Jayanti/Dussehra" }],
-            "2025-10-07": [{ type: "holiday", remarks: "Maharishi Valmiki / Maharaja Ajmidh jayanti" }],
-            "2025-10-20": [{ type: "holiday", remarks: "Diwali" }],
-            "2025-10-21": [{ type: "holiday", remarks: "Diwali" }],
-            "2025-11-05": [{ type: "holiday", remarks: "Guru nanak dev jayanti" }],
-            "2025-12-03": [{ type: "holiday", remarks: "Preparatory Leave" }],
-            "2025-12-25": [{ type: "holiday", remarks: "Christmas" }],
-            "2026-01-01": [{ type: "holiday", remarks: "Semester Break" }],
-
-            // --- EXAMS ---
-            "2025-10-13": [{ type: "exam", name: "Internal Assessment 1", subject: "DBMS", time: "2:00 PM - 3:30 PM"}],
-            "2025-10-14": [{ type: "exam", name: "Internal Assessment 1", subject: "DCN", time: "10:00 AM - 11:30 AM"}],
-            "2025-10-15": [
-                { type: "exam", name: "Internal Assessment 1", subject: "OS", time: "10:00 AM - 11:30 AM"},
-                { type: "exam", name: "Internal Assessment 1", subject: "Env studies", time: "2:00 PM - 3:30 PM"}
-            ],
-            "2025-10-16": [
-                { type: "exam", name: "Internal Assessment 1", subject: "ELI", time: "10:00 AM - 11:30 AM"},
-                { type: "exam", name: "Internal Assessment 1", subject: "German/French", time: "2:00 PM - 3:30 PM"}
-            ],
-            "2025-11-12": [{ type: "exam", name: "Internal Assessment 2"}],
-            "2025-11-13": [{ type: "exam", name: "Internal Assessment 2"}],
-            "2025-11-14": [{ type: "exam", name: "Internal Assessment 2"}],
-            "2025-11-17": [{ type: "exam", name: "Internal Assessment 2"}],
-
-            "2025-12-10": [{ type: "exam", name: "End Term Examination",subject: "German/French", time: "9:45 AM - 12:45 PM"}],
-            "2025-12-11": [{ type: "exam", name: "End Term Examination",subject: "Environmental Studies", time: "1:15 PM - 4:15 PM"}],
-            "2025-12-16": [{ type: "exam", name: "End Term Examination",subject: "Electoral Literacy in India", time: "9:45 AM - 12:45 PM"}],
-            "2025-12-18": [{ type: "exam", name: "End Term Examination",subject: "DBMS", time: "9:45 AM - 12:45 PM"}],
-            "2025-12-22": [{ type: "exam", name: "End Term Examination",subject: "Data Communication & Network", time: "1:15 PM - 4:15 PM"}],            
-            "2025-12-24": [{ type: "exam", name: "End Term Examination",subject: "Operating System", time: "9:45 AM - 12:45 PM"}],
+            "2026-01-01": [{ type: "holiday", remarks: "New Year Day / Semester Break" }],
+            "2026-01-18": [{ type: "holiday", remarks: "Semester Break End" }],
+            "2026-01-23": [{ type: "holiday", remarks: "Sir Chhotu Ram Jayanti / Basant Panchami" }],
+            "2026-01-26": [{ type: "holiday", remarks: "Republic Day" }],
+            "2026-03-03": [{ type: "holiday", remarks: "Holi" }],
+            "2026-03-23": [{ type: "holiday", remarks: "Shaheedi Diwas of Bhagat Singh, Rajguru, Sukhdev" }],
+            "2026-03-26": [{ type: "holiday", remarks: "Ram Navami" }],
+            "2026-03-31": [{ type: "holiday", remarks: "Mahavir Jayanti" }],
+            "2026-04-03": [{ type: "holiday", remarks: "Good Friday" }],
+            "2026-04-14": [{ type: "holiday", remarks: "Dr. B.R. Ambedkar Jayanti / Vaisakhi" }],
+            "2026-05-01": [{ type: "holiday", remarks: "Buddha Purnima" }],
+            "2026-05-27": [{ type: "holiday", remarks: "Id-Ul-Zuha (Bakrid)" }],
+            "2026-06-17": [{ type: "holiday", remarks: "Maharana Pratap Jayanti" }],
+            "2026-06-26": [{ type: "holiday", remarks: "Muharram" }],
+            "2026-06-29": [{ type: "holiday", remarks: "Sant Kabir Jayanti" }],
+            "2026-07-31": [{ type: "holiday", remarks: "Shaheed Udham Singh Martyrdom Day" }],
+            "2026-08-26": [{ type: "holiday", remarks: "Milad-un-Nabi / Id-e-Milad" }],
+            "2026-08-28": [{ type: "holiday", remarks: "Raksha Bandhan" }],
+            "2026-09-04": [{ type: "holiday", remarks: "Janmashtami" }],
+            "2026-09-23": [{ type: "holiday", remarks: "Shaheed Diwas of Rao Tula Ram" }],
+            "2026-10-02": [{ type: "holiday", remarks: "Mahatma Gandhi Jayanti" }],
+            "2026-10-20": [{ type: "holiday", remarks: "Dussehra" }],
+            "2026-10-26": [{ type: "holiday", remarks: "Maharishi Valmiki Jayanti" }],
+            "2026-11-09": [{ type: "holiday", remarks: "Vishvakarma Day / Goverdhan Puja" }],
+            "2026-11-24": [{ type: "holiday", remarks: "Guru Nanak Dev Jayanti" }],
+            "2026-12-25": [{ type: "holiday", remarks: "Christmas" }],
         };
 
         let cal_current_date = new Date();
@@ -2438,25 +2318,36 @@ Model Code of Conduct, Party Funding, and Campaign  <p>
                         cellIndex++;
 
                         let cellText = subject || 'FREE';
+
+                        // Updated Logic: Check for mobile width and use abbreviation
                         if (subject && window.innerWidth < 768) {
                             const subjectDetails = timetableData.subjects[subject];
                             if (subjectDetails) {
-                                const match = subjectDetails.name.match(/\(([^)]+)\)$/);
-                                if (match) {
-                                    cellText = match[1];
+                                // Priority 1: Use explicit abbreviation
+                                if (subjectDetails.abbrev) {
+                                    cellText = subjectDetails.abbrev;
+                                }
+                                // Priority 2: Use text inside parenthesis (fallback)
+                                else {
+                                    const match = subjectDetails.name.match(/\(([^)]+)\)$/);
+                                    if (match) {
+                                        cellText = match[1];
+                                    }
                                 }
                             }
                         }
+
                         cell.textContent = cellText;
                         cell.setAttribute('data-subject', subject || 'FREE');
                         cell.setAttribute('data-time', timeSlot);
                         cell.setAttribute('data-day', day);
                         if (subject === 'LUNCH') {
                             cell.classList.add('lunch');
-                        } else if (!subject || subject === 'FREE') {
+                        } else if (!subject || subject === 'FREE' || subject === 'Free') {
                             cell.classList.add('free');
                         } else {
-                            cell.classList.add(subject.indexOf('LAB') > -1 ? 'lab' : 'subject');
+                            // Simple check for Lab in the subject name
+                            cell.classList.add((subject.indexOf('Lab') > -1 || subject.indexOf('LAB') > -1 || subject.includes('/')) ? 'lab' : 'subject');
                             cell.addEventListener('click', function () {
                                 showModal('subjectModal', { subject: subject, timeSlot: timeSlot, day: day });
                             });
@@ -2676,7 +2567,7 @@ Model Code of Conduct, Party Funding, and Campaign  <p>
                 const uniqueFaculty = {};
                 Object.keys(timetableData.subjects).forEach(function (key) {
                     var subject = timetableData.subjects[key];
-                    if (subject.faculty !== 'NF' && subject.faculty !== 'NF-A' && !uniqueFaculty[subject.faculty]) {
+                    if (subject.faculty !== 'TBA' && subject.faculty !== 'NF-A' && !uniqueFaculty[subject.faculty]) {
                         uniqueFaculty[subject.faculty] = { name: subject.faculty, department: subject.department, subjects: [] };
                     }
                 });
@@ -2737,9 +2628,9 @@ Model Code of Conduct, Party Funding, and Campaign  <p>
                         events.forEach(event => {
                             tooltipHTML += `<div class="tooltip-event-item item-${event.type}">`;
                             if (event.type === 'exam') {
-                                tooltipHTML += `<strong>${event.name}</strong>`;
-                                if(event.subject) tooltipHTML += `<span>${event.subject} (${event.time})</span>`;
-                                if(event.remarks) tooltipHTML += `<small>Topics: ${event.remarks}</small>`;
+                                tooltipHTML += `<strong>${event.name || 'Exam'}</strong>`;
+                                if (event.subject) tooltipHTML += `<span>${event.subject} (${event.time})</span>`;
+                                if (event.remarks) tooltipHTML += `<small>Topics: ${event.remarks}</small>`;
                             } else if (event.type === 'assignment') {
                                 tooltipHTML += `<strong>Assignment Due</strong>`;
                                 tooltipHTML += `<span>${event.subject}</span>`;
@@ -2987,7 +2878,7 @@ Model Code of Conduct, Party Funding, and Campaign  <p>
                     cell.classList.add('active-period');
                 });
             }
-            
+
             function bindInteractiveLegendEvents() {
                 const legendItems = document.querySelectorAll('.interactive-legend .legend-item');
                 if (!legendItems.length) return;
@@ -3025,19 +2916,21 @@ Model Code of Conduct, Party Funding, and Campaign  <p>
                 bindInteractiveLegendEvents();
             }
 
+            // ADDED: Resize Listener for Mobile Abbreviation
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                // Debounce: wait 200ms after resizing stops before regenerating
+                resizeTimer = setTimeout(() => {
+                    generateTimetable();
+                    // Re-highlight current period after regeneration
+                    highlightCurrentPeriod();
+                }, 200);
+            });
+
             init();
         });
     </script>
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
