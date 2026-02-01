@@ -1,12 +1,12 @@
-# BCA 3B Timetable
+# BCA 4B Timetable
 
-**Interactive web application for managing and viewing the SRM University Delhi-NCR BCA 3B weekly timetable. Built with HTML, custom CSS design system, and vanilla JavaScript—optimized for all devices.**
+**Interactive web application for managing and viewing the SRM University Delhi-NCR BCA 4B weekly timetable. Built with HTML, custom CSS design system, and vanilla JavaScript—optimized for all devices.**
 
 ***
 
 ## 🔗 Demo
 
-[Click here to visit](https://mahsanneyaz.github.io/3rd-sem-timetable/)
+[Click here to visit](https://mahsanneyaz.github.io/4th-sem-timetable/)
 
 ***
 
@@ -57,39 +57,34 @@
 
 | Time | Monday | Tuesday | Wednesday | Thursday | Friday |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 9:30–10:30 | Sports, Yoga & Fitness | Electoral Literacy | Operating Systems Concept | Operating Systems Concept | Database Management Sys. |
-| 10:30–11:30 | Sports, Yoga & Fitness | FREE | Database Management Sys. | Env. Studies | SPSS |
-| 11:30–12:30 | Data Comm. & Networks | Operating Systems Concept | Env. Studies | Data Comm. & Networks | SPSS |
-| 12:30–1:30 | German/French | Env. Studies | Sports, Yoga & Fitness | Database Management Sys. | German/French |
-| 1:30–2:30 | LUNCH | LUNCH | LUNCH | LUNCH | LUNCH |
-| 2:30–3:30 | Electoral Literacy | FREE | Data Comm. & Networks | Electoral Literacy | DBMS LAB |
-| 3:30–4:30 | Env. Studies | Presentation Skills | Presentation Skills | FREE | DBMS LAB |
+| 9:30–10:30 | Web Technologies | Software Engineering | Web Technologies | Software Engineering | AI & ML |
+| 10:30–11:30 | Comp. Multimedia & Animation | Comp. Multimedia & Animation | Live Project / Vacational | Fundamental of E-commerce | R Lang (G2) / WT (G1) |
+| 11:30–12:30 | AI & ML | Professional Skills | **LUNCH** | Professional Skills | R Lang (G2) / WT (G1) |
+| 12:30–1:30 | German/French | Live Project / Vacational | MultiM (G1) / WT (G2) | **LUNCH** | German/French |
+| 1:30–2:30 | **LUNCH** | **LUNCH** | MultiM (G1) / WT (G2) | Web Technologies | **LUNCH** |
+| 2:30–3:30 | Software Engineering | R Lang (G1) / MultiM (G2) | FREE | Comp. Multimedia & Animation | Fundamental of E-commerce |
+| 3:30–4:30 | Fundamental of E-commerce | R Lang (G1) / MultiM (G2) | Fundamental of E-commerce | FREE | Software Engineering |
 
 ***
 
-## 📅 Academic Calendar (2025–26)
+## 📅 Academic Calendar (2026)
 
-**Major University Holidays**
+**Major University Holidays (Sample)**
 
-- Aug 9, 2025: Raksha Bandhan
-- Aug 15, 2025: Independence Day
-- Aug 20 & 21: Orientation, Induction
-- Sep 5: Milad-un-nabi
-- Sep 22: Maharaja Agrasen Jayanti
-- Sep 23: Haryana War Heroes Martyrdom Day
-- Oct 2: Gandhi Jayanti / Dussehra
-- Oct 7: Maharishi Valmiki / Maharaja Ajmidh Jayanti
-- Oct 20–21: Diwali
-- Nov 5: Guru Nanak Dev Jayanti
-- Dec 3: Preparatory Leave
+- Jan 26, 2026: Republic Day
+- Mar 03: Holi
+- Mar 23: Shaheedi Diwas
+- Mar 26: Ram Navami
+- Apr 03: Good Friday
+- Apr 14: Dr. B.R. Ambedkar Jayanti
+- May 27: Id-Ul-Zuha (Bakrid)
+- Aug 15: Independence Day
+- Oct 02: Gandhi Jayanti
+- Oct 20: Dussehra
+- Nov 24: Guru Nanak Dev Jayanti
 - Dec 25: Christmas
-- Jan 1, 2026: Semester Break
 
-**Events (sample):**
-
-- Exam and assignment schedules (displayed color-marked on calendar).
-
-> Open the “Academic Calendar” tab in the app for interactive display and legend.
+> Open the “Academic Calendar” tab in the app for the full interactive display and legend.
 
 ***
 
@@ -97,16 +92,16 @@
 
 | Subject | Code | Faculty | Department |
 | :-- | :-- | :-- | :-- |
-| Database Management Systems | 24BCA301 | Dr. Kaleem | CSE |
-| Data Communication & Networks | 24BCA302 | Dr. Syed Mohtashim Mian | CSE |
-| Operating Systems Concept | 24BCA303 | Mr. Rachit | CSE |
-| DBMS Laboratory | 24BCA304 | Dr. Kaleem | CSE |
-| Environmental Studies | 23ESUG201 | Uqab Ali Baba | Env. Science |
-| Electoral Literacy in India | 24MDCxx | Abhishank | Political Science |
-| German-I/French-I | 23AECxxx | Mr. Sudip Das / Mr. Ashish Verma | Language |
-| Sports, Yoga and Fitness | 23VACxxx | Ms. Komal | Sports |
-| Presentation Skills | 23SS353 | Sahil Dahiya | PD |
-| Statistical Skills using SPSS | 23SS303 | Dr. Rashi Malik | MBA |
+| Web Technologies | 24BCA401 | Dr. Kaleem | CSE |
+| Computer Multimedia & Animation | 24BCA402 | Dr. Syed Mohtashim Mian | CSE |
+| Software Engineering | 23BCA403 | Dr. Indu | CSE |
+| Fundamental of E-commerce | 23BCA404 | Dr. Pawan | Management |
+| AI & ML | 23VACxxx | Dr. Dilshad | CSE |
+| Live Project / Vacational | 23BCA 407 | Ms. Arul | CSE |
+| German-II/French-II | 23UAEC 401 | TBA | Language |
+| Professional Skills | 21SS454 | Mr. Kulvinder Singh | PD |
+| R Language Lab | 23SS404 | Dr. Syamsunder | Math |
+| Multimedia & Web Tech Labs | 23BCA405/6 | Dr. Syed / Dr. Kaleem | CSE |
 
 ***
 
@@ -154,7 +149,7 @@
 
 - Mohammad Ahsan Neyaz
 - Registration: 42224210112
-- BCA III Semester, Section B
+- BCA IV Semester, Section B
 - SRM University Delhi-NCR
 > “Work smart. Stay consistent. Always keep growing.”
 
@@ -176,10 +171,9 @@
 
 ***
 
-*Made for all BCA 3B students at SRM University Delhi-NCR.
+*Made for all BCA 4B students at SRM University Delhi-NCR.
 If this helped you, please share and star the repo!*
 
 ***
 
 <div style="text-align: center">⁂</div>
-
