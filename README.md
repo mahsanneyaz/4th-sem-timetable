@@ -136,15 +136,6 @@
 
 ***
 
-## ♿ Accessibility & Optimization
-
-- Reduced-motion, accessible animation
-- Hybrid color palette, theme detection, and toggling
-- Responsive for all device sizes (desktop, tablet, mobile)
-- Semantic markup and ARIA roles for enhanced navigation
-
-***
-
 ## 👤 About Me
 
 - Mohammad Ahsan Neyaz
