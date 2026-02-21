@@ -2459,7 +2459,7 @@
                     document.getElementById('modalTitle').textContent = subjectInfo.name;
                     document.getElementById('subjectName').textContent = subjectInfo.name;
                     document.getElementById('subjectCode').textContent = subjectInfo.code;
-                    document.getElementById('subjectFaculty').textContent = subjectInfo.faculty;
+                    document.getElementById('subjectFaculty').textContent = subjectInfo.department;
                     document.getElementById('subjectDepartment').textContent = subjectInfo.department;
                     document.getElementById('subjectTime').textContent = data.timeSlot;
                     document.getElementById('subjectDay').textContent = formatDayName(data.day);
@@ -2748,7 +2748,7 @@
                         const formattedDate = event.date.toLocaleDateString('en-US', dateOptions);
                         let detailsHTML = '';
                         if (event.type === 'exam') {
-                            detailsHTML = `<strong>${event.name || 'Exam'}</strong>: ${event.subject ? event.subject + ' - ' : ''} ${event.remarks || ''}`;
+                            detailsHTML = `<strong>${event.name || 'Exam'}</strong>: ${event.subject || ''} ${event.time ? '(' + event.time + ')' : ''}`;
                         } else if (event.type === 'assignment') {
                             detailsHTML = `<strong>Assignment:</strong> ${event.subject} - ${event.remarks || ''}`;
                         } else {
@@ -2999,6 +2999,3 @@
 </body>
 
 </html>
-
-
-
