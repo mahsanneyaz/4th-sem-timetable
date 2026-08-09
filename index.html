@@ -1,1337 +1,483 @@
 <!DOCTYPE html>
-<html lang="en" data-color-scheme="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timetable - SRM University (BCA 4th Sem)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Timetable - SRM University (BCA 5th Sem)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables for consistent theming and styling */
-        :root {
-            /* Color Tokens */
-            --color-white: #fff;
-            --color-black: #000;
-            --color-cream-50: #fcfcf9;
-            --color-cream-100: #fffffd;
-            --color-gray-200: #f5f5f5;
-            --color-gray-300: #a7a9a9;
-            --color-gray-400: #777c7c;
-            --color-slate-500: #626c71;
-            --color-brown-600: #5e5240;
-            --color-charcoal-700: #1f2121;
-            --color-charcoal-800: #262828;
-            --color-slate-900: #13343b;
-            --color-teal-300: #32b8c6;
-            --color-teal-400: #2da6b2;
-            --color-teal-500: #21808d;
-            --color-teal-600: #1d7480;
-            --color-teal-700: #1a6873;
-            --color-teal-800: #2996a1;
-            --color-red-400: #ff5459;
-            --color-red-500: #c0152f;
-            --color-orange-400: #e68161;
-            --color-orange-500: #a84b2f;
-            --color-blue-400: #60a5fa;
-            --color-blue-500: #0062ff;
-            --color-green-400: #4ade80;
-            --color-green-500: #00c548;
+        /* ============================================================
+           BCA 5B Timetable — stylesheet v3
+           Matches code.html: glassmorphic panels, animated aurora
+           background, purple/cyan/gold neon accents. Single dark theme
+           only — no light/dark toggle. Font: Inter throughout.
+           ============================================================ */
 
-            /* Light Mode */
-            --color-background: var(--color-cream-50);
-            --color-surface: var(--color-cream-100);
-            --color-text: var(--color-slate-900);
-            --color-text-secondary: var(--color-slate-500);
-            --color-primary: var(--color-teal-500);
-            --color-primary-hover: var(--color-teal-600);
-            --color-primary-active: var(--color-teal-700);
-            --color-secondary: rgba(94, 82, 64, 0.12);
-            --color-secondary-hover: rgba(94, 82, 64, 0.2);
-            --color-secondary-active: rgba(94, 82, 64, 0.25);
-            --color-border: rgba(94, 82, 64, 0.2);
-            --color-btn-primary-text: var(--color-cream-50);
-            --color-card-border: rgba(94, 82, 64, 0.12);
-            --color-card-border-inner: rgba(94, 82, 64, 0.12);
-            --color-error: var(--color-red-500);
-            --color-success: var(--color-teal-500);
-            --color-warning: var(--color-orange-500);
-            --color-info: var(--color-slate-500);
-            --color-focus-ring: rgba(33, 128, 141, 0.4);
-            --color-select-caret: rgba(19, 52, 59, 0.8);
-            --color-exam: var(--color-blue-500);
-            --color-assignment: var(--color-green-500);
-            --background-plus-fill: "%23262828";
-            --color-primary-rgb: 33, 128, 141;
-
-            /* Dark Mode */
-            --dark-color-background: var(--color-charcoal-700);
-            --dark-color-surface: var(--color-charcoal-800);
-            --dark-color-text: var(--color-gray-200);
-            --dark-color-text-secondary: rgba(167, 169, 169, 0.7);
-            --dark-color-primary: var(--color-teal-300);
-            --dark-color-primary-hover: var(--color-teal-400);
-            --dark-color-primary-active: var(--color-teal-800);
-            --dark-color-secondary: rgba(119, 124, 124, 0.15);
-            --dark-color-secondary-hover: rgba(119, 124, 124, 0.25);
-            --dark-color-secondary-active: rgba(119, 124, 124, 0.3);
-            --dark-color-border: rgba(119, 124, 124, 0.3);
-            --dark-color-error: var(--color-red-500);
-            --dark-color-success: var(--color-teal-300);
-            --dark-color-warning: var(--color-orange-400);
-            --dark-color-info: var(--color-gray-300);
-            --dark-color-focus-ring: rgba(50, 184, 198, 0.4);
-            --dark-color-btn-primary-text: var(--color-slate-900);
-            --dark-color-card-border: var(--dark-color-card-border);
-            --dark-color-card-border-inner: var(--dark-color-card-border-inner);
-            --dark-color-select-caret: rgba(245, 245, 245, 0.8);
-            --dark-color-exam: var(--color-blue-500);
-            --dark-color-assignment: var(--color-green-500);
-            --dark-color-primary-rgb: 50, 184, 198;
-
-            /* Typography */
-            --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --font-size-xs: 13px;
-            --font-size-sm: 12px;
-            --font-size-base: 14px;
-            --font-size-md: 14px;
-            --font-size-lg: 16px;
-            --font-size-xl: 18px;
-            --font-size-2xl: 20px;
-            --font-size-3xl: 24px;
-            --font-size-4xl: 30px;
-            --font-weight-normal: 400;
-            --font-weight-medium: 500;
-            --font-weight-semibold: 550;
-            --font-weight-bold: 600;
-            --line-height-tight: 1.2;
-            --line-height-normal: 1.4;
-            --letter-spacing-tight: -0.01em;
-
-            /* Spacing */
-            --space-0: 0;
-            --space-1: 1px;
-            --space-2: 2px;
-            --space-4: 4px;
-            --space-6: 6px;
-            --space-8: 8px;
-            --space-10: 10px;
-            --space-12: 12px;
-            --space-16: 16px;
-            --space-20: 20px;
-            --space-24: 24px;
-            --space-32: 32px;
-
-            /* Border Radius */
-            --radius-sm: 6px;
-            --radius-base: 8px;
-            --radius-md: 10px;
-            --radius-lg: 12px;
-            --radius-full: 9999px;
-
-            /* Shadows */
-            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-            --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
-
-            /* Animation */
-            --duration-fast: 150ms;
-            --duration-normal: 250ms;
-            --duration-slow: 400ms;
-            --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
-            --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
-
-            /* Layout */
-            --container-sm: 640px;
-            --container-md: 768px;
-            --container-lg: 1024px;
-            --container-xl: 1280px;
-        }
-
-        [data-color-scheme="dark"] {
-            --color-background: var(--dark-color-background);
-            --color-surface: var(--dark-color-surface);
-            --color-text: var(--dark-color-text);
-            --color-text-secondary: var(--dark-color-text-secondary);
-            --color-primary: var(--dark-color-primary);
-            --color-primary-hover: var(--dark-color-primary-hover);
-            --color-primary-active: var(--dark-color-primary-active);
-            --color-secondary: var(--dark-color-secondary);
-            --color-secondary-hover: var(--dark-color-secondary-hover);
-            --color-secondary-active: var(--dark-color-secondary-active);
-            --color-border: var(--dark-color-border);
-            --color-error: var(--dark-color-error);
-            --color-success: var(--dark-color-success);
-            --color-warning: var(--dark-color-warning);
-            --color-info: var(--dark-color-info);
-            --color-focus-ring: var(--dark-color-focus-ring);
-            --color-btn-primary-text: var(--dark-color-btn-primary-text);
-            --dark-color-card-border: var(--dark-color-card-border);
-            --dark-color-card-border-inner: var(--dark-color-card-border-inner);
-            --color-select-caret: rgba(245, 245, 245, 0.8);
-            --color-exam: var(--dark-color-exam);
-            --color-assignment: var(--dark-color-assignment);
-            --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-            --background-plus-fill: "%23a7a9a9";
-            --color-primary-rgb: var(--dark-color-primary-rgb);
-        }
-
-        /* Base styles */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        html {
-            scroll-behavior: smooth;
+        h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+
+        :root {
+            --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px;
+            --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+
+            --r-sm: 5px; --r-md: 8px; --r-lg: 12px; --r-xl: 12px; --r-full: 9999px;
+
+            --font-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+            --dur-fast: 150ms;
+            --dur-base: 300ms;
+            --dur-slow: 400ms;
+            --ease: ease;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg-soft: rgba(255, 255, 255, 0.03);
+            --glass-bg-strong: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-border-soft: rgba(255, 255, 255, 0.1);
+
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.52);
+
+            --accent-purple: #b537f2;
+            --accent-purple-text: #cf72f7;
+            --accent-blue: #00f0ff;
+            --accent-orange: #ff8c00;
+            --accent-lunch: #ffd700;
+
+            --color-exam: var(--accent-blue);
+            --color-assignment: #4ade80;
+            --color-error: var(--accent-purple);
+
+            --shadow-panel: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --shadow-cell-hover: 0 10px 20px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 20px 56px rgba(0, 0, 0, 0.5);
+            --color-surface-rgb: 26, 28, 41;
         }
+
+        html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
 
         body {
-            font-family: var(--font-family-base);
-            font-size: var(--font-size-base);
-            line-height: var(--line-height-normal);
-            color: var(--color-text);
-            background-color: var(--color-background);
-            -webkit-font-smoothing: antialiased;
-            transition: background-color var(--duration-normal), color var(--duration-normal);
-            position: relative;
+            font-family: var(--font-base);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
+            background: #0f0c29;
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
         }
 
-        /* Animated Dot Background */
-        body::before {
-            content: '';
+        .hyper-gradient-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
             z-index: -1;
-            /* New SVG with more random dots */
-            background-image: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E%40keyframes blink%7B0%25%2C100%25%7Bopacity%3A0.2%3B%7D50%25%7Bopacity%3A0.8%3B%7D%7D.circle%7Banimation%3Ablink%204s%20infinite%20ease-in-out%3Bfill%3A%23a7a9a9%3B%7D%3C%2Fstyle%3E%3Ccircle%20class%3D'circle'%20cx%3D'32'%20cy%3D'45'%20r%3D'1.1'%20style%3D'animation-delay%3A0s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'156'%20cy%3D'83'%20r%3D'0.7'%20style%3D'animation-delay%3A-0.5s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'92'%20cy%3D'178'%20r%3D'1.4'%20style%3D'animation-delay%3A-1s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'42'%20cy%3D'124'%20r%3D'0.8'%20style%3D'animation-delay%3A-1.5s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'182'%20cy%3D'132'%20r%3D'1.0'%20style%3D'animation-delay%3A-2s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'115'%20cy%3D'25'%20r%3D'0.6'%20style%3D'animation-delay%3A-2.5s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'15'%20cy%3D'12'%20r%3D'0.9'%20style%3D'animation-delay%3A-3s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'192'%20cy%3D'95'%20r%3D'1.2'%20style%3D'animation-delay%3A-3.5s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'67'%20cy%3D'156'%20r%3D'1.3'%20style%3D'animation-delay%3A-0.2s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'124'%20cy%3D'67'%20r%3D'0.5'%20style%3D'animation-delay%3A-1.2s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'178'%20cy%3D'178'%20r%3D'0.9'%20style%3D'animation-delay%3A-2.2s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'25'%20cy%3D'189'%20r%3D'1.1'%20style%3D'animation-delay%3A-3.2s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'189'%20cy%3D'25'%20r%3D'0.7'%20style%3D'animation-delay%3A-0.7s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'55'%20cy%3D'55'%20r%3D'1.0'%20style%3D'animation-delay%3A-1.7s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'145'%20cy%3D'145'%20r%3D'0.8'%20style%3D'animation-delay%3A-2.7s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'75'%20cy%3D'95'%20r%3D'1.2'%20style%3D'animation-delay%3A-3.7s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'95'%20cy%3D'75'%20r%3D'0.6'%20style%3D'animation-delay%3A-0.9s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'165'%20cy%3D'165'%20r%3D'1.3'%20style%3D'animation-delay%3A-1.9s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'35'%20cy%3D'135'%20r%3D'0.9'%20style%3D'animation-delay%3A-2.9s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'135'%20cy%3D'35'%20r%3D'1.1'%20style%3D'animation-delay%3A-3.9s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'200'%20cy%3D'200'%20r%3D'0.8'%20style%3D'animation-delay%3A-0.3s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'250'%20cy%3D'150'%20r%3D'1.0'%20style%3D'animation-delay%3A-1.3s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'300'%20cy%3D'100'%20r%3D'1.2'%20style%3D'animation-delay%3A-2.3s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'350'%20cy%3D'50'%20r%3D'0.7'%20style%3D'animation-delay%3A-3.3s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'50'%20cy%3D'350'%20r%3D'1.1'%20style%3D'animation-delay%3A-0.8s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'100'%20cy%3D'300'%20r%3D'0.9'%20style%3D'animation-delay%3A-1.8s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'150'%20cy%3D'250'%20r%3D'1.3'%20style%3D'animation-delay%3A-2.8s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'200'%20cy%3D'200'%20r%3D'0.6'%20style%3D'animation-delay%3A-3.8s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'250'%20cy%3D'350'%20r%3D'1.0'%20style%3D'animation-delay%3A-0.4s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'300'%20cy%3D'300'%20r%3D'1.2'%20style%3D'animation-delay%3A-1.4s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'350'%20cy%3D'250'%20r%3D'0.8'%20style%3D'animation-delay%3A-2.4s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'50'%20cy%3D'50'%20r%3D'1.1'%20style%3D'animation-delay%3A-3.4s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'100'%20cy%3D'100'%20r%3D'0.7'%20style%3D'animation-delay%3A-0.6s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'150'%20cy%3D'150'%20r%3D'1.3'%20style%3D'animation-delay%3A-1.6s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'200'%20cy%3D'200'%20r%3D'0.9'%20style%3D'animation-delay%3A-2.6s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'250'%20cy%3D'250'%20r%3D'1.0'%20style%3D'animation-delay%3A-3.6s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'300'%20cy%3D'300'%20r%3D'0.8'%20style%3D'animation-delay%3A-0.1s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'350'%20cy%3D'350'%20r%3D'1.2'%20style%3D'animation-delay%3A-1.1s%3B'%2F%3E%3C%2Fsvg%3E");
-            opacity: 0.8;
-            animation: subtleDrift 60s linear infinite;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.3), transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(181, 55, 242, 0.4), transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(0, 240, 255, 0.3), transparent 50%);
+            filter: blur(100px);
+            animation: swirl 30s linear infinite;
         }
 
-        @keyframes subtleDrift {
-            from {
-                background-position: 0 0;
-            }
+        @keyframes swirl { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-            to {
-                background-position: 400px 400px;
-            }
+        a { color: inherit; text-decoration: none; }
+        ol { padding-left: var(--sp-5); }
+        li { margin-bottom: var(--sp-2); }
+
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+        a:focus-visible, button:focus-visible, [tabindex]:focus-visible,
+        .grid-cell.subject:focus-visible, .grid-cell.lab:focus-visible {
+            outline: 2px solid var(--accent-blue);
+            outline-offset: 2px;
+            border-radius: var(--r-sm);
         }
 
+        .hidden { display: none !important; }
+
+        /* Global glass panel treatment */
+        .glass-panel, .header-content, .modal-content, .timetable-container, .footer,
+        .university-info, .current-time, .grid-time, .grid-header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--r-xl);
+            box-shadow: var(--shadow-panel);
+        }
+
+        /* ============================================================
+           Scrollbars (global, matching code.html, kept consistent on
+           every scrollable region as before)
+           ============================================================ */
+        * { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.2) transparent; }
+
+        ::-webkit-scrollbar, html::-webkit-scrollbar, body::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track, html::-webkit-scrollbar-track, body::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover, html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
+
+        /* ============================================================
+           Layout shell
+           ============================================================ */
         .app-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: var(--sp-5) var(--sp-4) var(--sp-10);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Header */
-        .header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: rgba(var(--color-surface-rgb), 0.8);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--color-border);
-            padding: var(--space-12) 0;
-            animation: fadeInSlideDown 0.6s var(--ease-in-out) both;
-        }
+        /* ---- Header ---- */
+        .header { margin-bottom: var(--sp-6); }
 
         .header-content {
-            max-width: var(--container-xl);
-            margin: 0 auto;
-            padding: 0 var(--space-16);
+            padding: var(--sp-4) var(--sp-5);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: var(--space-20);
+            gap: var(--sp-5);
+            flex-wrap: wrap;
         }
 
-        .university-info {
+        .header-left {
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            flex-shrink: 1;
+            align-items: center;
+            gap: var(--sp-5);
+            flex-wrap: wrap;
             min-width: 0;
         }
 
+        .university-info { padding: var(--sp-2) var(--sp-4); border-color: transparent; box-shadow: none; min-width: 0; }
+
         .university-name {
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-primary);
-            margin: 0;
-            line-height: 1.2;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--text-primary);
+            margin-bottom: 3px;
+            white-space: nowrap;
         }
 
         .program-details {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: var(--space-8);
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
-            margin-top: var(--space-4);
+            font-size: 0.66rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.02em;
+            max-width: 360px;
         }
 
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: var(--space-20);
-            flex-shrink: 0;
-        }
-
-        .header-icons {
-            display: flex;
-            align-items: center;
-            gap: var(--space-12);
-        }
-
-        .theme-toggle {
+        .header-nav {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: var(--space-4);
-            color: var(--color-text);
-            border-radius: var(--radius-sm);
-            position: relative;
-            overflow: hidden;
-            transition: background-color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
+            gap: var(--sp-3);
+            flex-wrap: wrap;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
-        .theme-toggle:hover {
-            background-color: var(--color-secondary-hover);
-            transform: scale(1.1) rotate(15deg) translateY(-2px);
+        .mobile-menu-toggle { display: none; }
+
+        .nav-link { color: var(--text-secondary); white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; transition: color var(--dur-fast) var(--ease); }
+        .nav-link:hover { color: var(--text-primary); }
+        .nav-count { color: var(--text-muted); margin-left: 1px; }
+        .nav-link-accent { color: var(--accent-blue); font-weight: 600; }
+        .nav-link-accent:hover { color: var(--text-primary); }
+        .nav-sep { color: var(--glass-border); font-size: 0.7rem; }
+
+        .header-controls { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+        .header-icons { display: flex; align-items: center; gap: var(--sp-2); }
+
+        .theme-toggle {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--r-full);
+            background: var(--glass-bg);
+            color: var(--text-secondary);
+            transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
         }
 
-        .theme-toggle:active {
-            transform: scale(0.95) rotate(5deg) translateY(0);
-        }
+        .theme-toggle:hover { background: var(--glass-bg-strong); color: var(--text-primary); }
+        .theme-toggle svg { width: 18px; height: 18px; }
 
-        .theme-toggle svg {
-            width: 24px;
-            height: 24px;
-            transition: transform 0.5s var(--ease-standard);
-        }
+        .current-time { padding: var(--sp-2) var(--sp-4); text-align: right; border-color: transparent; box-shadow: none; white-space: nowrap; }
 
-        .theme-toggle .sun-icon {
-            transform: scale(1) rotate(0deg);
-        }
+        .time-display { color: var(--text-primary); font-weight: 700; font-size: 0.88rem; letter-spacing: 0.03em; }
+        .date-display { color: var(--text-secondary); font-size: 0.62rem; font-weight: 500; margin-top: 2px; }
+        .time-seconds { color: var(--text-secondary); font-weight: 700; }
 
-        .theme-toggle .moon-icon {
-            transform: scale(0) rotate(-90deg);
-            position: absolute;
-        }
+        /* ============================================================
+           Main content / Timetable
+           ============================================================ */
+        .main-content { flex: 1; display: flex; flex-direction: column; gap: var(--sp-6); }
 
-        [data-color-scheme="dark"] .theme-toggle .sun-icon {
-            transform: scale(0) rotate(90deg);
-        }
-
-        [data-color-scheme="dark"] .theme-toggle .moon-icon {
-            transform: scale(1) rotate(0deg);
-        }
-
-        .current-time {
-            text-align: right;
-            cursor: pointer;
-            padding: var(--space-4) var(--space-8);
-            border-radius: var(--radius-sm);
-            transition: background-color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
-        }
-
-        .current-time:hover {
-            background-color: var(--color-secondary);
-            transform: translateY(-2px) scale(1.02);
-        }
-
-        .current-time:active {
-            transform: translateY(0) scale(1);
-        }
-
-        .time-display {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-primary);
-        }
-
-        .date-display {
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
-            margin-top: var(--space-2);
-        }
-
-        .time-seconds {
-            font-size: 0.7em;
-            font-weight: var(--font-weight-normal);
-            color: var(--color-text-secondary);
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            padding: var(--space-32) 0;
-        }
-
-        .timetable-container {
-            max-width: var(--container-xl);
-            margin: 0 auto;
-            padding: 0 var(--space-16);
-            animation: fadeInSlideUp 0.6s 0.2s var(--ease-in-out) both;
-        }
+        .timetable-container { padding: 0; overflow: hidden; }
 
         .timetable-header {
-            text-align: center;
-            margin-bottom: var(--space-24);
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-4);
+            padding: var(--sp-4) var(--sp-5);
+            border-bottom: 1px solid var(--glass-border);
+            background: var(--glass-bg-strong);
         }
 
         .timetable-header h2 {
-            font-size: var(--font-size-3xl);
-            color: var(--color-text);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-primary);
         }
 
-        .teacher-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-8);
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
-            flex-wrap: wrap;
-            margin-top: var(--space-16);
-        }
+        .timetable-main-area { width: 100%; padding: var(--sp-5); }
 
-        /* Brighter links in timetable header for visibility */
-        .teacher-info .footer-link,
-        .teacher-info .separator {
-            color: var(--color-text);
-            transition: color var(--duration-fast);
-        }
-
-        .teacher-info .footer-link:hover {
-            color: var(--color-primary);
-        }
-
-        .separator {
-            color: var(--color-text-secondary);
-        }
-
-        .timetable-main-area {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-24);
-            align-items: center;
-        }
-
-        /* Timetable Grid */
         .timetable-grid {
-            width: 100%;
             display: grid;
-            grid-template-columns: minmax(80px, auto) repeat(5, 1fr);
-            gap: var(--space-2);
-            background-color: var(--color-surface);
-            border-radius: var(--radius-lg);
-            padding: var(--space-16);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--color-border);
+            grid-template-columns: minmax(90px, 100px) repeat(5, minmax(128px, 1fr));
+            gap: var(--sp-3);
             overflow-x: auto;
+            padding-bottom: var(--sp-2);
         }
 
-        .grid-header,
-        .grid-time {
-            padding: var(--space-12);
+        .grid-header {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-primary);
+            padding: var(--sp-2);
             text-align: center;
-            font-weight: var(--font-weight-semibold);
-            border-radius: var(--radius-sm);
-            font-size: var(--font-size-sm);
-            color: var(--color-text);
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            border-radius: var(--r-md);
+        }
+
+        .grid-time {
+            font-size: 0.66rem;
+            font-weight: 600;
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--color-secondary);
-        }
-
-        .grid-time {
-            font-weight: var(--font-weight-medium);
-            font-size: var(--font-size-xs);
+            text-align: center;
+            padding: var(--sp-2);
+            border-radius: var(--r-md);
         }
 
         .grid-cell {
-            background-color: var(--color-secondary);
-            padding: var(--space-8);
-            border-radius: var(--radius-sm);
-            transition: all var(--duration-normal) var(--ease-standard);
+            position: relative;
+            background: var(--glass-bg-soft);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border-soft);
+            border-radius: var(--r-md);
+            padding: var(--sp-3);
+            font-size: 0.78rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--text-primary);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 4px;
             text-align: center;
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-medium);
-            min-height: 48px;
-            border: 1px solid transparent;
-            cursor: pointer;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInSlideUp var(--duration-slow) var(--ease-in-out) forwards;
-            animation-delay: var(--cell-delay, 0s);
+            min-height: 60px;
+            transition: background var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+            animation: cellIn 320ms var(--ease-out) backwards;
+            animation-delay: var(--cell-delay, 0ms);
         }
 
-        .grid-cell:not(.lunch):not(.free):hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            border-color: var(--color-primary);
-            background-color: var(--color-secondary-hover);
+        .grid-cell.subject, .grid-cell.lab { cursor: pointer; }
+        .grid-cell.subject:hover, .grid-cell.lab:hover {
+            background: var(--glass-bg-strong);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-cell-hover);
         }
 
-        .grid-cell:not(.lunch):not(.free):active {
-            transform: translateY(0) scale(0.98);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        .cell-badge {
+            font-size: 0.56rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 1px 8px;
+            border-radius: var(--r-sm);
         }
 
-        .grid-cell.subject {
-            background-color: rgba(var(--color-primary-rgb), 0.15);
-            color: var(--color-text);
-        }
-
-        /* MODIFIED: Labs now use the same Teal color as Subjects */
         .grid-cell.lab {
-            background-color: rgba(var(--color-primary-rgb), 0.15);
-            color: var(--color-text);
+            background: rgba(0, 240, 255, 0.1);
+            border-left: 3px solid var(--accent-blue);
         }
 
-        .grid-cell.lunch,
-        .grid-cell.free {
-            cursor: default;
+        .grid-cell.lab::before {
+            content: 'Lab';
+            font-size: 0.56rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 1px 8px;
+            border-radius: var(--r-sm);
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--accent-blue);
         }
 
         .grid-cell.lunch {
-            background-color: rgba(200, 180, 50, 0.15);
-            color: var(--color-text);
+            background: rgba(255, 215, 0, 0.05);
+            border-color: rgba(255, 215, 0, 0.2);
+            color: var(--accent-lunch);
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            font-size: 0.7rem;
         }
 
         .grid-cell.free {
-            background-color: rgba(190, 24, 93, 0.15);
-            color: var(--color-text-secondary);
-            font-style: italic;
-        }
-
-        .grid-cell.today {
-            outline: 1px solid var(--color-primary-hover);
-            outline-offset: -1px;
+            background: rgba(255, 255, 255, 0.01);
+            border-style: dashed;
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         .grid-cell.active-period {
-            box-shadow: 0 0 0 2px var(--color-primary);
-            background-color: rgba(8, 145, 178, 0.15);
-            color: var(--color-text);
-            animation: pulse-border-bg 2s infinite, fadeInSlideUp var(--duration-slow) var(--ease-in-out) forwards;
+            background: rgba(181, 55, 242, 0.15);
+            border-color: rgba(181, 55, 242, 0.5);
+            box-shadow: 0 0 20px rgba(181, 55, 242, 0.3);
+            animation: cellIn 320ms var(--ease-out) backwards, glow-pulse 3s infinite alternate;
         }
 
-        /* Animation Keyframes */
-        @keyframes fadeInSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .grid-cell.active-period::before {
+            content: 'Active';
+            font-size: 0.56rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 1px 8px;
+            border-radius: var(--r-sm);
+            background: rgba(181, 55, 242, 0.15);
+            color: var(--accent-purple-text);
         }
 
-        @keyframes fadeInSlideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
+        .grid-cell.active-period span { color: var(--text-primary); font-weight: 600; }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes glow-pulse {
+            from { box-shadow: 0 0 10px rgba(181, 55, 242, 0.2); }
+            to { box-shadow: 0 0 25px rgba(181, 55, 242, 0.5); }
         }
 
-        @keyframes pulse-border-bg {
-            0% {
-                box-shadow: 0 0 0 2px var(--color-primary), inset 0 0 20px rgba(var(--color-primary-rgb), 0.1);
-            }
+        .grid-cell.highlight-legend { box-shadow: var(--shadow-cell-hover); transform: translateY(-2px); }
 
-            50% {
-                box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.4), inset 0 0 30px rgba(var(--color-primary-rgb), 0.3);
-            }
+        /* Legend (kept below the grid, per layout instruction — restyled only) */
+        .interactive-legend { display: flex; flex-wrap: wrap; gap: var(--sp-4); }
 
-            100% {
-                box-shadow: 0 0 0 2px var(--color-primary), inset 0 0 20px rgba(var(--color-primary-rgb), 0.1);
-            }
-        }
-
-        /* Interactive Legend Styles */
-        .interactive-legend {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: var(--space-12);
-            margin-top: var(--space-16);
-        }
-
-        .interactive-legend .legend-item {
+        .legend-item {
             display: flex;
             align-items: center;
-            gap: var(--space-8);
-            padding: var(--space-6) var(--space-12);
-            border-radius: var(--radius-full);
-            background-color: var(--color-secondary);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-medium);
+            gap: var(--sp-2);
+            font-size: 0.76rem;
+            font-weight: 500;
+            color: var(--text-secondary);
             cursor: pointer;
-            transition: all var(--duration-fast) var(--ease-standard);
-            border: 1px solid transparent;
+            padding: var(--sp-1) var(--sp-2);
+            border-radius: var(--r-sm);
+            transition: background var(--dur-fast) var(--ease);
         }
 
-        .interactive-legend .legend-item:hover {
-            transform: translateY(-2px);
-            background-color: var(--color-surface);
-            border-color: var(--color-border);
-            box-shadow: var(--shadow-sm);
-            color: var(--color-primary);
-        }
-
-        .interactive-legend .legend-item .color-box {
-            width: 10px;
-            height: 10px;
-            border-radius: var(--radius-full);
-            border: none;
-        }
-
-        .color-box.subject {
-            background-color: rgba(var(--color-primary-rgb), 0.6);
-        }
-
-        /* MODIFIED: Labs color box also uses Teal */
-        .color-box.lab {
-            background-color: rgba(var(--color-primary-rgb), 0.6);
-        }
-
-        .color-box.lunch {
-            background-color: rgba(200, 180, 50, 0.6);
-        }
-
-        .color-box.free {
-            background-color: rgba(190, 24, 93, 0.6);
-        }
-
-        .color-box.active-period {
-            background-color: rgba(8, 145, 178, 0.6);
-            animation: pulse-border-bg 2s infinite;
-        }
-
-        /* Grid Cell Highlighting for Interactive Legend */
-        .grid-cell.highlight-legend {
-            outline: 2px solid var(--color-primary);
-            transform: scale(1.05);
-            box-shadow: var(--shadow-md);
-            z-index: 10;
-            position: relative;
-        }
-
-        /* MODAL STYLES (WITH EXIT ANIMATIONS) */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-        }
-
-        .modal.hidden {
-            display: none;
-        }
-
-        .modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
-            animation: fadeIn 0.3s var(--ease-in-out);
-        }
-
-        .modal.is-closing .modal-overlay {
-            animation: fadeOut var(--duration-normal) var(--ease-in-out);
-        }
-
-        .modal-content {
-            position: relative;
-            background-color: var(--color-surface);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--color-border);
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            animation: modalPopIn var(--duration-normal) var(--ease-in-out);
-        }
-
-        .modal.is-closing .modal-content {
-            animation: modalPopOut var(--duration-normal) var(--ease-in-out);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
-
-        @keyframes modalPopIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px) scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes modalPopOut {
-            from {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-
-            to {
-                opacity: 0;
-                transform: translateY(10px) scale(0.95);
-            }
-        }
-
-        .modal-header {
-            padding: var(--space-20);
-            border-bottom: 1px solid var(--color-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .modal-header h3 {
-            font-size: var(--font-size-xl);
-            color: var(--color-text);
-            word-break: keep-all;
-            overflow-wrap: break-word;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: var(--font-size-3xl);
-            color: var(--color-text-secondary);
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-            transition: color var(--duration-fast) var(--ease-standard), transform var(--duration-normal) var(--ease-standard);
-        }
-
-        .modal-close:hover {
-            color: var(--color-text);
-            transform: rotate(90deg);
-        }
-
-        /* Smooth scroll and custom scrollbar for modals */
-        .modal-body {
-            padding: var(--space-20);
-            overflow-y: auto;
-            scroll-behavior: smooth;
-        }
-
-        .modal-body::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .modal-body::-webkit-scrollbar-track {
-            background: var(--color-secondary);
-            border-radius: var(--radius-full);
-        }
-
-        .modal-body::-webkit-scrollbar-thumb {
-            background-color: var(--color-primary);
-            border-radius: var(--radius-full);
-            border: 2px solid transparent;
-            background-clip: content-box;
-        }
-
-        .modal-body::-webkit-scrollbar-thumb:hover {
-            background-color: var(--color-primary-hover);
-        }
-
-
-        .subject-details {
-            display: grid;
-            gap: var(--space-12);
-        }
-
-        .detail-row {
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: var(--space-16);
-            padding-bottom: var(--space-12);
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-
-        .detail-label {
-            font-weight: var(--font-weight-medium);
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-sm);
-        }
-
-        .detail-value {
-            font-weight: var(--font-weight-medium);
-            color: var(--color-text);
-            font-size: var(--font-size-sm);
-            word-break: break-word;
-            overflow-wrap: break-word;
-        }
-
-        /* Modal-specific styles */
-        .modal-tabs {
-            display: flex;
-            gap: var(--space-8);
-            margin-bottom: var(--space-16);
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .tab-btn {
-            padding: var(--space-8) var(--space-16);
-            cursor: pointer;
-            background: none;
-            border: none;
-            border-bottom: 2px solid transparent;
-            color: var(--color-text-secondary);
-            font-weight: var(--font-weight-medium);
-            transition: color var(--duration-fast), border-bottom-color var(--duration-fast);
-        }
-
-        .tab-btn.active {
-            color: var(--color-primary);
-            border-bottom-color: var(--color-primary);
-        }
-
-        .student-list-container,
-        #facultyListContainer {
-            font-size: var(--font-size-sm);
-        }
-
-        .student-table,
-        .faculty-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .student-table th,
-        .student-table td,
-        .faculty-table th,
-        .faculty-table td {
-            padding: var(--space-8) var(--space-12);
-            text-align: left;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .student-table th,
-        .faculty-table th {
-            font-weight: var(--font-weight-semibold);
-            background-color: var(--color-secondary);
-        }
-
-        .student-table tr:last-child td,
-        .faculty-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* IMPORTANT DATES MODAL */
-        @keyframes slideInUp {
-            from {
-                transform: translateY(40px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOutDown {
-            from {
-                transform: translateY(0);
-                opacity: 1;
-            }
-
-            to {
-                transform: translateY(40px);
-                opacity: 0;
-            }
-        }
-
-        #importantDatesModal .modal-content {
-            animation: slideInUp 0.4s var(--ease-standard);
-        }
-
-        #importantDatesModal.is-closing .modal-content {
-            animation: slideOutDown 0.4s var(--ease-standard);
-        }
-
-        .dates-filter-controls {
-            display: flex;
-            gap: var(--space-8);
-            margin-bottom: var(--space-20);
-            flex-wrap: wrap;
-        }
-
-        .date-filter-btn {
-            padding: var(--space-6) var(--space-12);
-            border: 1px solid var(--color-border);
-            background-color: var(--color-surface);
-            color: var(--color-text);
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-medium);
-            transition: all var(--duration-fast);
-        }
-
-        .date-filter-btn:hover {
-            background-color: var(--color-secondary-hover);
-            border-color: var(--color-primary);
-        }
-
-        .date-filter-btn.active {
-            background-color: var(--color-primary);
-            color: var(--color-btn-primary-text);
-            border-color: var(--color-primary);
-        }
-
-        .dates-list-container {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-12);
-        }
-
-        .date-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-16);
-            padding: var(--space-12);
-            background-color: var(--color-secondary);
-            border-radius: var(--radius-md);
-            border-left: 4px solid transparent;
-            /* Animation for filtering */
-            animation: dateItemFadeIn 0.4s var(--ease-in-out) backwards;
-        }
-
-        /* Animation keyframes for filtering */
-        @keyframes dateItemFadeIn {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes dateItemFadeOut {
-            from {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            to {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-        }
-
-        .date-item.is-exiting {
-            animation: dateItemFadeOut 0.3s var(--ease-in-out) forwards;
-        }
-
-        .date-item.type-holiday {
-            border-left-color: var(--color-error);
-        }
-
-        .date-item.type-assignment {
-            border-left-color: var(--color-assignment);
-        }
-
-        .date-item.type-exam {
-            border-left-color: var(--color-exam);
-        }
-
-
-        .date-item-date {
-            font-weight: var(--font-weight-semibold);
-            font-size: var(--font-size-sm);
-            width: 100px;
-            flex-shrink: 0;
-        }
-
-        .date-item-details {
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
-        }
-
-        .no-dates-message {
-            text-align: center;
-            padding: var(--space-24);
-            color: var(--color-text-secondary);
-            font-style: italic;
-        }
-
-        /* Footer */
+        .legend-item:hover { background: var(--glass-bg); color: var(--text-primary); }
+
+        .color-box { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .color-box.subject { background: rgba(255, 255, 255, 0.3); }
+        .color-box.lab { border-radius: 2px; background: rgba(0, 240, 255, 0.4); border: 1px solid var(--accent-blue); }
+        .color-box.lunch { background: rgba(255, 215, 0, 0.4); border: 1px solid var(--accent-lunch); }
+        .color-box.free { background: transparent; border: 1px dashed rgba(255, 255, 255, 0.4); }
+        .color-box.active-period { background: var(--accent-purple); box-shadow: 0 0 8px #b537f2; animation: pulse-dot 2s ease-in-out infinite; }
+
+        .legend-item[data-type="active-period"] { color: var(--accent-purple-text); font-weight: 600; }
+
+        /* ============================================================
+           Footer
+           ============================================================ */
         .footer {
-            background-color: var(--color-surface);
-            border-top: 1px solid var(--color-border);
-            padding: var(--space-20) 0;
-            margin-top: auto;
-            animation: fadeInSlideUp 0.6s 0.6s var(--ease-in-out) both;
+            margin-top: var(--sp-6);
+            padding: var(--sp-4) var(--sp-5);
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
         }
 
         .footer-content {
-            max-width: var(--container-xl);
-            margin: 0 auto;
-            padding: 0 var(--space-16);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
-            gap: var(--space-16);
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
-        }
-
-        .footer-links {
-            display: flex;
-            align-items: center;
-            gap: var(--space-8);
-        }
-
-        /* UPDATED FOOTER LINK STYLES */
-        .footer-link {
-            cursor: pointer;
-            color: var(--color-text-secondary);
-            text-decoration: none;
-            border-bottom: none;
-            padding-bottom: 2px;
-            position: relative;
-            transition: color var(--duration-fast), transform var(--duration-fast);
-            display: inline-block;
-        }
-
-        .footer-link:hover {
-            color: var(--color-text);
-            transform: translateY(-2px);
-        }
-
-        .footer-link:active {
-            transform: translateY(0);
-        }
-
-        .footer-link::before {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background-image: linear-gradient(to right, var(--color-text-secondary) 50%, transparent 50%);
-            background-size: 4px 1px;
-            background-repeat: repeat-x;
-            background-position: 0 100%;
-        }
-
-        .footer-link::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background-image: linear-gradient(to right, var(--color-primary) 50%, transparent 50%);
-            background-size: 4px 1px;
-            background-repeat: repeat-x;
-            background-position: 0 100%;
-            clip-path: inset(0 100% 0 0);
-            transition: clip-path 0.4s ease;
-        }
-
-        .footer-link:hover::after {
-            clip-path: inset(0 0 0 0);
-        }
-
-        /* Calendar Styles */
-        #dateTimeTrigger {
-            cursor: pointer;
-        }
-
-        .calendar-container {
-            padding: var(--space-8);
-        }
-
-        .calendar-header {
-            display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: var(--space-16);
+            gap: var(--sp-3);
         }
 
-        .calendar-header h4 {
-            font-size: var(--font-size-lg);
-            color: var(--color-text);
-            margin: 0;
-        }
+        .info { display: flex; align-items: center; }
+        .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-5); }
+        .footer-link { color: var(--text-secondary); transition: color var(--dur-fast) var(--ease); }
+        .footer-link:hover { color: var(--text-primary); }
+        .separator { color: var(--glass-border); }
 
-        .calendar-header button {
-            background: var(--color-secondary);
-            color: var(--color-text);
-            border: none;
-            border-radius: var(--radius-sm);
-            font-weight: bold;
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
-            transition: background-color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
-        }
+        /* ============================================================
+           Modals — .modal is the fixed full-screen wrapper (element JS
+           toggles 'hidden'/'is-closing' on). .modal-overlay is the empty
+           click-catching backdrop INSIDE it. .modal-content is the
+           visible glass card. Verified against the DOM structure.
+           ============================================================ */
+        .modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: var(--sp-4); opacity: 0; animation: overlayIn var(--dur-base) var(--ease-out) forwards; }
+        .modal.is-closing { animation: overlayOut var(--dur-fast) var(--ease) forwards; }
 
-        .calendar-header button:hover {
-            background: var(--color-secondary-hover);
-            transform: scale(1.1);
-        }
+        .modal-overlay { position: absolute; inset: 0; background: rgba(var(--color-surface-rgb), 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 0; }
 
-        .calendar-header button:active {
-            transform: scale(0.95);
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: var(--space-4);
-            text-align: center;
-        }
-
-        .calendar-grid div {
-            font-size: var(--font-size-sm);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            aspect-ratio: 1 / 1;
-        }
-
-        .calendar-day-header {
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text-secondary);
-        }
-
-        .calendar-day {
-            color: var(--color-text);
+        .modal-content {
             position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 560px;
+            max-height: 85vh;
+            display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            padding: var(--space-4);
-            gap: var(--space-4);
-            transition: background-color var(--duration-fast);
-        }
-
-        .calendar-day:hover {
-            background-color: var(--color-secondary-hover);
-        }
-
-        .calendar-day.current-day>span {
-            background-color: var(--color-primary);
-            color: var(--color-btn-primary-text);
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-full);
-            width: 24px;
-            height: 24px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .event-dots-container {
-            display: flex;
-            gap: 3px;
-            height: 5px;
-        }
-
-        .event-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .dot-holiday {
-            background-color: var(--color-error);
-        }
-
-        .dot-exam {
-            background-color: var(--color-exam);
-        }
-
-        .dot-assignment {
-            background-color: var(--color-assignment);
-        }
-
-        /* Custom Tooltip Styles */
-        .custom-tooltip {
-            position: fixed;
-            background-color: var(--color-charcoal-700);
-            color: var(--color-cream-50);
-            padding: var(--space-12);
-            border-radius: var(--radius-base);
-            font-size: var(--font-size-sm);
-            z-index: 1001;
-            pointer-events: none;
+            transform: scale(0.96) translateY(8px);
             opacity: 0;
-            transform-origin: top center;
-            transform: scale(0.95) translateY(10px);
-            transition: opacity var(--duration-fast) ease-in-out, transform var(--duration-fast) ease-in-out;
-            max-width: 280px;
-            text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: modalIn var(--dur-slow) var(--ease-out) forwards;
             box-shadow: var(--shadow-lg);
         }
 
-        .custom-tooltip.visible {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
+        /* Syllabus modal is full-screen, matching the original site */
+        #syllabusModal { padding: 0; }
 
-        .custom-tooltip::after {
-            content: '';
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 8px;
-            border-style: solid;
-            border-color: transparent transparent var(--color-charcoal-700) transparent;
-        }
-
-        .custom-tooltip.position-top {
-            transform-origin: bottom center;
-        }
-
-        .custom-tooltip.position-top::after {
-            top: 100%;
-            bottom: auto;
-            transform: translateX(-50%) rotate(180deg);
-        }
-
-        .tooltip-event-item {
-            display: flex;
-            flex-direction: column;
-            padding-left: var(--space-12);
-            border-left-width: 3px;
-            border-left-style: solid;
-        }
-
-        .tooltip-event-item+.tooltip-event-item {
-            margin-top: var(--space-8);
-            padding-top: var(--space-8);
-            border-top: 1px solid var(--color-border);
-        }
-
-        .tooltip-event-item.item-exam {
-            border-left-color: var(--color-exam);
-        }
-
-        .tooltip-event-item.item-assignment {
-            border-left-color: var(--color-assignment);
-        }
-
-        .tooltip-event-item.item-holiday {
-            border-left-color: var(--color-error);
-        }
-
-        .tooltip-event-item strong {
-            font-weight: var(--font-weight-semibold);
-            margin-bottom: var(--space-2);
-        }
-
-        .tooltip-event-item span {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-300);
-        }
-
-        .tooltip-event-item small {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-400);
-            margin-top: var(--space-4);
-            line-height: 1.4;
-        }
-
-        [data-color-scheme="light"] .custom-tooltip {
-            background-color: var(--color-slate-900);
-            color: var(--color-cream-100);
-            border-color: transparent;
-        }
-
-        [data-color-scheme="light"] .custom-tooltip::after {
-            border-color: transparent transparent var(--color-slate-900) transparent;
-        }
-
-        [data-color-scheme="light"] .tooltip-event-item+.tooltip-event-item {
-            border-top-color: rgba(255, 255, 255, 0.1);
-        }
-
-        /* SYLLABUS MODAL STYLES */
         #syllabusModal .modal-content {
             width: 100%;
             max-width: 100vw;
@@ -1340,507 +486,381 @@
             border-radius: 0;
             border: none;
             box-shadow: none;
-            padding: 0;
-            animation: slideInUpSyllabus var(--duration-slow) var(--ease-in-out);
+            transform: none;
+            animation: slideInUpSyllabus var(--dur-slow) var(--ease-out) forwards;
         }
 
         #syllabusModal.is-closing .modal-content {
-            animation: slideOutDownSyllabus var(--duration-slow) var(--ease-in-out);
+            animation: slideOutDownSyllabus var(--dur-slow) var(--ease-out) forwards;
         }
 
         @keyframes slideInUpSyllabus {
-            from {
-                opacity: 0;
-                transform: translateY(100%);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(100%); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes slideOutDownSyllabus {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            to {
-                opacity: 0;
-                transform: translateY(100%);
-            }
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(100%); }
         }
 
-        .syllabus-page-container {
-            display: flex;
-            height: 100%;
-            width: 100%;
-            flex-direction: column;
-        }
-
-        .syllabus-header {
+        .modal-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: var(--space-16);
-            border-bottom: 1px solid var(--color-border);
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .syllabus-header h3 {
-            font-size: var(--font-size-xl);
-            color: var(--color-text);
-            word-break: keep-all;
-            overflow-wrap: break-word;
-        }
-
-        .syllabus-close-btn {
-            position: absolute;
-            top: 50%;
-            right: var(--space-16);
-            transform: translateY(-50%);
-            background: var(--color-secondary);
-            border: none;
-            color: var(--color-text);
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: var(--font-size-xl);
-            line-height: 1;
-            transition: background-color var(--duration-fast), transform var(--duration-fast);
-        }
-
-        .syllabus-close-btn:hover {
-            background-color: var(--color-secondary-hover);
-            transform: translateY(-50%) rotate(90deg);
-        }
-
-        .syllabus-body {
-            display: flex;
-            flex-grow: 1;
-            overflow: hidden;
-        }
-
-        .syllabus-nav {
-            width: 280px;
-            flex-shrink: 0;
-            border-right: 1px solid var(--color-border);
-            padding: var(--space-16);
-            overflow-y: auto;
-        }
-
-        .syllabus-nav-btn {
-            display: block;
-            width: 100%;
-            text-align: left;
-            padding: var(--space-12) var(--space-16);
-            border-radius: var(--radius-md);
-            background: none;
-            border: none;
-            color: var(--color-text-secondary);
-            font-weight: var(--font-weight-medium);
-            cursor: pointer;
-            transition: background-color var(--duration-fast), color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
-            margin-bottom: var(--space-4);
-            white-space: nowrap;
-        }
-
-        .syllabus-nav-btn:hover {
-            background-color: var(--color-secondary);
-            color: var(--color-text);
-            transform: translateX(4px);
-        }
-
-        .syllabus-nav-btn.active {
-            background-color: var(--color-primary);
-            color: var(--color-btn-primary-text);
-            transform: translateX(0);
-        }
-
-        /* Custom Mobile Syllabus Dropdown */
-        .syllabus-select-wrapper {
-            padding: var(--space-16);
-            border-bottom: 1px solid var(--color-border);
-            flex-shrink: 0;
-            display: none;
-            /* Hidden by default */
-            position: relative;
-        }
-
-        .syllabus-select-trigger {
-            width: 100%;
-            padding: var(--space-12);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--color-border);
-            background-color: var(--color-surface);
-            color: var(--color-text);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            cursor: pointer;
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            transition: box-shadow var(--duration-fast);
+            padding: var(--sp-4) var(--sp-5);
+            border-bottom: 1px solid var(--glass-border);
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            flex-shrink: 0;
         }
 
-        .syllabus-select-trigger:focus,
-        .syllabus-select-wrapper.open .syllabus-select-trigger {
-            outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px var(--color-focus-ring);
+        .modal-close {
+            width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: var(--r-full);
+            background: var(--glass-bg);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
         }
 
-        .syllabus-select-trigger .chevron {
-            transition: transform var(--duration-normal) var(--ease-in-out);
+        .modal-close:hover { background: rgba(181, 55, 242, 0.15); color: var(--accent-purple-text); }
+
+        .modal-body { padding: var(--sp-5); overflow-y: auto; }
+
+        .modal-tabs { display: flex; gap: var(--sp-1); padding: 0 var(--sp-5); border-bottom: 1px solid var(--glass-border); flex-shrink: 0; }
+
+        .tab-btn { font-size: 0.8rem; font-weight: 500; padding: var(--sp-3); color: var(--text-secondary); border-bottom: 2px solid transparent; transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease); }
+        .tab-btn:hover { color: var(--text-primary); }
+        .tab-btn.active { color: var(--accent-blue); border-color: var(--accent-blue); }
+
+        .detail-row { display: grid; grid-template-columns: 120px 1fr; gap: var(--sp-3); padding: var(--sp-3) 0; border-bottom: 1px solid var(--glass-border-soft); font-size: 0.88rem; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; color: var(--text-muted); }
+        .detail-value { color: var(--text-primary); font-weight: 500; }
+
+        .subject-details { display: flex; flex-direction: column; }
+        .teacher-info { color: var(--text-secondary); }
+
+        .student-list-container { display: flex; flex-direction: column; gap: var(--sp-3); }
+        .student-table, .faculty-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+
+        .student-table th, .faculty-table th {
+            text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;
+            color: var(--text-muted); padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--glass-border);
+            position: sticky; top: 0; background: rgba(26, 28, 41, 0.9); backdrop-filter: blur(8px);
         }
 
-        .syllabus-select-wrapper.open .syllabus-select-trigger .chevron {
-            transform: rotate(180deg);
-        }
+        .student-table td, .faculty-table td { padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--glass-border-soft); color: var(--text-secondary); }
+        .student-table tr:hover td, .faculty-table tr:hover td { background: var(--glass-bg); color: var(--text-primary); }
 
-        .syllabus-select-options {
-            position: absolute;
-            top: calc(100% - 1px);
-            left: var(--space-16);
-            right: var(--space-16);
-            background-color: var(--color-surface);
-            border: 1px solid var(--color-border);
-            border-top: none;
-            border-radius: 0 0 var(--radius-md) var(--radius-md);
-            box-shadow: var(--shadow-md);
-            z-index: 10;
-            max-height: 250px;
-            overflow-y: auto;
-            opacity: 0;
-            visibility: hidden;
-            transform: scaleY(0.95) translateY(-10px);
-            transform-origin: top center;
-            transition: all var(--duration-normal) var(--ease-in-out);
-        }
+        .calendar-container { display: flex; flex-direction: column; gap: var(--sp-4); }
+        .calendar-header { display: flex; align-items: center; justify-content: space-between; font-weight: 700; }
+        .calendar-header button { width: 32px; height: 32px; border-radius: var(--r-full); display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: background var(--dur-fast) var(--ease); }
+        .calendar-header button:hover { background: var(--glass-bg); color: var(--accent-blue); }
 
-        .syllabus-select-wrapper.open .syllabus-select-options {
-            opacity: 1;
-            visibility: visible;
-            transform: scaleY(1) translateY(0);
-        }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--sp-1); }
+        .calendar-day-header { text-align: center; font-size: 0.64rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); padding: var(--sp-2) 0; }
 
-        /* Blur effect for syllabus dropdown background */
-        .syllabus-details-content {
-            transition: filter var(--duration-normal) ease-in-out;
-        }
-
-        .syllabus-select-wrapper.open~.syllabus-details-content {
-            filter: blur(3px);
-            pointer-events: none;
-        }
-
-        .syllabus-select-option {
-            padding: var(--space-12);
-            cursor: pointer;
-            transition: background-color var(--duration-fast);
-        }
-
-        .syllabus-select-option:hover {
-            background-color: var(--color-secondary-hover);
-        }
-
-        .syllabus-select-option.selected {
-            background-color: var(--color-primary);
-            color: var(--color-btn-primary-text);
-            font-weight: var(--font-weight-semibold);
-        }
-
-        .syllabus-details-content {
-            flex-grow: 1;
-            padding: var(--space-32);
-            overflow-y: auto;
+        .calendar-day {
+            aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+            border-radius: var(--r-sm); font-size: 0.78rem; color: var(--text-secondary); cursor: pointer;
+            border: 1px solid transparent; transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
             position: relative;
         }
 
-        .syllabus-content {
-            display: none;
+        .calendar-day:hover { background: var(--glass-bg); }
+        .calendar-day.current-day, .calendar-day.today { border-color: var(--accent-blue); color: var(--accent-blue); font-weight: 700; }
+        .calendar-day.selected { background: #9628c9; color: #ffffff; font-weight: 700; }
+        .calendar-day.selected .event-dot { background: #ffffff !important; }
+
+        .event-dots-container { display: flex; gap: 2px; }
+        .event-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; }
+        .dot-holiday { background-color: var(--color-error); }
+        .dot-exam { background-color: var(--color-exam); }
+        .dot-assignment { background-color: var(--color-assignment); }
+
+        .dates-filter-controls { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-bottom: var(--sp-4); }
+        .date-filter-btn { font-size: 0.72rem; font-weight: 500; padding: var(--sp-2) var(--sp-3); border-radius: var(--r-full); border: 1px solid var(--glass-border); color: var(--text-secondary); transition: all var(--dur-fast) var(--ease); }
+        .date-filter-btn:hover { border-color: rgba(255, 255, 255, 0.3); color: var(--text-primary); }
+        .date-filter-btn.active { background: rgba(0, 240, 255, 0.1); border-color: var(--accent-blue); color: var(--accent-blue); }
+
+        .dates-list-container { display: flex; flex-direction: column; gap: var(--sp-3); }
+        .date-item { display: flex; gap: var(--sp-3); padding: var(--sp-3); background: var(--glass-bg-soft); border-left: 3px solid var(--glass-border); border-radius: var(--r-md); }
+        .date-item.item-exam, .date-item[data-type="exam"] { border-left-color: var(--color-exam); }
+        .date-item.item-assignment, .date-item[data-type="assignment"] { border-left-color: var(--color-assignment); }
+        .date-item.item-holiday, .date-item[data-type="holiday"] { border-left-color: var(--color-error); }
+        .date-item-date { font-size: 0.78rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+        .date-item-details { color: var(--text-secondary); font-size: 0.84rem; }
+        .no-dates-message { color: var(--text-muted); text-align: center; padding: var(--sp-6) 0; font-size: 0.86rem; }
+
+        .custom-tooltip {
+            position: fixed; background: rgba(38, 30, 60, 0.95); color: var(--text-primary); padding: var(--sp-3);
+            border-radius: var(--r-md); font-size: 0.78rem; z-index: 1001; pointer-events: none; opacity: 0;
+            transform-origin: top center; transform: scale(0.95) translateY(10px);
+            transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+            max-width: 260px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(16px);
         }
 
-        .syllabus-content.active {
-            display: block;
-            animation: slideInRight 0.4s var(--ease-in-out);
-        }
+        .custom-tooltip.visible { opacity: 1; transform: scale(1) translateY(0); }
+        .custom-tooltip::after { content: ''; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border-width: 7px; border-style: solid; border-color: transparent transparent rgba(38, 30, 60, 0.95) transparent; }
+        .custom-tooltip.position-top { transform-origin: bottom center; }
+        .custom-tooltip.position-top::after { top: 100%; bottom: auto; transform: translateX(-50%) rotate(180deg); }
 
-        .syllabus-content.is-exiting {
-            animation: slideOutLeft 0.4s var(--ease-in-out);
-            position: absolute;
-            top: var(--space-32);
-            left: var(--space-32);
-        }
+        .tooltip-event-item { display: flex; flex-direction: column; padding-left: var(--sp-3); border-left-width: 3px; border-left-style: solid; }
+        .tooltip-event-item + .tooltip-event-item { margin-top: var(--sp-2); padding-top: var(--sp-2); border-top: 1px solid var(--glass-border-soft); }
+        .tooltip-event-item.item-exam { border-left-color: var(--color-exam); }
+        .tooltip-event-item.item-assignment { border-left-color: var(--color-assignment); }
+        .tooltip-event-item.item-holiday { border-left-color: var(--color-error); }
 
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
+        /* ---- Syllabus modal ---- */
+        .syllabus-page-container { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+        .syllabus-nav { width: 210px; flex-shrink: 0; border-right: 1px solid var(--glass-border); padding: var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-1); overflow-y: auto; }
+        .syllabus-nav-btn { text-align: left; padding: var(--sp-2) var(--sp-3); border-radius: var(--r-sm); font-size: 0.82rem; color: var(--text-secondary); transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
+        .syllabus-nav-btn:hover { background: var(--glass-bg); color: var(--text-primary); }
+        .syllabus-nav-btn.active { background: rgba(0, 240, 255, 0.1); color: var(--accent-blue); font-weight: 700; }
+
+        .syllabus-select-wrapper { position: relative; display: none; padding: var(--sp-3); border-bottom: 1px solid var(--glass-border); }
+        .syllabus-select-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: var(--sp-3); background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--r-md); font-size: 0.85rem; }
+        .selected-value { color: var(--text-primary); font-weight: 500; }
+        .chevron { color: var(--text-muted); transition: transform var(--dur-fast) var(--ease); }
+        .syllabus-select-trigger.open .chevron { transform: rotate(180deg); }
+
+        .syllabus-select-options { position: absolute; top: calc(100% - 4px); left: var(--sp-3); right: var(--sp-3); background: rgba(38, 30, 60, 0.95); backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: var(--r-md); max-height: 240px; overflow-y: auto; box-shadow: var(--shadow-lg); z-index: 5; }
+        .syllabus-select-option { padding: var(--sp-3); font-size: 0.85rem; color: var(--text-secondary); transition: background var(--dur-fast) var(--ease); }
+        .syllabus-select-option:hover { background: var(--glass-bg-strong); color: var(--text-primary); }
+        .syllabus-select-option.selected { color: var(--accent-blue); font-weight: 700; }
+
+        .syllabus-header { padding: var(--sp-4) var(--sp-5); border-bottom: 1px solid var(--glass-border); font-weight: 700; letter-spacing: 0.02em; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; }
+        .syllabus-body { display: flex; flex: 1; min-height: 0; }
+
+        .syllabus-content { display: none; }
+        .syllabus-content.active { display: block; animation: contentFadeIn var(--dur-base) var(--ease-out); }
+        .syllabus-content.is-exiting { animation: contentFadeOut var(--dur-fast) var(--ease) forwards; }
+
+        .syllabus-details-content { flex: 1; min-width: 0; overflow-y: auto; padding: var(--sp-5); }
+        .syllabus-details-content h4 { font-size: 0.86rem; font-weight: 700; color: var(--accent-blue); margin: var(--sp-5) 0 var(--sp-2); }
+        .syllabus-details-content h4:first-child { margin-top: 0; }
+        .syllabus-details-content p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.65; }
+        .syllabus-details-content ol { margin: var(--sp-2) 0; }
+        .syllabus-details-content li { color: var(--text-secondary); font-size: 0.86rem; }
+
+        .syllabus-table { width: 100%; border-collapse: collapse; overflow-x: auto; display: block; font-size: 0.82rem; margin: var(--sp-3) 0; }
+        .syllabus-table th, .syllabus-table td { border: 1px solid var(--glass-border-soft); padding: var(--sp-2) var(--sp-3); text-align: center; }
+        .syllabus-table th { font-weight: 700; color: var(--text-muted); background: var(--glass-bg); }
+
+        .syllabus-close-btn { width: 30px; height: 30px; border-radius: var(--r-full); background: var(--glass-bg); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
+        .syllabus-close-btn:hover { background: rgba(181, 55, 242, 0.15); color: var(--accent-purple-text); }
+
+        /* ============================================================
+           Animations
+           ============================================================ */
+        @keyframes cellIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes overlayOut { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes modalIn { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes contentFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes contentFadeOut { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
             }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            .hyper-gradient-bg { animation: none; }
         }
 
-        @keyframes slideOutLeft {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        /* ============================================================
+           Mobile schedule (day tabs + vertical list) — hidden on
+           desktop, swaps in for the grid below the mobile breakpoint.
+           ============================================================ */
+        .mobile-schedule { display: none; }
 
-            to {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-        }
-
-        .syllabus-content h4 {
-            font-size: var(--font-size-2xl);
-            margin-bottom: var(--space-12);
-            color: var(--color-primary);
-            padding-bottom: var(--space-8);
-            border-bottom: 1px solid var(--color-border);
-            word-break: keep-all;
-            overflow-wrap: break-word;
-        }
-
-        .syllabus-content h5 {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
-            margin-top: var(--space-24);
-            margin-bottom: var(--space-12);
-            word-break: keep-all;
-            overflow-wrap: break-word;
-        }
-
-        .syllabus-content p {
-            margin-bottom: var(--space-16);
-            line-height: 1.7;
-            word-break: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .syllabus-content ol {
-            padding-left: var(--space-20);
-        }
-
-        .syllabus-content li {
-            margin-bottom: var(--space-12);
-            animation: staggerItemIn 0.5s var(--ease-standard) both;
-            word-break: break-word;
-            overflow-wrap: break-word;
-        }
-
-        @keyframes staggerItemIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .syllabus-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: var(--space-24) 0;
-            font-size: var(--font-size-sm);
-            display: block;
-            overflow-x: auto;
-        }
-
-        .syllabus-table th,
-        .syllabus-table td {
-            padding: var(--space-12);
-            text-align: left;
-            border: 1px solid var(--color-border);
-            word-break: break-word;
-            overflow-wrap: break-word;
-            white-space: normal;
-        }
-
-        .syllabus-table th {
-            font-weight: var(--font-weight-semibold);
-            background-color: var(--color-secondary);
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .header-content {
-                flex-wrap: wrap;
+            .app-container { padding: var(--sp-4) var(--sp-3) var(--sp-8); }
+            .header { position: relative; z-index: 50; }
+            .header-content { padding: var(--sp-4); }
+            .university-name { font-size: 1rem; }
+            .program-details { font-size: 0.6rem; max-width: none; }
+
+            /* Row 1: title (left) + clock (right). Row 2: icons, right-aligned. */
+            .header-controls { display: contents; }
+            .header-left { order: 1; flex: 1 1 auto; }
+            .current-time { order: 2; }
+            .header-icons { order: 3; flex-basis: 100%; justify-content: flex-end; }
+
+            /* Nav becomes a dropdown triggered by the hamburger button */
+            .mobile-menu-toggle { display: flex; }
+            .header-nav {
+                display: none;
+                position: fixed;
+                left: var(--sp-3);
+                right: var(--sp-3);
+                margin-top: 0;
+                background: rgba(26, 28, 41, 0.97);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1px solid var(--glass-border);
+                border-radius: var(--r-lg);
+                padding: var(--sp-4);
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--sp-1);
+                z-index: 900;
+                box-shadow: var(--shadow-lg);
+            }
+            .header-nav.mobile-nav-open { display: flex; }
+            .header-nav .nav-sep { display: none; }
+            .header-nav .nav-link { padding: var(--sp-3); border-radius: var(--r-sm); justify-content: center; }
+            .header-nav .nav-link:hover, .header-nav .nav-link:active { background: var(--glass-bg); }
+
+            .timetable-header { padding: var(--sp-4); }
+            .interactive-legend { gap: var(--sp-3); }
+            .legend-item { font-size: 0.7rem; }
+
+            /* Grid gives way to the mobile day-tabs + list */
+            .timetable-main-area { display: none; }
+            .mobile-schedule { display: flex; flex-direction: column; gap: var(--sp-4); padding: var(--sp-4); }
+
+            .mobile-day-tabs {
+                display: flex;
+                gap: var(--sp-2);
+                overflow-x: auto;
+                padding-bottom: var(--sp-1);
+            }
+
+            .mobile-day-tab {
+                flex-shrink: 0;
+                padding: var(--sp-2) var(--sp-4);
+                border-radius: var(--r-md);
+                background: var(--glass-bg-soft);
+                border: 1px solid var(--glass-border-soft);
+                color: var(--text-secondary);
+                font-size: 0.7rem;
+                font-weight: 600;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                transition: all var(--dur-fast) var(--ease);
+            }
+
+            .mobile-day-tab.active {
+                background: rgba(0, 240, 255, 0.12);
+                border-color: var(--accent-blue);
+                color: var(--accent-blue);
+                box-shadow: 0 0 10px rgba(0, 240, 255, 0.15);
+            }
+
+            .mobile-day-list { display: flex; flex-direction: column; gap: var(--sp-3); }
+            .mobile-slot { display: flex; gap: var(--sp-3); align-items: stretch; }
+
+            .mobile-slot-time {
+                flex-shrink: 0;
+                width: 58px;
+                display: flex;
                 align-items: center;
-                row-gap: var(--space-12);
-            }
-
-            .university-info {
-                order: 1;
-                flex-grow: 1;
-            }
-
-            .header-controls {
-                display: contents;
-            }
-
-            .current-time {
-                order: 2;
-            }
-
-            .header-icons {
-                order: 3;
-                width: 100%;
                 justify-content: center;
-            }
-
-            .university-name {
-                font-size: var(--font-size-lg);
-            }
-
-            .program-details {
-                display: none;
-            }
-
-            .time-display {
-                font-size: var(--font-size-base);
-            }
-
-            .date-display {
-                font-size: var(--font-size-xs);
-            }
-
-            .timetable-grid {
-                grid-template-columns: minmax(60px, auto) repeat(5, minmax(80px, 1fr));
-                font-size: var(--font-size-xs);
-            }
-
-            .grid-cell {
-                min-height: 40px;
-                padding: var(--space-4);
-            }
-
-            .footer-content {
-                flex-direction: column;
                 text-align: center;
+                font-size: 0.6rem;
+                font-weight: 600;
+                color: var(--text-muted);
+                line-height: 1.2;
             }
 
-            .modal-content:not(#syllabusModal .modal-content) {
-                margin: var(--space-16);
-                max-width: calc(100vw - 32px);
-                max-height: calc(100vh - 32px);
+            .mobile-card {
+                flex: 1;
+                min-width: 0;
+                background: var(--glass-bg-soft);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                border: 1px solid var(--glass-border-soft);
+                border-radius: var(--r-md);
+                padding: var(--sp-3);
+                font-size: 0.82rem;
+                font-weight: 500;
+                color: var(--text-primary);
+                display: flex;
+                align-items: center;
+                gap: var(--sp-2);
+                min-height: 48px;
+                transition: background var(--dur-fast) var(--ease);
             }
 
-            .detail-row {
-                grid-template-columns: 100px 1fr;
+            .mobile-card.subject, .mobile-card.lab { cursor: pointer; }
+            .mobile-card.subject:active, .mobile-card.lab:active { background: var(--glass-bg-strong); }
+
+            .mobile-card.lab { background: rgba(0, 240, 255, 0.1); border-left: 3px solid var(--accent-blue); }
+            .mobile-card.lab::before {
+                content: 'LAB'; font-size: 0.54rem; font-weight: 700; letter-spacing: 0.05em;
+                padding: 1px 6px; border-radius: var(--r-sm); background: rgba(0, 240, 255, 0.15); color: var(--accent-blue); flex-shrink: 0;
             }
 
-            .syllabus-body {
-                flex-direction: column;
+            .mobile-card.lunch {
+                background: rgba(255, 215, 0, 0.05); border-color: rgba(255, 215, 0, 0.2); color: var(--accent-lunch);
+                font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.04em; justify-content: center;
             }
 
-            .syllabus-nav {
-                display: none;
+            .mobile-card.free {
+                background: rgba(255, 255, 255, 0.01); border-style: dashed; color: var(--text-muted);
+                font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; justify-content: center;
             }
 
-            .syllabus-select-wrapper {
-                display: block;
+            .mobile-card.active-period {
+                background: rgba(181, 55, 242, 0.15);
+                border-color: rgba(181, 55, 242, 0.5);
+                box-shadow: 0 0 20px rgba(181, 55, 242, 0.3);
+                animation: glow-pulse 3s infinite alternate;
             }
 
-            .syllabus-details-content {
-                padding: var(--space-24);
-            }
+            .modal-content:not(#syllabusModal .modal-content) { max-width: 100%; max-height: 92vh; }
+            .syllabus-nav { display: none; }
+            .syllabus-select-wrapper { display: block; }
+
+            .detail-row { grid-template-columns: 96px 1fr; font-size: 0.82rem; }
+            .footer-content { flex-direction: column; align-items: center; text-align: center; }
         }
 
         @media (max-width: 480px) {
-            .timetable-grid {
-                grid-template-columns: minmax(50px, auto) repeat(5, minmax(60px, 1fr));
-                padding: var(--space-8);
-                gap: var(--space-1);
-            }
-
-            .grid-header,
-            .grid-time {
-                padding: var(--space-6);
-                font-size: 10px;
-            }
-
-            .grid-cell {
-                min-height: 36px;
-                padding: var(--space-2);
-                font-size: 10px;
-            }
-
-            .date-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: var(--space-8);
-            }
-
-            /* Mobile legend size reduction */
-            .interactive-legend {
-                gap: var(--space-8);
-            }
-
-            .interactive-legend .legend-item {
-                font-size: 11px;
-                gap: var(--space-6);
-                padding: var(--space-4) var(--space-8);
-            }
-
-            .interactive-legend .color-box {
-                width: 8px;
-                height: 8px;
-            }
+            .university-name { font-size: 0.94rem; }
+            .modal-header { padding: var(--sp-3) var(--sp-4); font-size: 0.85rem; }
+            .modal-body, .syllabus-body { padding: var(--sp-4); }
+            .mobile-slot-time { width: 48px; font-size: 0.56rem; }
+            .mobile-card { font-size: 0.76rem; padding: var(--sp-2) var(--sp-3); }
         }
-    </style>
+</style>
 </head>
 
 <body>
+    <div class="hyper-gradient-bg"></div>
     <div class="app-container">
         <header class="header">
             <div class="header-content">
-                <div class="university-info">
-                    <h1 class="university-name">SRM University</h1>
-                    <div class="program-details">
-                        <span class="program">BCA Semester IV, Section B</span>
-                        <span class="separator">•</span>
-                        <span class="room">Room: A-403</span>
-                        <span class="separator">•</span>
-                        <span class="session">Session: 2026 (Even Semester)</span>
+                <div class="header-left">
+                    <div class="university-info">
+                        <h1 class="university-name">SRM_UNIVERSITY</h1>
+                        <div class="program-details">BCA&nbsp;SEC&nbsp;-&nbsp;B • ROOM&nbsp;NO.:&nbsp;EB114 • 2026_ODD • Semester&nbsp;5</div>
                     </div>
+                    <nav class="header-nav" id="headerNav">
+                        <a href="#" id="totalStudentsLink" class="nav-link">STUDENTS<span class="nav-count" id="studentCountBadge">[0]</span></a>
+                        <span class="nav-sep">|</span>
+                        <a href="#" id="viewFacultyLink" class="nav-link">FACULTY</a>
+                        <span class="nav-sep">|</span>
+                        <a href="#" id="syllabusLink" class="nav-link">SYLLABUS.MOD</a>
+                        <span class="nav-sep">|</span>
+                        <a href="#" id="importantDatesLink" class="nav-link">IMPORTANT.DATE</a>
+                        <span class="nav-sep">|</span>
+                        <a href="https://erpsrm.com/srmhonline/studentportal/loginManager/youLogin.jsp" target="_blank" rel="noopener" class="nav-link nav-link-accent">ERP_LINK
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M7 7h10v10"></path></svg>
+                        </a>
+                    </nav>
                 </div>
                 <div class="header-controls">
                     <div class="header-icons">
-                        <button class="theme-toggle" id="themeToggle" title="Toggle light/dark theme">
-                            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="5"></circle>
-                                <line x1="12" y1="1" x2="12" y2="3"></line>
-                                <line x1="12" y1="21" x2="12" y2="23"></line>
-                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                <line x1="1" y1="12" x2="3" y2="12"></line>
-                                <line x1="21" y1="12" x2="23" y2="12"></line>
-                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                            </svg>
-                            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                            </svg>
-                        </button>
                         <button class="theme-toggle" id="calendarToggle" title="Open academic calendar">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -1849,6 +869,15 @@
                                 <line x1="16" y1="2" x2="16" y2="6"></line>
                                 <line x1="8" y1="2" x2="8" y2="6"></line>
                                 <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </button>
+                        <button class="theme-toggle mobile-menu-toggle" id="mobileMenuToggle" title="Menu" aria-expanded="false" aria-controls="headerNav">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <line x1="3" y1="12" x2="21" y2="12"></line>
+                                <line x1="3" y1="18" x2="21" y2="18"></line>
                             </svg>
                         </button>
                     </div>
@@ -1866,18 +895,6 @@
             <div class="timetable-container">
                 <div class="timetable-header">
                     <h2>Weekly Timetable</h2>
-                    <div class="teacher-info">
-                        <a href="#" id="totalStudentsLink" class="footer-link">Students: 65</a>
-                        <span class="separator">•</span>
-                        <a href="#" id="viewFacultyLink" class="footer-link">Faculty</a>
-                        <span class="separator">•</span>
-                        <a href="#" id="syllabusLink" class="footer-link">Syllabus</a>
-                        <span class="separator">•</span>
-                        <a href="#" id="importantDatesLink" class="footer-link">Important Dates</a>
-                        <span class="separator">•</span>
-                        <a href="https://erpsrm.com/srmhonline/studentportal/loginManager/youLogin.jsp" target="_blank"
-                            class="footer-link">ERP</a>
-                    </div>
                     <div class="interactive-legend">
                         <div class="legend-item" data-type="subject">
                             <div class="color-box subject"></div>
@@ -1905,6 +922,11 @@
                 <div class="timetable-main-area">
                     <div class="timetable-grid" id="timetableGrid">
                     </div>
+                </div>
+
+                <div class="mobile-schedule" id="mobileSchedule">
+                    <div class="mobile-day-tabs" id="mobileDayTabs"></div>
+                    <div class="mobile-day-list" id="mobileDayList"></div>
                 </div>
             </div>
         </main>
@@ -2130,157 +1152,58 @@
             "Name": "Mohammad Ahsan Neyaz",
             "Reg. No.": "42224210112",
             "Age": "21",
-            "Course": "Bachelor of Computer Applications (B.C.A.), 4th Semester",
-            "Section": "4B",
+            "Course": "Bachelor of Computer Applications (B.C.A.), 5th Semester",
+            "Section": "5B",
             "Location": "India",
             "Motto": '"Work smart. Stay consistent. Always Keep growing."'
         };
 
         const timetableData = {
             "timetable": {
-                "MONDAY": { "9:30-10:30": "Web Technologies", "10:30-11:30": "Computer Multimedia & Animation", "11:30-12:30": "AI & ML", "12:30-1:30": "German-II/French-II", "1:30-2:30": "LUNCH", "2:30-3:30": "Software Engineering", "3:30-4:30": "Fundamental of E-commerce" },
-                "TUESDAY": { "9:30-10:30": "Software Engineering", "10:30-11:30": "Computer Multimedia & Animation", "11:30-12:30": "Professional Skills", "12:30-1:30": "Live Project/Vacational", "1:30-2:30": "LUNCH", "2:30-3:30": "R Lang (G1) / Multi M (G2)", "3:30-4:30": "R Lang (G1) / Multi M (G2)" },
-                "WEDNESDAY": { "9:30-10:30": "Web Technologies", "10:30-11:30": "Live Project/Vacational", "11:30-12:30": "LUNCH", "12:30-1:30": "MultiM (G1) / WT (G2)", "1:30-2:30": "MultiM (G1) / WT (G2)", "2:30-3:30": "Free", "3:30-4:30": "Fundamental of E-commerce" },
-                "THURSDAY": { "9:30-10:30": "Software Engineering", "10:30-11:30": "Fundamental of E-commerce", "11:30-12:30": "Professional Skills", "12:30-1:30": "LUNCH", "1:30-2:30": "Web Technologies", "2:30-3:30": "Computer Multimedia & Animation", "3:30-4:30": "Free" },
-                "FRIDAY": { "9:30-10:30": "AI & ML", "10:30-11:30": "R Lang (G2) / WT (G1)", "11:30-12:30": "R Lang (G2) / WT (G1)", "12:30-1:30": "German-II/French-II", "1:30-2:30": "LUNCH", "2:30-3:30": "Fundamental of E-commerce", "3:30-4:30": "Software Engineering" }
+                "MONDAY": { "9:30-10:30": "Cloud Computing", "10:30-11:30": "Python Programming", "11:30-12:30": "Computer Architecture & Organization", "12:30-1:30": "Software Project Management", "1:30-2:30": "LUNCH", "2:30-3:30": "Analysis and Design Algorithm", "3:30-4:30": "Software Project Management" },
+                "TUESDAY": { "9:30-10:30": "Unix & Linux Programming", "10:30-11:30": "Analysis and Design Algorithm", "11:30-12:30": "FREE", "12:30-1:30": "Python Programming", "1:30-2:30": "LUNCH", "2:30-3:30": "Cloud Computing", "3:30-4:30": "Aptitude and Reasoning" },
+                "WEDNESDAY": { "9:30-10:30": "Unix & Linux Programming", "10:30-11:30": "Computer Architecture & Organization", "11:30-12:30": "Python Programming Lab", "12:30-1:30": "Python Programming Lab", "1:30-2:30": "LUNCH", "2:30-3:30": "Cloud Computing", "3:30-4:30": "Computer Architecture & Organization" },
+                "THURSDAY": { "9:30-10:30": "Analysis and Design Algorithm", "10:30-11:30": "Software Project Management", "11:30-12:30": "FREE", "12:30-1:30": "Python Programming", "1:30-2:30": "LUNCH", "2:30-3:30": "Unix & Linux Programming", "3:30-4:30": "FREE" },
+                "FRIDAY": { "9:30-10:30": "Unix & Linux Programming", "10:30-11:30": "Aptitude and Reasoning", "11:30-12:30": "Software Project Management", "12:30-1:30": "Analysis and Design Algorithm", "1:30-2:30": "LUNCH", "2:30-3:30": "Computer Architecture & Organization", "3:30-4:30": "Cloud Computing" }
             },
             "subjects": {
-                "Web Technologies": { "code": "24BCA401", "name": "Web Technologies (WT)", "abbrev": "WT", "faculty": "Dr. Kaleem", "department": "CSE" },
-                "Computer Multimedia & Animation": { "code": "24BCA402", "name": "Computer Multimedia & Animation (MA)", "abbrev": "CM&A", "faculty": "Dr. Syed", "department": "CSE" },
-                "Software Engineering": { "code": "23BCA403", "name": "Software Engineering (SE)", "abbrev": "SE", "faculty": "Dr. Indu", "department": "CSE" },
-                "Fundamental of E-commerce": { "code": "23BCA404", "name": "Fundamental of E-commerce (E Comm)", "abbrev": "E-Comm", "faculty": "Dr. Pawan", "department": "Management" },
-                "AI & ML": { "code": "23VACxxx", "name": "AI & ML", "abbrev": "AI/ML", "faculty": "Dr. Dilshad", "department": "CSE" },
-                "German-II/French-II": { "code": "23UAEC 401", "name": "German-II/French-II", "abbrev": "Lang", "faculty": "TBA", "department": "LANGUAGE" },
-                "Professional Skills": { "code": "21SS454", "name": "Professional Skills (PS)", "abbrev": "PS", "faculty": "Ms. Alisha", "department": "PD" },
-                "Live Project/Vacational": { "code": "23BCA 407", "name": "Live Project - III/Vacational Courses / Summer Internship", "abbrev": "Project", "faculty": "Ms. Arul", "department": "CSE" },
-                "R Lang (G1) / Multi M (G2)": { "code": "23SS404 / 23BCA405", "name": "R Language (G1) / Multimedia Lab (G2)", "abbrev": "R/MM Lab", "faculty": "Dr. Syamsunder / Dr. Syed", "department": "Math / CSE" },
-                "MultiM (G1) / WT (G2)": { "code": "23BCA405 / 23BCA406", "name": "Multimedia Lab (G1) / Web Tech Lab (G2)", "abbrev": "MM/WT Lab", "faculty": "Dr. Syed / Dr. Kaleem", "department": "CSE" },
-                "R Lang (G2) / WT (G1)": { "code": "23SS404 / 23BCA406", "name": "R Language (G2) / Web Tech Lab (G1)", "abbrev": "R/WT Lab", "faculty": "Dr. Syamsunder / Dr. Kaleem", "department": "Math / CSE" }
+                "Python Programming": { "code": "24BCA501", "name": "Python Programming (PP)", "abbrev": "PP", "faculty": "Ms Arul Devrajan", "department": "CSE" },
+                "Cloud Computing": { "code": "23BCA502", "name": "Cloud Computing (CC)", "abbrev": "CC", "faculty": "Dr Priyanka", "department": "CSE" },
+                "Analysis and Design Algorithm": { "code": "23BCA503", "name": "Analysis and Design Algorithm (ADA)", "abbrev": "ADA", "faculty": "NF7", "department": "CSE" },
+                "Computer Architecture & Organization": { "code": "23BCA504", "name": "Computer Architecture & Organization (CAO)", "abbrev": "CAO", "faculty": "Dr Indu", "department": "CSE" },
+                "Software Project Management": { "code": "23BCA505", "name": "Software Project Management (SPM)", "abbrev": "SPM", "faculty": "Ms. Arundhati Kumari", "department": "CSE" },
+                "Unix & Linux Programming": { "code": "23BCA506", "name": "Unix & Linux Programming (UNIX)", "abbrev": "UNIX", "faculty": "Ms Preeti", "department": "CSE" },
+                "Aptitude and Reasoning": { "code": "23SS555", "name": "Aptitude and Reasoning", "abbrev": "A&R", "faculty": "NF1", "department": "PD" },
+                "Python Programming Lab": { "code": "24BCA507", "name": "Python Programming Lab", "abbrev": "PP Lab", "faculty": "Ms Arul Devrajan", "department": "CSE" }
             },
             "timeSlots": ["9:30-10:30", "10:30-11:30", "11:30-12:30", "12:30-1:30", "1:30-2:30", "2:30-3:30", "3:30-4:30"],
             "days": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"]
         };
 
         const syllabusData = {
-            "Computer Multimedia & Animation": `
-                <h4>Unit-1: INTRODUCTION</h4>
-                <p>Introduction to multimedia, Key elements of multimedia: text, audio, video, graphics, animation,Hardware and software requirements for multimedia Applications of multimedia, Introduction to Animation -History of Animation-Types of Animation - Basic Principles of Animation</p>
-                <h4>Unit-2: DESKTOP PUBLISHING</h4>
-                <p>Desktop publishing- Basic design concepts, User interface design, Hypermedia authoring concept, Photoshop, Coral Draw, and PageMaker.</p>
-                <h4>Unit-3: MULTIMEDIA PRODUCTION</h4>
-                <p>Process of multimedia production. Various file formats of text, audio, video, graphics, and animation. File compression techniques, creating web-based multimedia, Social Media Production, Digital Presenting, Video Studio Production.</p>
-                <h4>Unit-4: KIOSKS</h4>
-                <p>Multimedia-based presentations, Concept of interactive learning material, Multimedia networks: retail and banking business, Application in interactive television, Types of kiosks</p>
-                <h4>Unit-5: CONCEPT GENERATION OF MULTIMEDIA</h4>
-                <p>Concept generation of multimedia, Project process and stages of multimedia production, Implementation and distribution of multimedia products.</p>
+            "Python Programming": `
+                <h4>Unit-1: Introduction to Python</h4>
+                <p>History, need for Python, applications, Python installation and IDLE, interactive and script mode, indentation, comments, identifiers and keywords, variables, building blocks of Python, and data types. Basic input/output operations. Operators and expressions.</p>
+                <h4>Unit-2: Control Structures & Data Types</h4>
+                <p>Control structures: conditional blocks using if, if-else, nested if, and multiway if-elif statements. Loops - while loop, for loop, else clauses in loops, nested loops, loop manipulation using pass, continue, break and else. Structured data types: lists (create, access, slicing, negative indices, list methods, list comprehensions), tuples (create, indexing and slicing, operations), dictionaries (create, add, replace values, operations), and sets (creation and operations).</p>
+                <h4>Unit-3: Functions</h4>
+                <p>Defining and calling functions, parameters and arguments: positional arguments, keyword arguments, parameters with default values, local and global scope of variables. Functions with arbitrary arguments, recursive functions, lambda functions, and built-in functions map(), filter(), and reduce().</p>
+                <h4>Unit-4: Object-Oriented Programming</h4>
+                <p>OOP concepts, class, object and instances, constructors, Python attributes and destructors, real-time use of class in live projects, inheritance, polymorphism, operator overloading, method overriding, method overloading.</p>
+                <h4>Unit-5: Exception Handling & Databases</h4>
+                <p>Exception handling: types of errors (compile-time, runtime, logical), exception handling using try-except blocks, the assert statement, user-defined exceptions, logging exceptions, exception classes and custom exceptions. Python database interaction - SQL database connection using Python, creating and searching tables, reading and storing configuration information on a database.</p>
             `,
-            "Fundamental of E-commerce": `
-                <h4>Unit-1</h4>
-                <p>E-commerce: The revolution is just beginning, Ecommerce: A Brief History, Understanding E-commerce.</p>
-                <h4>Unit-2</h4>
-                <p>E-commerce Business Models, B2C, B2B, Business models in emerging E-commerce areas, How the Internet and the web change business: strategy, structure and process</p>
-                <h4>Unit-3</h4>
-                <p>Building an E-commerce Web Site: A systematic Approach, The e-commerce security environment, Security threats in the e-commerce environment</p>
-                <h4>Unit-4</h4>
-                <p>Business Models: Evolution of Internet Business Models, Business Models in Practice, Business Model: The Six Components, Security in Electronic Business</p>
-                <h4>Unit-5</h4>
-                <p>Encryption-Cryptography, Encryption, Digital Signature, E-Payment Systems: B2B Electronic Payments, Third-Party Payment Processing, Electronic Payment Gateway</p>
-            `,
-            "Multimedia & Animation Lab": `
-                <h4>COURSE LEARNING OUTCOMES (CLOs)</h4>
-                <p>After completion of course, students would be able to:
-                <ol>
-                    <li>Students will demonstrate proficiency in using multimedia software tools like Photoshop, Flash, and Dreamweaver to create and edit multimedia content.</li>
-                    <li>Students will be able to design and develop functional websites incorporating multimedia elements such as images, videos, and animations.</li>
-                    <li>Students will apply multimedia concepts to design and develop interactive games, understanding the basics of game design and user engagement.</li>
-                    <li>Students will explore and illustrate the use of multimedia in different fields, creating projects that show its application in education, business, and communication.</li>
-                    <li>Students will complete projects that simulate real-world scenarios, demonstrating their ability to apply multimedia tools and concepts to practical problems and scenarios.</li>
-                </ol></p>
-                <h4>LIST OF EXPERIMENT</h4>
-                <ol>
-                    <li>01. To study MULTIMEDIA HARDWARE tools and also they can interact with multimedia practically.</li>
-                    <li>02. To study the Multimedia BASIC SOFTWARE tools and also they can interact with multimedia practically.</li>
-                    <li>03. Design a poster for the 2024 election and show the difference in resolution and quality for Print and Web.</li>
-                    <li>04. Implement different software tools of multimedia like Photoshop, flash, and Dreamweaver.</li>
-                    <li>05. Write a program to show a bitmap image on your computer screen.</li>
-                    <li>06. Write a program to produce animation effects of a triangle transforming into a square and then into a circle.</li>
-                    <li>07. Design the scenery of a park using different tools of Photoshop.</li>
-                    <li>08. Take images from different image sources to show variation in Resolution.</li>
-                    <li>09. Use Effective Cropping Techniques to design a collage.</li>
-                    <li>10. Design a scenery showing correction of Image tonality.</li>
-                </ol>
-            `,
-            "Web Technologies": `
-                <h4>Unit-1: Introduction to Internet</h4>
-                <p>Internet Principles- Basic Web Concepts - Client/Server model Internet – Protocols and Application. Introduction to Internet and World Wide Web; Evolution and History of World Wide Web; Basic features; Web Browsers; Web Servers; Hypertext Transfer Protocol, Overview of TCP/IP and its services; URLs; Searching and Web Casting Techniques; Search Engines and Search Tools.</p>
-                <h4>Unit-2: Fundamentals of Web:</h4>
-                <p>Fundamentals of Web: Internet, WWW, Web Browsers and Web Servers, URLs, MIME, HTTP, Security, the Web Programmers Toolbox. Introduction to XHTML: Origins and evolution of HTML and XHTML, Basic syntax, Standard XHTML Document structure, Basic text mark-up, Images, Hypertext Links, Lists, Tables, Forms, Frames, Syntactic differences between HTML and XHTML.</p>
-                <h4>Unit-3: CSS and JAVASCRIPT</h4>
-                <p>CSS: Cascading Style Sheet: HTML CSS-Inline styles- creating style sheets with the style elements- Building a web page. Java Script: Introduction to scripting-operators: logical- Increment and decrement operators- control structures. Client and Server Side Programming in java script.</p>
-                <h4>Unit-4: Hosting Site and Service</h4>
-                <p>Hosting your Site; Internet Service Provider; Web terminologies, Phases of Planning and designing your Web Site; Steps for developing your Site; Choosing the contents; Home Page; Domain Names, Front page views, Adding pictures, Links, Backgrounds.</p>
-                <h4>Unit-5: Introduction to XML</h4>
-                <p>XML-XML overview-features-HTML XML-processing instructions-application of XMLCOMMENTS-XML names space - schema-Document Type Definition (DTD) — Extensible style language (XSL).</p>
-            `,
-            "AI & ML": `
-                <h4>UNIT 1: INTRODUCTION </h4>
-                <p>Introduction to AI: Definitions, Historical foundations, Basic Elements of AI, Characteristics of intelligent algorithm, AI application Area.</p>
-                <h4>UNIT 2: PROBLEM SOLVING</h4>
-                <p>Depth-first, breadth-first search, Problem Reduction, Constraint Satisfaction, Means-End Analysis.</p>
-                <h4>UNIT 3: INTRODUCTION TO MACHINE LEARNING</h4>
-                <p>Machine Learning Basics, Need of Machine Learning, Application Domains, Basic Learning Techniques, i.e., Supervised Learning,  Unsupervised Learning, Reinforcement Learning.</p>
-                <h4>UNIT 4: CLASSIFICATION PROBLEM</h4>
-                <p>Machine learning Algorithms for classification problem: Decision Trees, K-NN, SVM, Linear regression, Logistic Regression.</p>                                                
-            `,
-            "Software Engineering": `
-                <h4>Syllabus Content</h4>
-                <p>Syllabus details for Software Engineering will be updated soon.</p>
-            `,
-            "Web Thechnologies Lab": `
-                <h4>List Of Experiments</h4>
-                <p><ol>
-                    <li>01. Develop a HTML document, which displays your name as heading and displays any four of your friends. Each of your friend's names must appear as hot text. When you click your friend's name, it must open another HTML document, which tells about your friend.</li>
-                    <li>02. Write names of several countries in a paragraph and store it as an HTML document, world. Html. Each country name must be a hot text. When you click India (for example), it must open india.html and it should provide a brief introduction about India.</li>
-                    <li>03. Design a HTML document describing you. Assign a suitable background design and background color and a text color.</li>
-                    <li>04. Develop a Complete Web Page using Frames and Framesets which gives the Information about a Hospital using HTML.</li>
-                    <li>05. Develop complete set of web pages to describe your skills in various areas using HTML.</li>
-                    <li>06. Develop a web site to publish your family and the details of each member-using HTML</li>
-                    <li>07. Develop and demonstrate the usage of inline, internal and external style sheet using CSS.</li>
-                    <li>08. Write an HTML page that contains a selection box with a list of 5 countries. When the user selects a country, its capital should be printed next in the list. Add CSS to customize the properties of the font of the capital (color,bold and font size).</li>
-                    <li>09. Develop and demonstrate JavaScript with POP-UP boxes and functions for the following problems: a) Input: Click on Display Date button using onclick( ) function Output: Display date in the textbox b) Input: A number n obtained using prompt Output: Factorial of n number using alert c) Input: A number n obtained using prompt Output: A multiplication table of numbers from 1 to 10 of n using alert d) Input: A number n obtained using prompt and add another number using confirm Output: Sum of the entire n numbers using alert.</li>
-                    <li>10. Create an XML document that contains 10 users information. Write a Java Program, which takes User Id as input and returns the user details by taking the user information from XML document using DOM parser or SAX parser.</li>
-                    </ol></p>
-            `,
-            "German": `
-                <h4>UNIT-1</h4>
-                <p><ol>
-                    <li>Zeitangabe, Tageszeit, Uhrzeit, der Tagesablauf</li>
-                    <li>Präpositionen mit Akkusativ, Ordinalzahlen</li>
-                    <li>Wegbeschreibung, die Himmelsrichtungen</li>
-                    <li>Die	Gebäude, Verkehrsmittel</li>
-                </ol></p>
-                <h4>UNIT-2</h4>
-                <p><ol>
-                    <li>Das	Haus</li>
-                    <li>Modalverben</li>
-                    <li>Essen und Trinken, Messeinheiten, Einkaufen</li>  
-                    <li>Körperteile	und	Krankheiten</li>
-                    <li>Futur</li>  
-                </ol></p>
-                <h4>UNIT-3</h4>
-                <p><ol>
-                    <li>Dativ, Artikel und Personalpronomen im Dativ</li> 
-                    <li>Präpositionen mit Dativ, die Wechselpräpositionen</li> 
-                    <li>Possessiv-Artikel, die Konnektoren</li> 
-                    <li>Schreiben Teil 1</li> 
-                    <li>Trennbare Verben</li>   
-                </ol></p>
-                <h4>UNIT-4</h4>
-                <p><ol>
-                    <li>Schreiben Teil 2 (E- Mail Schreiben)</li>
-                    <li>Perfekt</li>
-                    <li>Vergangenheit erzählen, Das Wochenende, Lebenslauf</li>
-                </ol></p>
+            "Cloud Computing": `
+                <h4>Unit-1: Introduction</h4>
+                <p>Cloud computing definition, private, public and hybrid cloud. Cloud types: IaaS, PaaS, SaaS. Benefits and challenges of cloud computing, public vs private clouds.</p>
+                <h4>Unit-2: Cloud Applications</h4>
+                <p>Role of virtualization in enabling the cloud; business agility: benefits and challenges to cloud architecture; application availability and performance.</p>
+                <h4>Unit-3: Designing and Implementation</h4>
+                <p>Designing and implementing a data centre-based cloud, industry and international standards communication requirements for cloud implementation.</p>
+                <h4>Unit-4: Service Models</h4>
+                <p>Hardware and infrastructure. Software as a Service (SaaS), understanding SOA. IT evolution leading to the cloud, benefits of PaaS solutions, disadvantages of PaaS solutions. Understanding IaaS, improving performance through load balancing.</p>
+                <h4>Unit-5: Related Java Techniques</h4>
+                <p>3D graphics, JAR file format and creation, internationalization, Swing programming.</p>
             `
         };
 
@@ -2343,21 +1266,6 @@
         let cal_current_year = cal_current_date.getFullYear();
 
         document.addEventListener('DOMContentLoaded', function () {
-            function initTheme() {
-                const themeToggle = document.getElementById('themeToggle');
-                const savedTheme = localStorage.getItem('theme') || 'dark';
-                document.documentElement.setAttribute('data-color-scheme', savedTheme);
-                document.documentElement.style.setProperty('--color-surface-rgb', savedTheme === 'dark' ? '38, 40, 40' : '255, 255, 253');
-
-                themeToggle.addEventListener('click', function () {
-                    var currentTheme = document.documentElement.getAttribute('data-color-scheme');
-                    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                    document.documentElement.setAttribute('data-color-scheme', newTheme);
-                    localStorage.setItem('theme', newTheme);
-                    document.documentElement.style.setProperty('--color-surface-rgb', newTheme === 'dark' ? '38, 40, 40' : '255, 255, 253');
-                });
-            }
-
             function getCurrentDay() {
                 const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
                 return days[new Date().getDay()];
@@ -2476,7 +1384,7 @@
                     document.getElementById('modalTitle').textContent = subjectInfo.name;
                     document.getElementById('subjectName').textContent = subjectInfo.name;
                     document.getElementById('subjectCode').textContent = subjectInfo.code;
-                    document.getElementById('subjectFaculty').textContent = subjectInfo.department;
+                    document.getElementById('subjectFaculty').textContent = subjectInfo.faculty;
                     document.getElementById('subjectDepartment').textContent = subjectInfo.department;
                     document.getElementById('subjectTime').textContent = data.timeSlot;
                     document.getElementById('subjectDay').textContent = formatDayName(data.day);
@@ -2649,7 +1557,7 @@
                 const uniqueFaculty = {};
                 Object.keys(timetableData.subjects).forEach(function (key) {
                     var subject = timetableData.subjects[key];
-                    if (subject.faculty !== 'TBA' && subject.faculty !== 'NF-A' && !uniqueFaculty[subject.faculty]) {
+                    if (!/^(TBA|NF)/i.test(subject.faculty) && !uniqueFaculty[subject.faculty]) {
                         uniqueFaculty[subject.faculty] = { name: subject.faculty, department: subject.department, subjects: [] };
                     }
                 });
@@ -2955,9 +1863,113 @@
                     }
                 }
                 if (!activeSlot) return;
-                const activeCells = document.querySelectorAll(`.grid-cell[data-day="${currentDay}"][data-time="${activeSlot}"]`);
+                const activeCells = document.querySelectorAll(`.grid-cell[data-day="${currentDay}"][data-time="${activeSlot}"], .mobile-card[data-day="${currentDay}"][data-time="${activeSlot}"]`);
                 activeCells.forEach(cell => {
                     cell.classList.add('active-period');
+                });
+            }
+
+            function renderMobileDay(day) {
+                document.querySelectorAll('.mobile-day-tab').forEach(function (tab) {
+                    tab.classList.toggle('active', tab.dataset.day === day);
+                });
+                const listContainer = document.getElementById('mobileDayList');
+                if (!listContainer) return;
+                listContainer.innerHTML = '';
+                timetableData.timeSlots.forEach(function (timeSlot) {
+                    const subject = timetableData.timetable[day] && timetableData.timetable[day][timeSlot];
+                    const row = document.createElement('div');
+                    row.className = 'mobile-slot';
+
+                    const timeLabel = document.createElement('div');
+                    timeLabel.className = 'mobile-slot-time';
+                    timeLabel.textContent = timeSlot;
+                    row.appendChild(timeLabel);
+
+                    const card = document.createElement('div');
+                    card.className = 'mobile-card';
+                    card.setAttribute('data-subject', subject || 'FREE');
+                    card.setAttribute('data-time', timeSlot);
+                    card.setAttribute('data-day', day);
+                    card.textContent = subject || 'FREE';
+
+                    if (subject === 'LUNCH') {
+                        card.classList.add('lunch');
+                    } else if (!subject || subject === 'FREE' || subject === 'Free') {
+                        card.classList.add('free');
+                    } else {
+                        card.classList.add((subject.indexOf('Lab') > -1 || subject.indexOf('LAB') > -1 || subject.includes('/')) ? 'lab' : 'subject');
+                        card.addEventListener('click', function () {
+                            showModal('subjectModal', { subject: subject, timeSlot: timeSlot, day: day });
+                        });
+                    }
+                    row.appendChild(card);
+                    listContainer.appendChild(row);
+                });
+                highlightCurrentPeriod();
+            }
+
+            function generateMobileSchedule() {
+                const tabsContainer = document.getElementById('mobileDayTabs');
+                if (!tabsContainer) return;
+                const previouslyActive = tabsContainer.querySelector('.mobile-day-tab.active');
+                const keepDay = previouslyActive ? previouslyActive.dataset.day : null;
+                tabsContainer.innerHTML = '';
+                timetableData.days.forEach(function (day, idx) {
+                    const tab = document.createElement('button');
+                    tab.className = 'mobile-day-tab';
+                    tab.textContent = formatDayName(day).slice(0, 3) + ' ' + String(idx + 1).padStart(2, '0');
+                    tab.dataset.day = day;
+                    tab.addEventListener('click', function () {
+                        renderMobileDay(day);
+                    });
+                    tabsContainer.appendChild(tab);
+                });
+                const today = getCurrentDay();
+                const defaultDay = keepDay && timetableData.days.indexOf(keepDay) > -1
+                    ? keepDay
+                    : (timetableData.days.indexOf(today) > -1 ? today : timetableData.days[0]);
+                renderMobileDay(defaultDay);
+            }
+
+            function positionMobileNav() {
+                const header = document.querySelector('.header');
+                const nav = document.getElementById('headerNav');
+                if (!header || !nav) return;
+                const rect = header.getBoundingClientRect();
+                nav.style.top = (rect.bottom + 8) + 'px';
+            }
+
+            function bindMobileMenu() {
+                const toggle = document.getElementById('mobileMenuToggle');
+                const nav = document.getElementById('headerNav');
+                if (!toggle || !nav) return;
+                toggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const isOpen = nav.classList.toggle('mobile-nav-open');
+                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    if (isOpen) positionMobileNav();
+                });
+                document.addEventListener('click', function (e) {
+                    if (nav.classList.contains('mobile-nav-open') && !nav.contains(e.target) && !toggle.contains(e.target)) {
+                        nav.classList.remove('mobile-nav-open');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && nav.classList.contains('mobile-nav-open')) {
+                        nav.classList.remove('mobile-nav-open');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                window.addEventListener('resize', function () {
+                    if (nav.classList.contains('mobile-nav-open')) positionMobileNav();
+                });
+                nav.querySelectorAll('.nav-link').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        nav.classList.remove('mobile-nav-open');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    });
                 });
             }
 
@@ -2986,16 +1998,18 @@
             }
 
             function init() {
-                initTheme();
                 generateTimetable();
+                generateMobileSchedule();
                 updateDateTime();
                 setInterval(updateDateTime, 1000);
                 bindModalEvents();
                 bindFooterLinks();
+                bindMobileMenu();
                 highlightCurrentPeriod();
                 renderCalendar();
                 bindCalendarEvents();
                 bindInteractiveLegendEvents();
+                document.getElementById('studentCountBadge').textContent = `[${studentDataA.length + studentDataB.length}]`;
             }
 
             // ADDED: Resize Listener for Mobile Abbreviation
@@ -3005,6 +2019,7 @@
                 // Debounce: wait 200ms after resizing stops before regenerating
                 resizeTimer = setTimeout(() => {
                     generateTimetable();
+                    generateMobileSchedule();
                     // Re-highlight current period after regeneration
                     highlightCurrentPeriod();
                 }, 200);
