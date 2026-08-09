@@ -1,6 +1,6 @@
-# BCA 4B Timetable
+# BCA 5B Timetable
 
-**Interactive web application for managing and viewing the SRM University Delhi-NCR BCA 4B weekly timetable. Built with HTML, custom CSS design system, and vanilla JavaScript—optimized for all devices.**
+**Interactive web application for managing and viewing the SRM University Delhi-NCR BCA 5B weekly timetable. Built with HTML, a custom glassmorphic CSS design system, and vanilla JavaScript — optimized for all devices.**
 
 ***
 
@@ -12,30 +12,32 @@
 
 ## ✨ Features
 
-- **Modern Design System**
-    - Supports both dark and light mode (manual toggle and system detection)
-    - Accessible color palette (Teal, Charcoal, Cream, and high-contrast backgrounds)
+- **Glassmorphic Design System**
+    - Single dark theme: translucent frosted-glass panels over an animated aurora background
+    - Color-coded periods — cyan for labs, gold for lunch, purple glow for the class in progress right now
 - **Responsive Layout**
-    - Mobile-first grid; dynamic resizing
-    - Light-weight, reduced motion for accessibility
+    - Desktop: full weekly grid (time × day)
+    - Mobile: day-tabs with a scrollable list for that day, nav tucked behind a hamburger menu
+    - Reduced-motion friendly for accessibility
 - **Live Time Integration**
     - Real-time digital clock display
-    - Highlights today and current class period automatically
+    - Highlights today and the current class period automatically
 - **Interactive Timetable**
-    - Click on any subject cell for detailed popup (subject/faculty/code/timing)
+    - Click any subject cell for a detailed popup (subject/faculty/code/department/timing)
     - Accessible via keyboard and mouse
 - **Data-Rich Directories**
-    - Student directory for both Section A and B (sortable, registration numbers listed)
+    - Student directory for both Section A and B (registration numbers listed)
     - Faculty directory (names, departments, and all assigned subjects)
 - **Syllabus Section**
-    - Detailed syllabus content for each course, lab, and theory (visible in-app and in code)
+    - Full unit-by-unit syllabus for Python Programming and Cloud Computing, opens full-screen
 - **Academic Calendar View**
-    - Color-coded markers for holidays, exams, assignments, and major university events
-    - Each event shows tooltips with details, integrated with calendar grid
+    - Color-coded markers for holidays, exams, and assignments
+    - Month navigation with a filterable Important Dates list
+- **Quick Links**
+    - One-tap access to the Student, Faculty, Syllabus, and Important Dates panels, plus a direct ERP portal link
 - **Usability/Technical Excellence**
-    - No external dependencies
-    - Offline-friendly: all data is inside the app.js
-    - Fast load, no framework overhead
+    - No build step, no JS framework — a single HTML file
+    - All timetable, syllabus, and student data lives in the file itself
 
 ***
 
@@ -43,13 +45,12 @@
 
 - **Navigation**
     - Tap/click any timetable slot for detailed info
-    - Use modals to view student and faculty lists, "About Me", or the syllabus
-    - Calendar tab displays all academic events and holidays with colored badges
-    - Header shows class, section, and total student count
-    - Theme toggle at top-right corner for dark/light mode
+    - Use the header links (or the hamburger menu on mobile) to open the Student, Faculty, Syllabus, or Important Dates panels
+    - The calendar icon opens the academic calendar with color-coded holiday/exam/assignment markers
+    - Header shows section, room, and session at a glance
 - **Accessibility**
-    - All navigation and interactive elements are keyboard friendly
-    - High-contrast and scalable design for visually impaired users
+    - All navigation and interactive elements are keyboard-friendly (visible focus states included)
+    - Respects your OS's reduced-motion setting
 
 ***
 
@@ -57,13 +58,13 @@
 
 | Time | Monday | Tuesday | Wednesday | Thursday | Friday |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 9:30–10:30 | Web Technologies | Software Engineering | Web Technologies | Software Engineering | AI & ML |
-| 10:30–11:30 | Comp. Multimedia & Animation | Comp. Multimedia & Animation | Live Project / Vacational | Fundamental of E-commerce | R Lang (G2) / WT (G1) |
-| 11:30–12:30 | AI & ML | Professional Skills | **LUNCH** | Professional Skills | R Lang (G2) / WT (G1) |
-| 12:30–1:30 | German/French | Live Project / Vacational | MultiM (G1) / WT (G2) | **LUNCH** | German/French |
-| 1:30–2:30 | **LUNCH** | **LUNCH** | MultiM (G1) / WT (G2) | Web Technologies | **LUNCH** |
-| 2:30–3:30 | Software Engineering | R Lang (G1) / MultiM (G2) | FREE | Comp. Multimedia & Animation | Fundamental of E-commerce |
-| 3:30–4:30 | Fundamental of E-commerce | R Lang (G1) / MultiM (G2) | Fundamental of E-commerce | FREE | Software Engineering |
+| 9:30–10:30 | Cloud Computing | Unix & Linux Programming | Unix & Linux Programming | Analysis & Design of Algorithms | Unix & Linux Programming |
+| 10:30–11:30 | Python Programming | Analysis & Design of Algorithms | Computer Architecture & Organization | Software Project Management | Aptitude & Reasoning |
+| 11:30–12:30 | Computer Architecture & Organization | **FREE** | Python Programming Lab | **FREE** | Software Project Management |
+| 12:30–1:30 | Software Project Management | Python Programming | Python Programming Lab | Python Programming | Analysis & Design of Algorithms |
+| 1:30–2:30 | **LUNCH** | **LUNCH** | **LUNCH** | **LUNCH** | **LUNCH** |
+| 2:30–3:30 | Analysis & Design of Algorithms | Cloud Computing | Cloud Computing | Unix & Linux Programming | Computer Architecture & Organization |
+| 3:30–4:30 | Software Project Management | Aptitude & Reasoning | Computer Architecture & Organization | **FREE** | Cloud Computing |
 
 ***
 
@@ -71,20 +72,19 @@
 
 **Major University Holidays (Sample)**
 
-- Jan 26, 2026: Republic Day
+- Jan 26: Republic Day
 - Mar 03: Holi
-- Mar 23: Shaheedi Diwas
 - Mar 26: Ram Navami
-- Apr 03: Good Friday
-- Apr 14: Dr. B.R. Ambedkar Jayanti
+- Apr 14: Dr. B.R. Ambedkar Jayanti / Vaisakhi
 - May 27: Id-Ul-Zuha (Bakrid)
-- Aug 15: Independence Day
-- Oct 02: Gandhi Jayanti
+- Aug 28: Raksha Bandhan
+- Sep 04: Janmashtami
+- Oct 02: Mahatma Gandhi Jayanti
 - Oct 20: Dussehra
 - Nov 24: Guru Nanak Dev Jayanti
 - Dec 25: Christmas
 
-> Open the “Academic Calendar” tab in the app for the full interactive display and legend.
+> Open the calendar icon in the app for the full interactive display, legend, and exam/assignment dates.
 
 ***
 
@@ -92,47 +92,46 @@
 
 | Subject | Code | Faculty | Department |
 | :-- | :-- | :-- | :-- |
-| Web Technologies | 24BCA401 | Dr. Kaleem | CSE |
-| Computer Multimedia & Animation | 24BCA402 | Dr. Syed Mohtashim Mian | CSE |
-| Software Engineering | 23BCA403 | Dr. Indu | CSE |
-| Fundamental of E-commerce | 23BCA404 | Dr. Pawan | Management |
-| AI & ML | 23VACxxx | Dr. Dilshad | CSE |
-| Live Project / Vacational | 23BCA 407 | Ms. Arul | CSE |
-| German-II/French-II | 23UAEC 401 | TBA | Language |
-| Professional Skills | 21SS454 | Mr. Kulvinder Singh | PD |
-| R Language Lab | 23SS404 | Dr. Syamsunder | Math |
-| Multimedia & Web Tech Labs | 23BCA405/6 | Dr. Syed / Dr. Kaleem | CSE |
+| Python Programming | 24BCA501 | Ms Arul Devrajan | CSE |
+| Cloud Computing | 23BCA502 | Dr Priyanka | CSE |
+| Analysis and Design of Algorithms | 23BCA503 | NF7 | CSE |
+| Computer Architecture & Organization | 23BCA504 | Dr Indu | CSE |
+| Software Project Management | 23BCA505 | Ms. Arundhati Kumari | CSE |
+| Unix & Linux Programming | 23BCA506 | Ms Preeti | CSE |
+| Aptitude and Reasoning | 23SS555 | NF1 | PD |
+| Python Programming Lab | 24BCA507 | Ms Arul Devrajan | CSE |
+
+> NF7 and NF1 are printed as the faculty names on the official timetable — not a placeholder I added.
 
 ***
 
 ## 📝 Syllabus
 
-- Full syllabus (theory and lab) for each core subject available in-app (in “Syllabus” tab).
-- Browse topic breakdowns, unit details, and required experiments (labs) in the modal view.
+- Full unit-by-unit syllabus for **Python Programming** and **Cloud Computing** available in-app via the Syllabus link.
+- Opens as a dedicated full-screen view rather than a small popup.
 
 ***
 
 ## 👥 Student Directory
 
-- **Section B**: 79 students (Registration: 42224210076–42224210154)
 - **Section A**: 75 students (Registration: 42224210001–42224210075)
-- List view with name and registration number for each section.
-- Filtered and sorted in modal window via "Student List" tab.
+- **Section B**: 79 students (Registration: 42224210076–42224210154)
+- List view with name and registration number for each section, accessible from the "Students" link.
 
 ***
 
 ## 👨🏫 Faculty Directory
 
-- List of all teaching and coordinating staff—with their department and subjects—accessible from the "Faculty" modal window.
+- List of all teaching staff, with department and assigned subjects, accessible from the "Faculty" link.
 
 ***
 
 ## 🛠️ Tech Stack
 
 - HTML5
-- Modern CSS (custom properties, grid/flex, media queries)
+- Modern CSS (custom properties, grid/flex, backdrop-filter, media queries)
 - Vanilla JavaScript (single file, no libraries required)
-- Fully offline; all logic and data are client-side
+- Google Fonts (Inter) — the only external request the page makes; everything else is self-contained
 
 ***
 
@@ -140,9 +139,9 @@
 
 - Mohammad Ahsan Neyaz
 - Registration: 42224210112
-- BCA IV Semester, Section B
+- BCA V Semester, Section B
 - SRM University Delhi-NCR
-> “Work smart. Stay consistent. Always keep growing.”
+> "Work smart. Stay consistent. Always keep growing."
 
 ***
 
@@ -158,11 +157,11 @@
 - Add new academic events or holidays
 - Improve accessibility labels
 - Enhance mobile usability or styles
-- Propose new features (attendance, reminder, etc.)
+- Propose new features (attendance, reminders, etc.)
 
 ***
 
-*Made for all BCA 4B students at SRM University Delhi-NCR.
+*Made for all BCA 5B students at SRM University Delhi-NCR.
 If this helped you, please share and star the repo!*
 
 ***
