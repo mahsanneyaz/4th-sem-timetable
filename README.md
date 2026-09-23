@@ -1,6 +1,6 @@
 # BCA 5B Timetable
 
-**Interactive web application for managing and viewing the SRM University Delhi-NCR BCA 5B weekly timetable. Built with HTML, a custom glassmorphic CSS design system, and vanilla JavaScript — optimized for all devices.**
+**Interactive web application for managing and viewing the SRM University Delhi-NCR BCA 5B weekly timetable. Built with HTML, Tailwind CSS + a custom design system, and vanilla JavaScript—optimized for all devices.**
 
 ***
 
@@ -12,32 +12,30 @@
 
 ## ✨ Features
 
-- **Glassmorphic Design System**
-    - Single dark theme: translucent frosted-glass panels over an animated aurora background
-    - Color-coded periods — cyan for labs, gold for lunch, purple glow for the class in progress right now
+- **Modern Design System**
+    - Supports both dark and light mode (manual toggle, saved automatically for your next visit)
+    - Accessible color palette (Teal, Charcoal, Cream, and high-contrast backgrounds)
 - **Responsive Layout**
-    - Desktop: full weekly grid (time × day)
-    - Mobile: day-tabs with a scrollable list for that day, nav tucked behind a hamburger menu
-    - Reduced-motion friendly for accessibility
+    - Mobile-first grid; dynamic resizing
+    - Light-weight, reduced motion for accessibility
 - **Live Time Integration**
     - Real-time digital clock display
-    - Highlights today and the current class period automatically
+    - Highlights today and current class period automatically
 - **Interactive Timetable**
-    - Click any subject cell for a detailed popup (subject/faculty/code/department/timing)
+    - Click on any subject cell for detailed popup (subject/faculty/code/timing)
     - Accessible via keyboard and mouse
 - **Data-Rich Directories**
     - Student directory for both Section A and B (registration numbers listed)
     - Faculty directory (names, departments, and all assigned subjects)
 - **Syllabus Section**
-    - Full unit-by-unit syllabus for Python Programming and Cloud Computing, opens full-screen
+    - Detailed syllabus content for each course, lab, and theory (visible in-app and in code)
 - **Academic Calendar View**
-    - Color-coded markers for holidays, exams, and assignments
-    - Month navigation with a filterable Important Dates list
-- **Quick Links**
-    - One-tap access to the Student, Faculty, Syllabus, and Important Dates panels, plus a direct ERP portal link
+    - Color-coded markers for holidays, exams, assignments, and major university events
+    - Each event shows tooltips with details, integrated with calendar grid
 - **Usability/Technical Excellence**
-    - No build step, no JS framework — a single HTML file
-    - All timetable, syllabus, and student data lives in the file itself
+    - All timetable, student, faculty, and syllabus data lives inline in the page—no backend or database
+    - Loads Tailwind CSS and Google Fonts from a CDN, so an internet connection is needed on first load
+    - Vanilla JavaScript—no JS framework overhead
 
 ***
 
@@ -45,12 +43,13 @@
 
 - **Navigation**
     - Tap/click any timetable slot for detailed info
-    - Use the header links (or the hamburger menu on mobile) to open the Student, Faculty, Syllabus, or Important Dates panels
-    - The calendar icon opens the academic calendar with color-coded holiday/exam/assignment markers
-    - Header shows section, room, and session at a glance
+    - Use modals to view student and faculty lists, "About Me", or the syllabus
+    - Calendar tab displays all academic events and holidays with colored badges
+    - Header shows class, section, and total student count
+    - Theme toggle at top-right corner for dark/light mode
 - **Accessibility**
-    - All navigation and interactive elements are keyboard-friendly (visible focus states included)
-    - Respects your OS's reduced-motion setting
+    - All navigation and interactive elements are keyboard friendly
+    - High-contrast and scalable design for visually impaired users
 
 ***
 
@@ -58,13 +57,15 @@
 
 | Time | Monday | Tuesday | Wednesday | Thursday | Friday |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 9:30–10:30 | Cloud Computing | Unix & Linux Programming | Unix & Linux Programming | Analysis & Design of Algorithms | Unix & Linux Programming |
-| 10:30–11:30 | Python Programming | Analysis & Design of Algorithms | Computer Architecture & Organization | Software Project Management | Aptitude & Reasoning |
-| 11:30–12:30 | Computer Architecture & Organization | **FREE** | Python Programming Lab | **FREE** | Software Project Management |
-| 12:30–1:30 | Software Project Management | Python Programming | Python Programming Lab | Python Programming | Analysis & Design of Algorithms |
+| 9:30–10:30 | Cloud Computing | Unix & Linux Programming | Unix & Linux Programming | FREE | Unix & Linux Programming |
+| 10:30–11:30 | Python Programming | Analysis and Design Algorithm | Computer Architecture & Organization | Software Project Management | Aptitude and Reasoning |
+| 11:30–12:30 | Computer Architecture & Organization | FREE | Python Programming Lab | Python Programming | Software Project Management |
+| 12:30–1:30 | Software Project Management | Python Programming | Python Programming Lab | FREE | Analysis and Design Algorithm |
 | 1:30–2:30 | **LUNCH** | **LUNCH** | **LUNCH** | **LUNCH** | **LUNCH** |
-| 2:30–3:30 | Analysis & Design of Algorithms | Cloud Computing | Cloud Computing | Unix & Linux Programming | Computer Architecture & Organization |
-| 3:30–4:30 | Software Project Management | Aptitude & Reasoning | Computer Architecture & Organization | **FREE** | Cloud Computing |
+| 2:30–3:30 | Analysis and Design Algorithm | Cloud Computing | Cloud Computing | Unix & Linux Programming | Computer Architecture & Organization |
+| 3:30–4:30 | Software Project Management | Aptitude and Reasoning | Computer Architecture & Organization | Analysis and Design Algorithm | Cloud Computing |
+
+> Library periods from the official timetable are shown as FREE in the app. Python Programming Lab runs as one continuous 2-hour block on Wednesday.
 
 ***
 
@@ -72,19 +73,20 @@
 
 **Major University Holidays (Sample)**
 
-- Jan 26: Republic Day
+- Jan 26, 2026: Republic Day
 - Mar 03: Holi
+- Mar 23: Shaheedi Diwas
 - Mar 26: Ram Navami
-- Apr 14: Dr. B.R. Ambedkar Jayanti / Vaisakhi
+- Apr 03: Good Friday
+- Apr 14: Dr. B.R. Ambedkar Jayanti
 - May 27: Id-Ul-Zuha (Bakrid)
-- Aug 28: Raksha Bandhan
-- Sep 04: Janmashtami
-- Oct 02: Mahatma Gandhi Jayanti
+- Aug 15: Independence Day
+- Oct 02: Gandhi Jayanti
 - Oct 20: Dussehra
 - Nov 24: Guru Nanak Dev Jayanti
 - Dec 25: Christmas
 
-> Open the calendar icon in the app for the full interactive display, legend, and exam/assignment dates.
+> Open the "Academic Calendar" tab in the app for the full interactive display and legend. This list spans both the previous (even) and current (odd) semester—the "Important Dates" tab in-app is scoped to 5th semester exams/assignments only, and is empty for now until this semester's schedule is announced.
 
 ***
 
@@ -92,46 +94,46 @@
 
 | Subject | Code | Faculty | Department |
 | :-- | :-- | :-- | :-- |
-| Python Programming | 24BCA501 | Ms Arul Devrajan | CSE |
-| Cloud Computing | 23BCA502 | Dr Priyanka | CSE |
-| Analysis and Design of Algorithms | 23BCA503 | NF7 | CSE |
-| Computer Architecture & Organization | 23BCA504 | Dr Indu | CSE |
+| Python Programming | 24BCA501 | Ms. Arul Devrajan | CSE |
+| Cloud Computing | 23BCA502 | Dr. Priyanka | CSE |
+| Analysis and Design Algorithm | 23BCA503 | Ms. Ikra | CSE |
+| Computer Architecture & Organization | 23BCA504 | Dr. Indu | CSE |
 | Software Project Management | 23BCA505 | Ms. Arundhati Kumari | CSE |
-| Unix & Linux Programming | 23BCA506 | Ms Preeti | CSE |
-| Aptitude and Reasoning | 23SS555 | NF1 | PD |
-| Python Programming Lab | 24BCA507 | Ms Arul Devrajan | CSE |
-
-> NF7 and NF1 are printed as the faculty names on the official timetable — not a placeholder I added.
+| Unix & Linux Programming | 23BCA506 | Ms. Preeti | CSE |
+| Aptitude and Reasoning | 23SS555 | NF1 (not yet finalised) | PD |
+| Python Programming Lab | 24BCA507 | Ms. Arul Devrajan | CSE |
 
 ***
 
 ## 📝 Syllabus
 
-- Full unit-by-unit syllabus for **Python Programming** and **Cloud Computing** available in-app via the Syllabus link.
-- Opens as a dedicated full-screen view rather than a small popup.
+- Full syllabus (theory and lab) for each core subject available in-app (in "Syllabus" tab).
+- Browse topic breakdowns, unit details, and required experiments (labs) in the modal view.
+- Analysis and Design Algorithm, Software Project Management, and Aptitude and Reasoning are placeholders for now pending the official syllabus.
 
 ***
 
 ## 👥 Student Directory
 
-- **Section A**: 75 students (Registration: 42224210001–42224210075)
 - **Section B**: 79 students (Registration: 42224210076–42224210154)
-- List view with name and registration number for each section, accessible from the "Students" link.
+- **Section A**: 75 students (Registration: 42224210001–42224210075)
+- List view with name and registration number for each section.
+- Filtered in modal window via "Student List" tab.
 
 ***
 
 ## 👨🏫 Faculty Directory
 
-- List of all teaching staff, with department and assigned subjects, accessible from the "Faculty" link.
+- List of all teaching and coordinating staff—with their department and subjects—accessible from the "Faculty" modal window.
 
 ***
 
 ## 🛠️ Tech Stack
 
 - HTML5
-- Modern CSS (custom properties, grid/flex, backdrop-filter, media queries)
-- Vanilla JavaScript (single file, no libraries required)
-- Google Fonts (Inter) — the only external request the page makes; everything else is self-contained
+- Tailwind CSS (via CDN) plus custom CSS (custom properties, grid/flex, media queries)
+- Vanilla JavaScript (single file, no framework)
+- All logic and data are client-side; Tailwind and Google Fonts load from a CDN on first visit
 
 ***
 
@@ -157,7 +159,7 @@
 - Add new academic events or holidays
 - Improve accessibility labels
 - Enhance mobile usability or styles
-- Propose new features (attendance, reminders, etc.)
+- Propose new features (attendance, reminder, etc.)
 
 ***
 
