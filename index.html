@@ -664,6 +664,10 @@
             display: none;
         }
 
+        .detail-row.hidden {
+            display: none;
+        }
+
         .modal-overlay {
             position: absolute;
             top: 0;
@@ -1930,6 +1934,8 @@
                                 id="subjectTime"></span></div>
                         <div class="detail-row"><span class="detail-label">Day:</span><span class="detail-value"
                                 id="subjectDay"></span></div>
+                        <div class="detail-row hidden" id="subjectRoomRow"><span class="detail-label">Room:</span><span class="detail-value"
+                                id="subjectRoom"></span></div>
                     </div>
                 </div>
             </div>
@@ -2139,8 +2145,8 @@
         const timetableData = {
             "timetable": {
                 "MONDAY": { "9:30-10:30": "Cloud Computing", "10:30-11:30": "Python Programming", "11:30-12:30": "Computer Architecture & Organization", "12:30-1:30": "Software Project Management", "1:30-2:30": "LUNCH", "2:30-3:30": "Analysis and Design Algorithm", "3:30-4:30": "Software Project Management" },
-                "TUESDAY": { "9:30-10:30": "Unix & Linux Programming", "10:30-11:30": "Analysis and Design Algorithm", "11:30-12:30": "Free", "12:30-1:30": "Python Programming", "1:30-2:30": "LUNCH", "2:30-3:30": "Cloud Computing", "3:30-4:30": "Aptitude and Reasoning" },
-                "WEDNESDAY": { "9:30-10:30": "Unix & Linux Programming", "10:30-11:30": "Computer Architecture & Organization", "11:30-12:30": "Python Programming Lab", "12:30-1:30": "Python Programming Lab", "1:30-2:30": "LUNCH", "2:30-3:30": "Cloud Computing", "3:30-4:30": "Computer Architecture & Organization" },
+                "TUESDAY": { "9:30-10:30": { "subject": "Unix & Linux Programming", "room": "EB402" }, "10:30-11:30": "Analysis and Design Algorithm", "11:30-12:30": "Free", "12:30-1:30": "Python Programming", "1:30-2:30": "LUNCH", "2:30-3:30": "Cloud Computing", "3:30-4:30": "Aptitude and Reasoning" },
+                "WEDNESDAY": { "9:30-10:30": "Unix & Linux Programming", "10:30-11:30": "Computer Architecture & Organization", "11:30-12:30": { "subject": "Python Programming Lab", "room": "Lab 9" }, "12:30-1:30": { "subject": "Python Programming Lab", "room": "Lab 9" }, "1:30-2:30": "LUNCH", "2:30-3:30": "Cloud Computing", "3:30-4:30": "Computer Architecture & Organization" },
                 "THURSDAY": { "9:30-10:30": "Free", "10:30-11:30": "Software Project Management", "11:30-12:30": "Python Programming", "12:30-1:30": "Free", "1:30-2:30": "LUNCH", "2:30-3:30": "Unix & Linux Programming", "3:30-4:30": "Analysis and Design Algorithm" },
                 "FRIDAY": { "9:30-10:30": "Unix & Linux Programming", "10:30-11:30": "Aptitude and Reasoning", "11:30-12:30": "Software Project Management", "12:30-1:30": "Analysis and Design Algorithm", "1:30-2:30": "LUNCH", "2:30-3:30": "Computer Architecture & Organization", "3:30-4:30": "Cloud Computing" }
             },
@@ -2326,7 +2332,11 @@
                 timetableData.timeSlots.forEach(function (timeSlot) {
                     grid.appendChild(Object.assign(document.createElement('div'), { className: 'grid-time', textContent: timeSlot }));
                     timetableData.days.forEach(function (day) {
-                        const subject = timetableData.timetable[day] && timetableData.timetable[day][timeSlot];
+                        const cellData = timetableData.timetable[day] && timetableData.timetable[day][timeSlot];
+                        // A cell is either a plain subject-key string, or { subject, room } when the
+                        // class meets in a room other than the default (an exception worth calling out).
+                        const subject = (cellData && typeof cellData === 'object') ? cellData.subject : cellData;
+                        const room = (cellData && typeof cellData === 'object') ? cellData.room : null;
                         const cell = document.createElement('div');
                         cell.className = 'grid-cell';
 
@@ -2353,10 +2363,18 @@
                             }
                         }
 
+                        // Room exceptions are important to see at a glance, not just on click.
+                        if (room) {
+                            cellText += ' (' + room + ')';
+                        }
+
                         cell.textContent = cellText;
                         cell.setAttribute('data-subject', subject || 'FREE');
                         cell.setAttribute('data-time', timeSlot);
                         cell.setAttribute('data-day', day);
+                        if (room) {
+                            cell.setAttribute('data-room', room);
+                        }
                         if (subject === 'LUNCH') {
                             cell.classList.add('lunch');
                         } else if (!subject || subject === 'FREE' || subject === 'Free') {
@@ -2365,7 +2383,7 @@
                             // Simple check for Lab in the subject name
                             cell.classList.add((subject.indexOf('Lab') > -1 || subject.indexOf('LAB') > -1 || subject.includes('/')) ? 'lab' : 'subject');
                             cell.addEventListener('click', function () {
-                                showModal('subjectModal', { subject: subject, timeSlot: timeSlot, day: day });
+                                showModal('subjectModal', { subject: subject, timeSlot: timeSlot, day: day, room: room });
                             });
                         }
                         if (day === getCurrentDay()) {
@@ -2414,6 +2432,13 @@
                     document.getElementById('subjectDepartment').textContent = subjectInfo.department;
                     document.getElementById('subjectTime').textContent = data.timeSlot;
                     document.getElementById('subjectDay').textContent = formatDayName(data.day);
+                    const roomRow = document.getElementById('subjectRoomRow');
+                    if (data.room) {
+                        document.getElementById('subjectRoom').textContent = data.room;
+                        roomRow.classList.remove('hidden');
+                    } else {
+                        roomRow.classList.add('hidden');
+                    }
                 } else if (modalId === 'studentModal') {
                     renderStudentList('B');
                 } else if (modalId === 'facultyModal') {
