@@ -4,12 +4,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1f2121">
     <title>Timetable - SRM University (BCA 5th Sem)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        /* Apply the saved theme before the first paint, so a light-theme visitor never sees a dark flash */
+        (function () {
+            var theme = 'dark';
+            try { theme = localStorage.getItem('theme') || 'dark'; } catch (e) { /* storage blocked: keep default */ }
+            document.documentElement.setAttribute('data-color-scheme', theme);
+            var themeMeta = document.querySelector('meta[name="theme-color"]');
+            if (themeMeta) themeMeta.setAttribute('content', theme === 'light' ? '#fcfcf9' : '#1f2121');
+            /* Safari draws custom scrollbars its own way and the scrollbar fade could not be tested there,
+               so it keeps the bar visible all the time ("sb-static") */
+            var ua = navigator.userAgent;
+            if (/Safari\//.test(ua) && !/(Chrome|Chromium|CriOS|FxiOS|EdgiOS|Edg|OPR|SamsungBrowser|Android)/.test(ua)) {
+                document.documentElement.classList.add('sb-static');
+            }
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ==========================================================================
+           BASE RESET
+           Built into the page, so it no longer waits for the Tailwind CDN script (a
+           render-blocking download from a third-party server). These are the same reset
+           rules the page was already getting from Tailwind, so nothing looks different.
+           ========================================================================== */
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: #e5e7eb;
+        }
+
+        html,
+        :host {
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            -moz-tab-size: 4;
+            tab-size: 4;
+            font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-feature-settings: normal;
+            font-variation-settings: normal;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            line-height: inherit;
+        }
+
+        hr {
+            height: 0;
+            color: inherit;
+            border-top-width: 1px;
+        }
+
+        abbr:where([title]) {
+            text-decoration: underline dotted;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: inherit;
+            font-weight: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        b,
+        strong {
+            font-weight: bolder;
+        }
+
+        code,
+        kbd,
+        samp,
+        pre {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-feature-settings: normal;
+            font-variation-settings: normal;
+            font-size: 1em;
+        }
+
+        small {
+            font-size: 80%;
+        }
+
+        sub,
+        sup {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+
+        sub {
+            bottom: -0.25em;
+        }
+
+        sup {
+            top: -0.5em;
+        }
+
+        table {
+            text-indent: 0;
+            border-color: inherit;
+            border-collapse: collapse;
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font-family: inherit;
+            font-feature-settings: inherit;
+            font-variation-settings: inherit;
+            font-size: 100%;
+            font-weight: inherit;
+            line-height: inherit;
+            letter-spacing: inherit;
+            color: inherit;
+            margin: 0;
+            padding: 0;
+        }
+
+        button,
+        select {
+            text-transform: none;
+        }
+
+        button,
+        input:where([type='button']),
+        input:where([type='reset']),
+        input:where([type='submit']) {
+            -webkit-appearance: button;
+            background-color: transparent;
+            background-image: none;
+        }
+
+        :-moz-focusring {
+            outline: auto;
+        }
+
+        :-moz-ui-invalid {
+            box-shadow: none;
+        }
+
+        progress {
+            vertical-align: baseline;
+        }
+
+        summary {
+            display: list-item;
+        }
+
+        blockquote,
+        dl,
+        dd,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        hr,
+        figure,
+        p,
+        pre {
+            margin: 0;
+        }
+
+        fieldset {
+            margin: 0;
+            padding: 0;
+        }
+
+        legend {
+            padding: 0;
+        }
+
+        ol,
+        ul,
+        menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        dialog {
+            padding: 0;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button,
+        [role="button"] {
+            cursor: pointer;
+        }
+
+        :disabled {
+            cursor: default;
+        }
+
+        img,
+        svg,
+        video,
+        canvas,
+        audio,
+        iframe,
+        embed,
+        object {
+            display: block;
+            vertical-align: middle;
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        [hidden]:where(:not([hidden="until-found"])) {
+            display: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+
         /* CSS Variables for consistent theming and styling */
         :root {
             /* Color Tokens */
@@ -65,6 +303,8 @@
             --color-assignment: var(--color-green-500);
             --background-plus-fill: "%23262828";
             --color-primary-rgb: 33, 128, 141;
+            --color-surface-rgb: 255, 255, 253;
+            color-scheme: light;
 
             /* Dark Mode */
             --dark-color-background: var(--color-charcoal-700);
@@ -144,6 +384,8 @@
             --duration-slow: 400ms;
             --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
             --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-in: cubic-bezier(0.4, 0, 1, 1);
 
             /* Layout */
             --container-sm: 640px;
@@ -178,6 +420,8 @@
             --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
             --background-plus-fill: "%23a7a9a9";
             --color-primary-rgb: var(--dark-color-primary-rgb);
+            --color-surface-rgb: 38, 40, 40;
+            color-scheme: dark;
         }
 
         /* Base styles */
@@ -194,7 +438,8 @@
         body {
             font-family: var(--font-family-base);
             font-size: var(--font-size-base);
-            line-height: var(--line-height-normal);
+            /* 1.5 = the line spacing the page has always been shown with (the Tailwind script's reset overrode 1.4) */
+            line-height: 1.5;
             color: var(--color-text);
             background-color: var(--color-background);
             -webkit-font-smoothing: antialiased;
@@ -203,33 +448,149 @@
             overflow-x: hidden;
         }
 
-        /* Animated Dot Background */
-        body::before {
+        /* Animated dot background.
+           Two fixed layers of dots (the same dots as before, shared between the layers). Each layer only
+           fades in and out and drifts as a whole, which the browser can do on the graphics card without
+           redrawing anything. That keeps scrolling and every other animation smooth and uses far less
+           battery than animating the picture itself. The layers rest while a popup is open.
+           With "reduce motion" they stay still at a medium brightness. */
+        body::before,
+        body::after {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: -100px;
+            left: -100px;
+            width: calc(100vw + 100px);
+            height: calc(100vh + 100px);
             z-index: -1;
-            /* New SVG with more random dots */
-            background-image: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E%40keyframes blink%7B0%25%2C100%25%7Bopacity%3A0.2%3B%7D50%25%7Bopacity%3A0.8%3B%7D%7D.circle%7Banimation%3Ablink%204s%20infinite%20ease-in-out%3Bfill%3A%23a7a9a9%3B%7D%3C%2Fstyle%3E%3Ccircle%20class%3D'circle'%20cx%3D'32'%20cy%3D'45'%20r%3D'1.1'%20style%3D'animation-delay%3A0s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'156'%20cy%3D'83'%20r%3D'0.7'%20style%3D'animation-delay%3A-0.5s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'92'%20cy%3D'178'%20r%3D'1.4'%20style%3D'animation-delay%3A-1s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'42'%20cy%3D'124'%20r%3D'0.8'%20style%3D'animation-delay%3A-1.5s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'182'%20cy%3D'132'%20r%3D'1.0'%20style%3D'animation-delay%3A-2s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'115'%20cy%3D'25'%20r%3D'0.6'%20style%3D'animation-delay%3A-2.5s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'15'%20cy%3D'12'%20r%3D'0.9'%20style%3D'animation-delay%3A-3s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'192'%20cy%3D'95'%20r%3D'1.2'%20style%3D'animation-delay%3A-3.5s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'67'%20cy%3D'156'%20r%3D'1.3'%20style%3D'animation-delay%3A-0.2s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'124'%20cy%3D'67'%20r%3D'0.5'%20style%3D'animation-delay%3A-1.2s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'178'%20cy%3D'178'%20r%3D'0.9'%20style%3D'animation-delay%3A-2.2s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'25'%20cy%3D'189'%20r%3D'1.1'%20style%3D'animation-delay%3A-3.2s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'189'%20cy%3D'25'%20r%3D'0.7'%20style%3D'animation-delay%3A-0.7s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'55'%20cy%3D'55'%20r%3D'1.0'%20style%3D'animation-delay%3A-1.7s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'145'%20cy%3D'145'%20r%3D'0.8'%20style%3D'animation-delay%3A-2.7s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'75'%20cy%3D'95'%20r%3D'1.2'%20style%3D'animation-delay%3A-3.7s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'95'%20cy%3D'75'%20r%3D'0.6'%20style%3D'animation-delay%3A-0.9s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'165'%20cy%3D'165'%20r%3D'1.3'%20style%3D'animation-delay%3A-1.9s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'35'%20cy%3D'135'%20r%3D'0.9'%20style%3D'animation-delay%3A-2.9s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'135'%20cy%3D'35'%20r%3D'1.1'%20style%3D'animation-delay%3A-3.9s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'200'%20cy%3D'200'%20r%3D'0.8'%20style%3D'animation-delay%3A-0.3s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'250'%20cy%3D'150'%20r%3D'1.0'%20style%3D'animation-delay%3A-1.3s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'300'%20cy%3D'100'%20r%3D'1.2'%20style%3D'animation-delay%3A-2.3s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'350'%20cy%3D'50'%20r%3D'0.7'%20style%3D'animation-delay%3A-3.3s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'50'%20cy%3D'350'%20r%3D'1.1'%20style%3D'animation-delay%3A-0.8s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'100'%20cy%3D'300'%20r%3D'0.9'%20style%3D'animation-delay%3A-1.8s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'150'%20cy%3D'250'%20r%3D'1.3'%20style%3D'animation-delay%3A-2.8s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'200'%20cy%3D'200'%20r%3D'0.6'%20style%3D'animation-delay%3A-3.8s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'250'%20cy%3D'350'%20r%3D'1.0'%20style%3D'animation-delay%3A-0.4s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'300'%20cy%3D'300'%20r%3D'1.2'%20style%3D'animation-delay%3A-1.4s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'350'%20cy%3D'250'%20r%3D'0.8'%20style%3D'animation-delay%3A-2.4s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'50'%20cy%3D'50'%20r%3D'1.1'%20style%3D'animation-delay%3A-3.4s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'100'%20cy%3D'100'%20r%3D'0.7'%20style%3D'animation-delay%3A-0.6s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'150'%20cy%3D'150'%20r%3D'1.3'%20style%3D'animation-delay%3A-1.6s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'200'%20cy%3D'200'%20r%3D'0.9'%20style%3D'animation-delay%3A-2.6s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'250'%20cy%3D'250'%20r%3D'1.0'%20style%3D'animation-delay%3A-3.6s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'300'%20cy%3D'300'%20r%3D'0.8'%20style%3D'animation-delay%3A-0.1s%3B'%2F%3E%3Ccircle%20class%3D'circle'%20cx%3D'350'%20cy%3D'350'%20r%3D'1.2'%20style%3D'animation-delay%3A-1.1s%3B'%2F%3E%3C%2Fsvg%3E");
-            opacity: 0.8;
-            animation: subtleDrift 60s linear infinite;
+            pointer-events: none;
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            background-position: 100px 100px;
+            opacity: 0.4;
         }
 
-        @keyframes subtleDrift {
+        body::before {
+            background-image: url("data:image/svg+xml,%3Csvg%20width='400'%20height='400'%20viewBox='0%200%20400%20400'%20xmlns='http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20fill='%23a7a9a9'%3E%3Ccircle%20cx='32'%20cy='45'%20r='1.1'%2F%3E%3Ccircle%20cx='92'%20cy='178'%20r='1.4'%2F%3E%3Ccircle%20cx='182'%20cy='132'%20r='1.0'%2F%3E%3Ccircle%20cx='15'%20cy='12'%20r='0.9'%2F%3E%3Ccircle%20cx='67'%20cy='156'%20r='1.3'%2F%3E%3Ccircle%20cx='178'%20cy='178'%20r='0.9'%2F%3E%3Ccircle%20cx='189'%20cy='25'%20r='0.7'%2F%3E%3Ccircle%20cx='145'%20cy='145'%20r='0.8'%2F%3E%3Ccircle%20cx='95'%20cy='75'%20r='0.6'%2F%3E%3Ccircle%20cx='35'%20cy='135'%20r='0.9'%2F%3E%3Ccircle%20cx='200'%20cy='200'%20r='0.8'%2F%3E%3Ccircle%20cx='300'%20cy='100'%20r='1.2'%2F%3E%3Ccircle%20cx='50'%20cy='350'%20r='1.1'%2F%3E%3Ccircle%20cx='150'%20cy='250'%20r='1.3'%2F%3E%3Ccircle%20cx='250'%20cy='350'%20r='1.0'%2F%3E%3Ccircle%20cx='350'%20cy='250'%20r='0.8'%2F%3E%3Ccircle%20cx='100'%20cy='100'%20r='0.7'%2F%3E%3Ccircle%20cx='200'%20cy='200'%20r='0.9'%2F%3E%3Ccircle%20cx='300'%20cy='300'%20r='0.8'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+            animation: dotsDrift 40s ease-in-out infinite alternate, dotsTwinkle 4s ease-in-out infinite;
+        }
+
+        body::after {
+            background-image: url("data:image/svg+xml,%3Csvg%20width='400'%20height='400'%20viewBox='0%200%20400%20400'%20xmlns='http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20fill='%23a7a9a9'%3E%3Ccircle%20cx='156'%20cy='83'%20r='0.7'%2F%3E%3Ccircle%20cx='42'%20cy='124'%20r='0.8'%2F%3E%3Ccircle%20cx='115'%20cy='25'%20r='0.6'%2F%3E%3Ccircle%20cx='192'%20cy='95'%20r='1.2'%2F%3E%3Ccircle%20cx='124'%20cy='67'%20r='0.5'%2F%3E%3Ccircle%20cx='25'%20cy='189'%20r='1.1'%2F%3E%3Ccircle%20cx='55'%20cy='55'%20r='1.0'%2F%3E%3Ccircle%20cx='75'%20cy='95'%20r='1.2'%2F%3E%3Ccircle%20cx='165'%20cy='165'%20r='1.3'%2F%3E%3Ccircle%20cx='135'%20cy='35'%20r='1.1'%2F%3E%3Ccircle%20cx='250'%20cy='150'%20r='1.0'%2F%3E%3Ccircle%20cx='350'%20cy='50'%20r='0.7'%2F%3E%3Ccircle%20cx='100'%20cy='300'%20r='0.9'%2F%3E%3Ccircle%20cx='200'%20cy='200'%20r='0.6'%2F%3E%3Ccircle%20cx='300'%20cy='300'%20r='1.2'%2F%3E%3Ccircle%20cx='50'%20cy='50'%20r='1.1'%2F%3E%3Ccircle%20cx='150'%20cy='150'%20r='1.3'%2F%3E%3Ccircle%20cx='250'%20cy='250'%20r='1.0'%2F%3E%3Ccircle%20cx='350'%20cy='350'%20r='1.2'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+            animation: dotsDrift 40s ease-in-out infinite alternate, dotsTwinkle 5.3s ease-in-out -2s infinite;
+        }
+
+        @keyframes dotsDrift {
             from {
-                background-position: 0 0;
+                transform: translate3d(0, 0, 0);
             }
 
             to {
-                background-position: 400px 400px;
+                transform: translate3d(100px, 100px, 0);
+            }
+        }
+
+        @keyframes dotsTwinkle {
+            0%,
+            100% {
+                opacity: 0.16;
+            }
+
+            50% {
+                opacity: 0.64;
+            }
+        }
+
+        /* ==========================================================================
+           SCROLLBARS
+           One scrollbar style for the whole site (page, timetable, every popup and the
+           syllabus panels). It is the same look the Student List popup always had. The bar
+           fades away while nothing is scrolling and comes back when you scroll or move the
+           mouse next to it (see "Fading scrollbars" below).
+           ========================================================================== */
+        *::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: var(--color-secondary);
+            border-radius: var(--radius-full);
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: var(--color-primary);
+            border-radius: var(--radius-full);
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        *::-webkit-scrollbar-thumb:hover {
+            background-color: var(--color-primary-hover);
+        }
+
+        *::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+
+        /* Firefox has no ::-webkit-scrollbar, so it gets the closest equivalent. The check keeps
+           Chrome, Edge, Safari and Samsung Internet on the rules above (scrollbar-color would
+           switch those custom scrollbars off). */
+        @supports not selector(::-webkit-scrollbar) {
+            * {
+                scrollbar-width: thin;
+                scrollbar-color: var(--color-primary) var(--color-secondary);
+            }
+        }
+
+        /* Fading scrollbars.
+           --sb-a is how visible a scrollbar is: 0 is hidden, 1 is fully shown. A small script (see
+           "scrollbarFade" in the JavaScript) adds the class "sb-awake" to an area while it scrolls or
+           while the mouse is near its bar, and takes it away a moment later. The browser animates
+           the change below, so the bar fades in quickly and fades out slowly.
+           Browsers that cannot do this simply keep the bar visible all the time. Safari is left that
+           way on purpose ("sb-static", set at the top of the page). */
+        @property --sb-a {
+            syntax: '<number>';
+            inherits: true;
+            initial-value: 0;
+        }
+
+        @supports (color: color-mix(in srgb, red 50%, transparent)) {
+            html:not(.sb-static) *::-webkit-scrollbar-track {
+                background: color-mix(in srgb, var(--color-secondary) calc(var(--sb-a, 0) * 100%), transparent);
+            }
+
+            html:not(.sb-static) *::-webkit-scrollbar-thumb {
+                background-color: color-mix(in srgb, var(--color-primary) calc(var(--sb-a, 0) * 100%), transparent);
+            }
+
+            html:not(.sb-static) *::-webkit-scrollbar-thumb:hover {
+                background-color: color-mix(in srgb, var(--color-primary-hover) calc(var(--sb-a, 0) * 100%), transparent);
+            }
+
+            @supports not selector(::-webkit-scrollbar) {
+                html:not(.sb-static) * {
+                    scrollbar-color: color-mix(in srgb, var(--color-primary) calc(var(--sb-a, 0) * 100%), transparent) color-mix(in srgb, var(--color-secondary) calc(var(--sb-a, 0) * 100%), transparent);
+                }
+            }
+
+            /* "sb-fade" is added by the script to every area it manages; "sb-awake" means shown */
+            .sb-fade {
+                --sb-a: 0;
+                transition: --sb-a 520ms var(--ease-in-out);
+            }
+
+            .sb-fade.sb-awake {
+                --sb-a: 1;
+                transition-duration: 160ms;
+                transition-timing-function: var(--ease-out);
             }
         }
 
         .app-container {
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
         }
@@ -244,7 +605,8 @@
             -webkit-backdrop-filter: blur(8px);
             border-bottom: 1px solid var(--color-border);
             padding: var(--space-12) 0;
-            animation: fadeInSlideDown 0.6s var(--ease-in-out) both;
+            animation: fadeInSlideDown 0.7s var(--ease-out) backwards;
+            transition: box-shadow 300ms var(--ease-out);
         }
 
         .header-content {
@@ -311,9 +673,11 @@
             transition: background-color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
         }
 
-        .theme-toggle:hover {
-            background-color: var(--color-secondary-hover);
-            transform: scale(1.1) rotate(15deg) translateY(-2px);
+        @media (hover: hover) {
+            .theme-toggle:hover {
+                background-color: var(--color-secondary-hover);
+                transform: scale(1.1) rotate(15deg) translateY(-2px);
+            }
         }
 
         .theme-toggle:active {
@@ -351,9 +715,11 @@
             transition: background-color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
         }
 
-        .current-time:hover {
-            background-color: var(--color-secondary);
-            transform: translateY(-2px) scale(1.02);
+        @media (hover: hover) {
+            .current-time:hover {
+                background-color: var(--color-secondary);
+                transform: translateY(-2px) scale(1.02);
+            }
         }
 
         .current-time:active {
@@ -388,7 +754,7 @@
             max-width: var(--container-xl);
             margin: 0 auto;
             padding: 0 var(--space-16);
-            animation: fadeInSlideUp 0.6s 0.2s var(--ease-in-out) both;
+            animation: fadeInSlideUp 0.7s var(--ease-out) 0.15s backwards;
         }
 
         .timetable-header {
@@ -419,8 +785,10 @@
             transition: color var(--duration-fast);
         }
 
-        .teacher-info .footer-link:hover {
-            color: var(--color-primary);
+        @media (hover: hover) {
+            .teacher-info .footer-link:hover {
+                color: var(--color-primary);
+            }
         }
 
         .separator {
@@ -471,7 +839,7 @@
             background-color: var(--color-secondary);
             padding: var(--space-8);
             border-radius: var(--radius-sm);
-            transition: all var(--duration-normal) var(--ease-standard);
+            transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out), background-color var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out), color var(--duration-normal) var(--ease-out);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -481,17 +849,21 @@
             min-height: 48px;
             border: 1px solid transparent;
             cursor: pointer;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInSlideUp var(--duration-slow) var(--ease-in-out) forwards;
+            /* Entrance: the cells rise in one after another. "backwards" keeps each one hidden until its
+               turn and then hands control back to the normal styles, so the hover and press effects
+               below work afterwards (the old "forwards" held the last frame and blocked them). */
+            animation: cellIn 520ms var(--ease-out) backwards;
             animation-delay: var(--cell-delay, 0s);
         }
 
-        .grid-cell:not(.lunch):not(.free):hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            border-color: var(--color-primary);
-            background-color: var(--color-secondary-hover);
+        @media (hover: hover) {
+            .grid-cell:not(.lunch):not(.free):hover {
+                z-index: 2;
+                transform: translateY(-4px) scale(1.03);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+                border-color: var(--color-primary);
+                background-color: var(--color-secondary-hover);
+            }
         }
 
         .grid-cell:not(.lunch):not(.free):active {
@@ -532,10 +904,24 @@
         }
 
         .grid-cell.active-period {
-            box-shadow: 0 0 0 2px var(--color-primary);
+            position: relative;
+            box-shadow: 0 0 0 2px var(--color-primary), inset 0 0 20px rgba(var(--color-primary-rgb), 0.1);
             background-color: rgba(8, 145, 178, 0.15);
             color: var(--color-text);
-            animation: pulse-border-bg 2s infinite, fadeInSlideUp var(--duration-slow) var(--ease-in-out) forwards;
+        }
+
+        /* The current period pulses. The glow is its own layer that only fades in and out, which is
+           much lighter for the browser than redrawing a blurred shadow on every frame. */
+        .grid-cell.active-period::after,
+        .color-box.active-period::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.4), inset 0 0 30px rgba(var(--color-primary-rgb), 0.3);
+            opacity: 0;
+            pointer-events: none;
+            animation: activePulse 2s ease-in-out infinite;
         }
 
         /* Animation Keyframes */
@@ -563,17 +949,26 @@
             }
         }
 
-        @keyframes pulse-border-bg {
-            0% {
-                box-shadow: 0 0 0 2px var(--color-primary), inset 0 0 20px rgba(var(--color-primary-rgb), 0.1);
+        @keyframes cellIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes activePulse {
+            0%,
+            100% {
+                opacity: 0;
             }
 
             50% {
-                box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.4), inset 0 0 30px rgba(var(--color-primary-rgb), 0.3);
-            }
-
-            100% {
-                box-shadow: 0 0 0 2px var(--color-primary), inset 0 0 20px rgba(var(--color-primary-rgb), 0.1);
+                opacity: 1;
             }
         }
 
@@ -596,16 +991,18 @@
             font-size: var(--font-size-xs);
             font-weight: var(--font-weight-medium);
             cursor: pointer;
-            transition: all var(--duration-fast) var(--ease-standard);
+            transition: transform var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
             border: 1px solid transparent;
         }
 
-        .interactive-legend .legend-item:hover {
-            transform: translateY(-2px);
-            background-color: var(--color-surface);
-            border-color: var(--color-border);
-            box-shadow: var(--shadow-sm);
-            color: var(--color-primary);
+        @media (hover: hover) {
+            .interactive-legend .legend-item:hover {
+                transform: translateY(-2px);
+                background-color: var(--color-surface);
+                border-color: var(--color-border);
+                box-shadow: var(--shadow-sm);
+                color: var(--color-primary);
+            }
         }
 
         .interactive-legend .legend-item .color-box {
@@ -633,14 +1030,15 @@
         }
 
         .color-box.active-period {
+            position: relative;
             background-color: rgba(8, 145, 178, 0.6);
-            animation: pulse-border-bg 2s infinite;
+            box-shadow: 0 0 0 2px var(--color-primary), inset 0 0 20px rgba(var(--color-primary-rgb), 0.1);
         }
 
         /* Grid Cell Highlighting for Interactive Legend */
         .grid-cell.highlight-legend {
             outline: 2px solid var(--color-primary);
-            transform: scale(1.05);
+            transform: scale(1.03);
             box-shadow: var(--shadow-md);
             z-index: 10;
             position: relative;
@@ -658,6 +1056,7 @@
             align-items: center;
             justify-content: center;
             padding: 0;
+            overscroll-behavior: contain;
         }
 
         .modal.hidden {
@@ -675,12 +1074,13 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
+            -webkit-backdrop-filter: blur(4px);
             backdrop-filter: blur(4px);
-            animation: fadeIn 0.3s var(--ease-in-out);
+            animation: fadeIn 300ms var(--ease-out);
         }
 
         .modal.is-closing .modal-overlay {
-            animation: fadeOut var(--duration-normal) var(--ease-in-out);
+            animation: fadeOut 220ms var(--ease-in) forwards;
         }
 
         .modal-content {
@@ -692,13 +1092,14 @@
             max-width: 600px;
             width: 100%;
             max-height: 90vh;
+            max-height: 90dvh;
             display: flex;
             flex-direction: column;
-            animation: modalPopIn var(--duration-normal) var(--ease-in-out);
+            animation: modalPopIn 320ms var(--ease-out);
         }
 
         .modal.is-closing .modal-content {
-            animation: modalPopOut var(--duration-normal) var(--ease-in-out);
+            animation: modalPopOut 220ms var(--ease-in) forwards;
         }
 
         @keyframes fadeIn {
@@ -724,7 +1125,7 @@
         @keyframes modalPopIn {
             from {
                 opacity: 0;
-                transform: translateY(10px) scale(0.95);
+                transform: translateY(16px) scale(0.96);
             }
 
             to {
@@ -741,7 +1142,7 @@
 
             to {
                 opacity: 0;
-                transform: translateY(10px) scale(0.95);
+                transform: translateY(12px) scale(0.97);
             }
         }
 
@@ -772,36 +1173,19 @@
             transition: color var(--duration-fast) var(--ease-standard), transform var(--duration-normal) var(--ease-standard);
         }
 
-        .modal-close:hover {
-            color: var(--color-text);
-            transform: rotate(90deg);
+        @media (hover: hover) {
+            .modal-close:hover {
+                color: var(--color-text);
+                transform: rotate(90deg);
+            }
         }
 
-        /* Smooth scroll and custom scrollbar for modals */
+        /* Smooth scrolling for popups (the scrollbar look is defined once, globally, near the top) */
         .modal-body {
             padding: var(--space-20);
             overflow-y: auto;
             scroll-behavior: smooth;
-        }
-
-        .modal-body::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .modal-body::-webkit-scrollbar-track {
-            background: var(--color-secondary);
-            border-radius: var(--radius-full);
-        }
-
-        .modal-body::-webkit-scrollbar-thumb {
-            background-color: var(--color-primary);
-            border-radius: var(--radius-full);
-            border: 2px solid transparent;
-            background-clip: content-box;
-        }
-
-        .modal-body::-webkit-scrollbar-thumb:hover {
-            background-color: var(--color-primary-hover);
+            overscroll-behavior: contain;
         }
 
 
@@ -838,6 +1222,7 @@
 
         /* Modal-specific styles */
         .modal-tabs {
+            position: relative;
             display: flex;
             gap: var(--space-8);
             margin-bottom: var(--space-16);
@@ -852,7 +1237,7 @@
             border-bottom: 2px solid transparent;
             color: var(--color-text-secondary);
             font-weight: var(--font-weight-medium);
-            transition: color var(--duration-fast), border-bottom-color var(--duration-fast);
+            transition: color var(--duration-fast), border-bottom-color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
         }
 
         .tab-btn.active {
@@ -917,11 +1302,11 @@
         }
 
         #importantDatesModal .modal-content {
-            animation: slideInUp 0.4s var(--ease-standard);
+            animation: slideInUp 460ms var(--ease-out);
         }
 
         #importantDatesModal.is-closing .modal-content {
-            animation: slideOutDown 0.4s var(--ease-standard);
+            animation: slideOutDown 260ms var(--ease-in) forwards;
         }
 
         .dates-filter-controls {
@@ -940,12 +1325,14 @@
             cursor: pointer;
             font-size: var(--font-size-xs);
             font-weight: var(--font-weight-medium);
-            transition: all var(--duration-fast);
+            transition: background-color var(--duration-fast), border-color var(--duration-fast), color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
         }
 
-        .date-filter-btn:hover {
-            background-color: var(--color-secondary-hover);
-            border-color: var(--color-primary);
+        @media (hover: hover) {
+            .date-filter-btn:hover {
+                background-color: var(--color-secondary-hover);
+                border-color: var(--color-primary);
+            }
         }
 
         .date-filter-btn.active {
@@ -969,7 +1356,7 @@
             border-radius: var(--radius-md);
             border-left: 4px solid transparent;
             /* Animation for filtering */
-            animation: dateItemFadeIn 0.4s var(--ease-in-out) backwards;
+            animation: dateItemFadeIn 420ms var(--ease-out) backwards;
         }
 
         /* Animation keyframes for filtering */
@@ -998,7 +1385,7 @@
         }
 
         .date-item.is-exiting {
-            animation: dateItemFadeOut 0.3s var(--ease-in-out) forwards;
+            animation: dateItemFadeOut 170ms var(--ease-in) forwards;
         }
 
         .date-item.type-holiday {
@@ -1039,7 +1426,7 @@
             border-top: 1px solid var(--color-border);
             padding: var(--space-20) 0;
             margin-top: auto;
-            animation: fadeInSlideUp 0.6s 0.6s var(--ease-in-out) both;
+            animation: fadeInSlideUp 0.7s var(--ease-out) 0.5s backwards;
         }
 
         .footer-content {
@@ -1073,9 +1460,11 @@
             display: inline-block;
         }
 
-        .footer-link:hover {
-            color: var(--color-text);
-            transform: translateY(-2px);
+        @media (hover: hover) {
+            .footer-link:hover {
+                color: var(--color-text);
+                transform: translateY(-2px);
+            }
         }
 
         .footer-link:active {
@@ -1110,8 +1499,10 @@
             transition: clip-path 0.4s ease;
         }
 
-        .footer-link:hover::after {
-            clip-path: inset(0 0 0 0);
+        @media (hover: hover) {
+            .footer-link:hover::after {
+                clip-path: inset(0 0 0 0);
+            }
         }
 
         /* Calendar Styles */
@@ -1148,9 +1539,11 @@
             transition: background-color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
         }
 
-        .calendar-header button:hover {
-            background: var(--color-secondary-hover);
-            transform: scale(1.1);
+        @media (hover: hover) {
+            .calendar-header button:hover {
+                background: var(--color-secondary-hover);
+                transform: scale(1.1);
+            }
         }
 
         .calendar-header button:active {
@@ -1187,11 +1580,13 @@
             cursor: pointer;
             padding: var(--space-4);
             gap: var(--space-4);
-            transition: background-color var(--duration-fast);
+            transition: background-color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
         }
 
-        .calendar-day:hover {
-            background-color: var(--color-secondary-hover);
+        @media (hover: hover) {
+            .calendar-day:hover {
+                background-color: var(--color-secondary-hover);
+            }
         }
 
         .calendar-day.current-day>span {
@@ -1245,8 +1640,9 @@
             opacity: 0;
             transform-origin: top center;
             transform: scale(0.95) translateY(10px);
-            transition: opacity var(--duration-fast) ease-in-out, transform var(--duration-fast) ease-in-out;
+            transition: opacity var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
             max-width: 280px;
+            max-width: min(280px, calc(100vw - 16px));
             text-align: left;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: var(--shadow-lg);
@@ -1261,7 +1657,7 @@
             content: '';
             position: absolute;
             bottom: 100%;
-            left: 50%;
+            left: var(--arrow-x, 50%);
             transform: translateX(-50%);
             border-width: 8px;
             border-style: solid;
@@ -1341,15 +1737,17 @@
             max-width: 100vw;
             height: 100%;
             max-height: 100vh;
+            max-height: 100dvh;
             border-radius: 0;
             border: none;
             box-shadow: none;
             padding: 0;
-            animation: slideInUpSyllabus var(--duration-slow) var(--ease-in-out);
+            margin: 0;
+            animation: slideInUpSyllabus 480ms var(--ease-out);
         }
 
         #syllabusModal.is-closing .modal-content {
-            animation: slideOutDownSyllabus var(--duration-slow) var(--ease-in-out);
+            animation: slideOutDownSyllabus 300ms var(--ease-in) forwards;
         }
 
         @keyframes slideInUpSyllabus {
@@ -1420,9 +1818,11 @@
             transition: background-color var(--duration-fast), transform var(--duration-fast);
         }
 
-        .syllabus-close-btn:hover {
-            background-color: var(--color-secondary-hover);
-            transform: translateY(-50%) rotate(90deg);
+        @media (hover: hover) {
+            .syllabus-close-btn:hover {
+                background-color: var(--color-secondary-hover);
+                transform: translateY(-50%) rotate(90deg);
+            }
         }
 
         .syllabus-body {
@@ -1437,6 +1837,7 @@
             border-right: 1px solid var(--color-border);
             padding: var(--space-16);
             overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .syllabus-nav-btn {
@@ -1452,13 +1853,16 @@
             cursor: pointer;
             transition: background-color var(--duration-fast), color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
             margin-bottom: var(--space-4);
-            white-space: nowrap;
+            white-space: normal;
+            overflow-wrap: break-word;
         }
 
-        .syllabus-nav-btn:hover {
-            background-color: var(--color-secondary);
-            color: var(--color-text);
-            transform: translateX(4px);
+        @media (hover: hover) {
+            .syllabus-nav-btn:hover {
+                background-color: var(--color-secondary);
+                color: var(--color-text);
+                transform: translateX(4px);
+            }
         }
 
         .syllabus-nav-btn.active {
@@ -1490,7 +1894,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: box-shadow var(--duration-fast);
+            transition: box-shadow var(--duration-fast), border-color var(--duration-fast), transform var(--duration-fast) var(--ease-standard);
         }
 
         .syllabus-select-trigger:focus,
@@ -1525,7 +1929,7 @@
             visibility: hidden;
             transform: scaleY(0.95) translateY(-10px);
             transform-origin: top center;
-            transition: all var(--duration-normal) var(--ease-in-out);
+            transition: opacity var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out), visibility 0s linear var(--duration-normal), --sb-a 520ms var(--ease-in-out);
         }
 
         .syllabus-select-wrapper.open .syllabus-select-options {
@@ -1536,7 +1940,11 @@
 
         /* Blur effect for syllabus dropdown background */
         .syllabus-details-content {
-            transition: filter var(--duration-normal) ease-in-out;
+            transition: filter var(--duration-normal) ease-in-out, --sb-a 520ms var(--ease-in-out);
+        }
+
+        .syllabus-details-content.sb-awake {
+            transition: filter var(--duration-normal) ease-in-out, --sb-a 160ms var(--ease-out);
         }
 
         .syllabus-select-wrapper.open~.syllabus-details-content {
@@ -1550,8 +1958,10 @@
             transition: background-color var(--duration-fast);
         }
 
-        .syllabus-select-option:hover {
-            background-color: var(--color-secondary-hover);
+        @media (hover: hover) {
+            .syllabus-select-option:hover {
+                background-color: var(--color-secondary-hover);
+            }
         }
 
         .syllabus-select-option.selected {
@@ -1573,11 +1983,11 @@
 
         .syllabus-content.active {
             display: block;
-            animation: slideInRight 0.4s var(--ease-in-out);
+            animation: slideInRight 340ms var(--ease-out);
         }
 
         .syllabus-content.is-exiting {
-            animation: slideOutLeft 0.4s var(--ease-in-out);
+            animation: slideOutLeft 170ms var(--ease-in) forwards;
             position: absolute;
             top: var(--space-32);
             left: var(--space-32);
@@ -1639,7 +2049,7 @@
 
         .syllabus-content li {
             margin-bottom: var(--space-12);
-            animation: staggerItemIn 0.5s var(--ease-standard) both;
+            animation: staggerItemIn 420ms var(--ease-out) both;
             word-break: break-word;
             overflow-wrap: break-word;
         }
@@ -1678,6 +2088,21 @@
         .syllabus-table th {
             font-weight: var(--font-weight-semibold);
             background-color: var(--color-secondary);
+        }
+
+        /* Short day names ("Mon") are only shown on narrow phones; see the max-width: 480px rules below */
+        .day-short {
+            display: none;
+        }
+
+        /* The syllabus dropdown can take keyboard focus the instant it opens: only the fade is animated,
+           not the switch from hidden to visible */
+        .syllabus-select-wrapper.open .syllabus-select-options {
+            transition: opacity var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out), visibility 0s, --sb-a 520ms var(--ease-in-out);
+        }
+
+        .syllabus-select-wrapper.open .syllabus-select-options.sb-awake {
+            transition: opacity var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out), visibility 0s, --sb-a 160ms var(--ease-out);
         }
 
         /* Responsive Design */
@@ -1738,10 +2163,12 @@
                 text-align: center;
             }
 
-            .modal-content:not(#syllabusModal .modal-content) {
+            /* Floating popups keep a 16px margin; the full-screen syllabus sets its own margin: 0 */
+            .modal-content {
                 margin: var(--space-16);
                 max-width: calc(100vw - 32px);
                 max-height: calc(100vh - 32px);
+                max-height: calc(100dvh - 32px);
             }
 
             .detail-row {
@@ -1765,23 +2192,45 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 540px) {
+            /* Phones: fit all five days on the screen, so there is no sideways scrolling */
             .timetable-grid {
-                grid-template-columns: minmax(50px, auto) repeat(5, minmax(60px, 1fr));
+                grid-template-columns: clamp(46px, 13vw, 56px) repeat(5, minmax(0, 1fr));
                 padding: var(--space-8);
                 gap: var(--space-1);
             }
 
             .grid-header,
             .grid-time {
-                padding: var(--space-6);
-                font-size: 10px;
+                min-width: 0;
+                padding: var(--space-6) var(--space-2);
+                font-size: clamp(10px, 2.8vw, 12px);
             }
 
             .grid-cell {
+                min-width: 0;
                 min-height: 36px;
                 padding: var(--space-2);
-                font-size: 10px;
+                font-size: clamp(10px, 2.8vw, 12px);
+                overflow-wrap: anywhere;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            /* 3-letter day names (the full name stays available to screen readers) */
+            .day-short {
+                display: inline;
+            }
+
+            .day-full {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
             }
 
             .date-item {
@@ -1806,6 +2255,413 @@
                 height: 8px;
             }
         }
+
+        @media (max-width: 340px) {
+            /* Very narrow screens (folded foldables, small older phones) */
+            .header-content,
+            .timetable-container,
+            .footer-content {
+                padding-left: var(--space-10);
+                padding-right: var(--space-10);
+            }
+        }
+
+        /* Short screens (a phone held sideways): give the content the room instead of a pinned header */
+        @media (max-height: 520px) {
+            .header {
+                position: static;
+                padding: var(--space-8) 0;
+            }
+
+            .main-content {
+                padding: var(--space-16) 0;
+            }
+
+            .modal-header {
+                padding: var(--space-12) var(--space-16);
+            }
+
+            .modal-body {
+                padding: var(--space-16);
+            }
+
+            .syllabus-header {
+                padding: var(--space-8) var(--space-16);
+            }
+
+            .syllabus-select-wrapper {
+                padding: var(--space-8) var(--space-16);
+            }
+
+            .syllabus-details-content {
+                padding: var(--space-16) var(--space-20);
+            }
+        }
+
+        /* Touch screens: bigger tap targets (the layout itself does not change) */
+        @media (pointer: coarse) {
+            .theme-toggle {
+                min-width: 44px;
+                min-height: 44px;
+            }
+
+            .modal-close,
+            .calendar-header button {
+                position: relative;
+            }
+
+            .modal-close::after,
+            .calendar-header button::after,
+            .syllabus-close-btn::after {
+                content: '';
+                position: absolute;
+            }
+
+            .modal-close::after {
+                top: -10px;
+                right: -15px;
+                bottom: -10px;
+                left: -15px;
+            }
+
+            .calendar-header button::after {
+                top: -6px;
+                right: -6px;
+                bottom: -6px;
+                left: -6px;
+            }
+
+            .syllabus-close-btn::after {
+                top: -4px;
+                right: -4px;
+                bottom: -4px;
+                left: -4px;
+            }
+
+            .tab-btn {
+                min-height: 44px;
+            }
+
+            .date-filter-btn {
+                min-height: 40px;
+                padding-left: var(--space-16);
+                padding-right: var(--space-16);
+            }
+
+            .interactive-legend .legend-item {
+                min-height: 36px;
+            }
+
+            .syllabus-select-option {
+                display: flex;
+                align-items: center;
+                min-height: 44px;
+            }
+
+            /* Text links: taller tap area, text and underline stay exactly where they were */
+            .footer-link {
+                padding: var(--space-8) var(--space-2) var(--space-10);
+                margin: calc(-1 * var(--space-8)) calc(-1 * var(--space-2));
+            }
+
+            .footer-link::before,
+            .footer-link::after {
+                bottom: var(--space-8);
+            }
+        }
+
+        /* Touch screens have no hover, so give taps their own quick feedback */
+        @media (hover: none) {
+
+            .interactive-legend .legend-item:active,
+            .tab-btn:not(.active):active,
+            .date-filter-btn:not(.active):active,
+            .syllabus-nav-btn:not(.active):active,
+            .syllabus-select-option:not(.selected):active,
+            .calendar-day:active,
+            .current-time:active {
+                background-color: var(--color-secondary-hover);
+            }
+
+            .footer-link:active {
+                color: var(--color-primary);
+            }
+        }
+
+        /* Keyboard focus ring (only appears when navigating with a keyboard) */
+        :focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        .grid-cell:focus-visible,
+        .calendar-day:focus-visible,
+        .syllabus-select-option:focus-visible {
+            outline-offset: -2px;
+        }
+
+        /* No double-tap-to-zoom delay on controls for touch screens (pinch zoom still works) */
+        @media (any-pointer: coarse) {
+
+            button,
+            a,
+            [role="button"],
+            .calendar-day,
+            .syllabus-select-option {
+                touch-action: manipulation;
+            }
+        }
+
+        /* ==========================================================================
+           MOTION AND FEEDBACK
+           Small touches that make the page feel responsive: controls dip when pressed, tables
+           and lists glide in, a theme change is one smooth cross-fade, and the header gets a
+           soft shadow once the page has scrolled underneath it. Everything here is switched
+           off by the "reduce motion" rules at the end of the stylesheet.
+           ========================================================================== */
+
+        /* Press feedback: a control dips a little while it is held down (touch, mouse and keyboard) */
+        .interactive-legend .legend-item:active,
+        .tab-btn:active,
+        .date-filter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .syllabus-select-trigger:active {
+            transform: scale(0.985);
+        }
+
+        .syllabus-nav-btn:active {
+            transform: translateX(2px) scale(0.98);
+        }
+
+        .calendar-day:active {
+            transform: scale(0.92);
+        }
+
+        .modal-close:active {
+            transform: rotate(90deg) scale(0.85);
+        }
+
+        .syllabus-close-btn:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        /* Taps get the pressed look above instead of the browser's grey flash */
+        a,
+        button,
+        [role="button"],
+        .grid-cell,
+        .calendar-day,
+        .syllabus-select-option {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Tables and popup rows glide in when a popup opens or the list changes */
+        @keyframes riseIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .student-table,
+        .faculty-table {
+            animation: riseIn 380ms var(--ease-out) 90ms backwards;
+        }
+
+        .detail-row {
+            animation: riseIn 380ms var(--ease-out) backwards;
+            animation-delay: calc(var(--i, 0) * 45ms + 90ms);
+        }
+
+        .detail-row:nth-child(2) {
+            --i: 1;
+        }
+
+        .detail-row:nth-child(3) {
+            --i: 2;
+        }
+
+        .detail-row:nth-child(4) {
+            --i: 3;
+        }
+
+        .detail-row:nth-child(5) {
+            --i: 4;
+        }
+
+        .detail-row:nth-child(6) {
+            --i: 5;
+        }
+
+        .detail-row:nth-child(7) {
+            --i: 6;
+        }
+
+        .detail-row:nth-child(8) {
+            --i: 7;
+        }
+
+        /* The underline under "Section B" / "Section A" slides to the chosen tab (position is set by the script) */
+        .modal-tabs::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: var(--tab-w, 0px);
+            height: 2px;
+            background-color: var(--color-primary);
+            transform: translateX(var(--tab-x, 0px));
+            opacity: 0;
+            transition: transform 340ms var(--ease-out), width 340ms var(--ease-out), opacity var(--duration-fast) linear;
+        }
+
+        .modal-tabs.has-indicator::after {
+            opacity: 1;
+        }
+
+        .modal-tabs.no-slide::after {
+            transition: none;
+        }
+
+        .modal-tabs.has-indicator .tab-btn.active {
+            border-bottom-color: transparent;
+        }
+
+        /* A soft shadow under the header once the page has scrolled beneath it */
+        .header.is-stuck {
+            box-shadow: 0 10px 28px -14px rgba(0, 0, 0, 0.6);
+        }
+
+        [data-color-scheme="light"] .header.is-stuck {
+            box-shadow: 0 10px 28px -14px rgba(19, 52, 59, 0.4);
+        }
+
+        /* Switching theme: every colour on the page fades together (the script adds this class for a moment) */
+        html.theme-switching *,
+        html.theme-switching *::before,
+        html.theme-switching *::after {
+            transition: background-color 380ms var(--ease-in-out), color 380ms var(--ease-in-out), border-color 380ms var(--ease-in-out), fill 380ms var(--ease-in-out), stroke 380ms var(--ease-in-out), box-shadow 380ms var(--ease-in-out), outline-color 380ms var(--ease-in-out) !important;
+        }
+
+        html.theme-switching .theme-toggle svg {
+            transition: transform 0.5s var(--ease-standard) !important;
+        }
+
+        /* While a popup covers the page, the animations behind it rest (they cannot be seen, and the
+           blurred backdrop would have to be redrawn for every frame of them) */
+        html.modal-open body::before,
+        html.modal-open body::after,
+        html.modal-open .grid-cell.active-period::after,
+        html.modal-open .color-box.active-period::after {
+            animation-play-state: paused;
+        }
+
+        /* Respect "reduce motion" system settings */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-delay: 0ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Printing: light colours, no popups, no animation, grid fully visible */
+        @media print {
+            @page {
+                size: landscape;
+                margin: 10mm;
+            }
+
+            html[data-color-scheme] {
+                color-scheme: light;
+                --color-background: #fff;
+                --color-surface: #fff;
+                --color-surface-rgb: 255, 255, 255;
+                --color-text: #13343b;
+                --color-text-secondary: #46535a;
+                --color-primary: #1a6873;
+                --color-primary-hover: #1a6873;
+                --color-primary-rgb: 33, 128, 141;
+                --color-secondary: rgba(94, 82, 64, 0.12);
+                --color-secondary-hover: rgba(94, 82, 64, 0.2);
+                --color-border: rgba(94, 82, 64, 0.35);
+                --color-btn-primary-text: #fcfcf9;
+                --shadow-md: none;
+            }
+
+            body::before,
+            body::after,
+            .grid-cell::after,
+            .color-box::after,
+            .header-icons,
+            .current-time,
+            .custom-tooltip,
+            .modal {
+                display: none !important;
+            }
+
+            .header,
+            .timetable-container,
+            .footer {
+                position: static;
+                animation: none !important;
+                box-shadow: none !important;
+                background: none;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+
+            .app-container {
+                min-height: 0;
+            }
+
+            /* Tighter spacing so the whole timetable fits on one landscape page (A4 or Letter) */
+            .main-content {
+                padding: var(--space-12) 0;
+            }
+
+            .timetable-header {
+                margin-bottom: var(--space-12);
+            }
+
+            .footer {
+                padding: var(--space-8) 0;
+            }
+
+            .timetable-grid {
+                overflow: visible;
+                break-inside: avoid;
+            }
+
+            .grid-cell {
+                min-height: 0;
+                padding: var(--space-4);
+                opacity: 1;
+                transform: none;
+                animation: none !important;
+                box-shadow: none;
+            }
+
+            .grid-cell,
+            .grid-header,
+            .grid-time,
+            .color-box {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
     </style>
 </head>
 
@@ -1825,7 +2681,8 @@
                 </div>
                 <div class="header-controls">
                     <div class="header-icons">
-                        <button class="theme-toggle" id="themeToggle" title="Toggle light/dark theme">
+                        <button class="theme-toggle" id="themeToggle" type="button" title="Toggle light/dark theme"
+                            aria-label="Toggle light/dark theme">
                             <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -1845,7 +2702,8 @@
                                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                             </svg>
                         </button>
-                        <button class="theme-toggle" id="calendarToggle" title="Open academic calendar">
+                        <button class="theme-toggle" id="calendarToggle" type="button" title="Open academic calendar"
+                            aria-label="Open academic calendar">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
@@ -1856,7 +2714,7 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="current-time" id="dateTimeTrigger">
+                    <div class="current-time" id="dateTimeTrigger" role="button" tabindex="0" aria-label="Open academic calendar">
                         <div class="time-display" id="currentTime">10:15:31 PM</div>
                         <div class="date-display" id="currentDate">Wednesday, Aug 20, 2025</div>
                     </div>
@@ -1879,27 +2737,27 @@
                         <span class="separator">•</span>
                         <a href="#" id="importantDatesLink" class="footer-link">Important Dates</a>
                         <span class="separator">•</span>
-                        <a href="https://erpsrm.com/srmhonline/studentportal/loginManager/youLogin.jsp" target="_blank"
+                        <a href="https://erpsrm.com/srmhonline/studentportal/loginManager/youLogin.jsp" target="_blank" rel="noopener noreferrer"
                             class="footer-link">ERP</a>
                     </div>
                     <div class="interactive-legend">
-                        <div class="legend-item" data-type="subject">
+                        <div class="legend-item" data-type="subject" role="button" tabindex="0">
                             <div class="color-box subject"></div>
                             <span>Regular</span>
                         </div>
-                        <div class="legend-item" data-type="lab">
+                        <div class="legend-item" data-type="lab" role="button" tabindex="0">
                             <div class="color-box lab"></div>
                             <span>Lab</span>
                         </div>
-                        <div class="legend-item" data-type="lunch">
+                        <div class="legend-item" data-type="lunch" role="button" tabindex="0">
                             <div class="color-box lunch"></div>
                             <span>Lunch</span>
                         </div>
-                        <div class="legend-item" data-type="free">
+                        <div class="legend-item" data-type="free" role="button" tabindex="0">
                             <div class="color-box free"></div>
                             <span>Free</span>
                         </div>
-                        <div class="legend-item" data-type="active-period">
+                        <div class="legend-item" data-type="active-period" role="button" tabindex="0">
                             <div class="color-box active-period"></div>
                             <span>Current</span>
                         </div>
@@ -1915,10 +2773,10 @@
 
         <div class="modal hidden" id="subjectModal">
             <div class="modal-overlay"></div>
-            <div class="modal-content">
+            <div class="modal-content" role="dialog" aria-modal="true" aria-label="Subject details">
                 <div class="modal-header">
                     <h3 id="modalTitle">Subject Details</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" type="button" aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="subject-details">
@@ -1943,10 +2801,10 @@
 
         <div class="modal hidden" id="studentModal">
             <div class="modal-overlay"></div>
-            <div class="modal-content">
+            <div class="modal-content" role="dialog" aria-modal="true" aria-label="Student list">
                 <div class="modal-header">
                     <h3>Student List</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" type="button" aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="modal-tabs">
@@ -1961,10 +2819,10 @@
 
         <div class="modal hidden" id="facultyModal">
             <div class="modal-overlay"></div>
-            <div class="modal-content">
+            <div class="modal-content" role="dialog" aria-modal="true" aria-label="Faculty list">
                 <div class="modal-header">
                     <h3>Faculty List</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" type="button" aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-body" id="facultyListContainer">
                 </div>
@@ -1973,10 +2831,10 @@
 
         <div class="modal hidden" id="aboutMeModal">
             <div class="modal-overlay"></div>
-            <div class="modal-content">
+            <div class="modal-content" role="dialog" aria-modal="true" aria-label="About me">
                 <div class="modal-header">
                     <h3>About Me</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" type="button" aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="subject-details" id="aboutMeContainer">
@@ -1987,10 +2845,10 @@
 
         <div class="modal hidden" id="calendarModal">
             <div class="modal-overlay"></div>
-            <div class="modal-content">
+            <div class="modal-content" role="dialog" aria-modal="true" aria-label="Academic calendar">
                 <div class="modal-header">
                     <h3 id="monthYearHeader">Academic Calendar</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" type="button" aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="calendar-container">
@@ -2008,16 +2866,16 @@
 
         <div class="modal hidden" id="syllabusModal">
             <div class="modal-overlay"></div>
-            <div class="modal-content">
+            <div class="modal-content" role="dialog" aria-modal="true" aria-label="Syllabus">
             </div>
         </div>
 
         <div class="modal hidden" id="importantDatesModal">
             <div class="modal-overlay"></div>
-            <div class="modal-content">
+            <div class="modal-content" role="dialog" aria-modal="true" aria-label="Important dates">
                 <div class="modal-header">
                     <h3>Important Dates</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" type="button" aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="dates-filter-controls" id="datesFilterControls">
@@ -2278,23 +3136,165 @@
             // "YYYY-MM-DD": [{ type: "assignment", subject: "Python Programming", remarks: "Lab file submission" }],
         };
 
+        // True when the visitor asked their device for less motion. Script-driven animations check this;
+        // the stylesheet handles the rest (see "prefers-reduced-motion" at the end of it).
+        const reduceMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+
+        // Scrollbars that fade away while nothing is scrolling.
+        // The look and the fade itself are in the stylesheet ("Fading scrollbars"); this script only
+        // switches the "sb-awake" class on and off. A scrollbar is shown:
+        //  - while its area scrolls (mouse wheel, touch, keyboard, dragging the bar) and a moment after,
+        //  - while the mouse pointer is close to it, so it can be found and grabbed,
+        //  - briefly when the page loads or a popup opens, to show that there is more to scroll to.
+        const scrollbarFade = (function () {
+            const none = { flash: function () { }, flashWithin: function () { } };
+            const root = document.documentElement;
+            const supported = !!(window.CSS && CSS.supports && CSS.supports('color', 'color-mix(in srgb, red 50%, transparent)'));
+            if (!supported || root.classList.contains('sb-static')) return none;
+
+            const IDLE_MS = 900;    // how long a bar stays after the last scroll
+            const NEAR_MS = 2000;   // how long it stays while the pointer is near it
+            const FLASH_MS = 1700;  // how long it shows when the page loads or a popup opens
+            const REACH = 18;       // pixels beside a bar in which the pointer counts as "near"
+            const SCROLLERS = '.modal-body, .syllabus-nav, .syllabus-details-content, .syllabus-table, .timetable-grid';
+            const states = new WeakMap();
+
+            function stateOf(el) {
+                let st = states.get(el);
+                if (!st) {
+                    st = { until: 0, timer: 0 };
+                    states.set(el, st);
+                    el.classList.add('sb-fade');
+                }
+                return st;
+            }
+
+            // Runs when an area's time is up: hides the bar, unless it was woken again in the meantime
+            function settle(el, st) {
+                st.timer = 0;
+                const left = st.until - performance.now();
+                if (left > 30) {
+                    st.timer = setTimeout(function () { settle(el, st); }, left);
+                } else {
+                    el.classList.remove('sb-awake');
+                }
+            }
+
+            function wake(el, ms) {
+                const st = stateOf(el);
+                const until = performance.now() + (ms || IDLE_MS);
+                if (until > st.until) st.until = until;
+                if (!el.classList.contains('sb-awake')) el.classList.add('sb-awake');
+                if (!st.timer) st.timer = setTimeout(function () { settle(el, st); }, Math.max(st.until - performance.now(), 0));
+            }
+
+            // Scroll events do not bubble, but they can be caught on the way down
+            document.addEventListener('scroll', function (e) {
+                const target = e.target;
+                if (target === document) wake(root);
+                else if (target && target.nodeType === 1) wake(target);
+            }, { capture: true, passive: true });
+
+            // How thick the bars are that take up room in an area (0 means it has none)
+            function barSize(el) {
+                if (el === root) return { v: window.innerWidth - root.clientWidth, h: window.innerHeight - root.clientHeight };
+                return { v: el.offsetWidth - el.clientWidth - 2 * el.clientLeft, h: el.offsetHeight - el.clientHeight - 2 * el.clientTop };
+            }
+
+            function pointerIsNear(el, x, y) {
+                const bar = barSize(el);
+                if (bar.v <= 0 && bar.h <= 0) return false;
+                const r = el === root ? { left: 0, top: 0, right: window.innerWidth, bottom: window.innerHeight } : el.getBoundingClientRect();
+                if (bar.v > 0 && y >= r.top && y <= r.bottom && x >= r.right - bar.v - REACH && x <= r.right) return true;
+                if (bar.h > 0 && x >= r.left && x <= r.right && y >= r.bottom - bar.h - REACH && y <= r.bottom) return true;
+                return false;
+            }
+
+            let pointer = null;
+            let frame = 0;
+            let nearEl = null;
+
+            function checkPointer() {
+                frame = 0;
+                if (!pointer) return;
+                let found = null;
+                for (let el = pointer.target; el && el.nodeType === 1 && el !== document.body && el !== root; el = el.parentElement) {
+                    if (pointerIsNear(el, pointer.x, pointer.y)) {
+                        found = el;
+                        break;
+                    }
+                }
+                if (!found && pointerIsNear(root, pointer.x, pointer.y)) found = root;
+                if (found !== nearEl) {
+                    // The pointer moved away: let the old bar fade after the usual short wait
+                    const st = nearEl && states.get(nearEl);
+                    if (st) st.until = Math.min(st.until, performance.now() + IDLE_MS);
+                    nearEl = found;
+                }
+                if (found) wake(found, NEAR_MS);
+            }
+
+            document.addEventListener('pointermove', function (e) {
+                if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+                pointer = { x: e.clientX, y: e.clientY, target: e.target };
+                if (!frame) frame = requestAnimationFrame(checkPointer);
+            }, { passive: true });
+
+            function flash(el, ms) {
+                if (!el) return;
+                const bar = barSize(el);
+                if (bar.v > 0 || bar.h > 0) wake(el, ms || FLASH_MS);
+            }
+
+            function flashWithin(container, ms) {
+                container.querySelectorAll(SCROLLERS).forEach(function (el) { flash(el, ms); });
+            }
+
+            return { flash: flash, flashWithin: flashWithin };
+        })();
+
         let cal_current_date = new Date();
         let cal_current_month = cal_current_date.getMonth();
         let cal_current_year = cal_current_date.getFullYear();
 
         document.addEventListener('DOMContentLoaded', function () {
+            const THEME_COLORS = { dark: '#1f2121', light: '#fcfcf9' };
+
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-color-scheme', theme);
+                // Colour of the browser bar on phones follows the theme
+                const themeMeta = document.querySelector('meta[name="theme-color"]');
+                if (themeMeta) themeMeta.setAttribute('content', THEME_COLORS[theme] || THEME_COLORS.dark);
+            }
+
             function initTheme() {
                 const themeToggle = document.getElementById('themeToggle');
-                const savedTheme = localStorage.getItem('theme') || 'dark';
-                document.documentElement.setAttribute('data-color-scheme', savedTheme);
-                document.documentElement.style.setProperty('--color-surface-rgb', savedTheme === 'dark' ? '38, 40, 40' : '255, 255, 253');
+                let savedTheme = 'dark';
+                try {
+                    savedTheme = localStorage.getItem('theme') || 'dark';
+                } catch (e) {
+                    // Storage can be blocked (private mode, some in-app browsers). Keep the default theme.
+                }
+                applyTheme(savedTheme);
 
+                let themeFadeTimer = null;
                 themeToggle.addEventListener('click', function () {
-                    var currentTheme = document.documentElement.getAttribute('data-color-scheme');
-                    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                    document.documentElement.setAttribute('data-color-scheme', newTheme);
-                    localStorage.setItem('theme', newTheme);
-                    document.documentElement.style.setProperty('--color-surface-rgb', newTheme === 'dark' ? '38, 40, 40' : '255, 255, 253');
+                    const currentTheme = document.documentElement.getAttribute('data-color-scheme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    // Fade every colour together, instead of parts of the page changing at different speeds
+                    if (!reduceMotion.matches) {
+                        document.documentElement.classList.add('theme-switching');
+                        clearTimeout(themeFadeTimer);
+                        themeFadeTimer = setTimeout(function () {
+                            document.documentElement.classList.remove('theme-switching');
+                        }, 480);
+                    }
+                    applyTheme(newTheme);
+                    try {
+                        localStorage.setItem('theme', newTheme);
+                    } catch (e) {
+                        // Ignore: the theme still switches for this visit.
+                    }
                 });
             }
 
@@ -2303,9 +3303,15 @@
                 return days[new Date().getDay()];
             }
 
+            // Phone layout (abbreviated subject names) is used below 768px, same as the CSS breakpoint
+            const compactQuery = window.matchMedia('(max-width: 767.98px)');
+            const isCompact = function () { return compactQuery.matches; };
+
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            let lastDateText = '';
+
             function updateDateTime() {
                 const now = new Date();
-                const dateOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
                 const hours = now.getHours();
                 const minutes = now.getMinutes();
                 const seconds = now.getSeconds();
@@ -2315,7 +3321,39 @@
                 const ampm = hours >= 12 ? 'PM' : 'AM';
                 document.getElementById('currentTime').innerHTML =
                     `${displayHours}:${displayMinutes}<span class="time-seconds">:${displaySeconds}</span> ${ampm}`;
-                document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', dateOptions);
+                const dateText = now.toLocaleDateString('en-US', dateOptions);
+                if (dateText !== lastDateText) {
+                    lastDateText = dateText;
+                    document.getElementById('currentDate').textContent = dateText;
+                }
+            }
+
+            // Clock: ticks on whole seconds, pauses while the tab is hidden, and refreshes the
+            // "today" / "current period" highlights whenever the minute changes.
+            let clockTimer = null;
+            let lastMinuteKey = '';
+
+            function clockTick() {
+                updateDateTime();
+                const now = new Date();
+                const minuteKey = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes();
+                if (minuteKey !== lastMinuteKey) {
+                    lastMinuteKey = minuteKey;
+                    refreshLiveState();
+                }
+                clockTimer = setTimeout(clockTick, 1000 - (Date.now() % 1000));
+            }
+
+            function stopClock() {
+                if (clockTimer !== null) {
+                    clearTimeout(clockTimer);
+                    clockTimer = null;
+                }
+            }
+
+            function startClock() {
+                stopClock();
+                clockTick();
             }
 
             function generateTimetable() {
@@ -2324,10 +3362,16 @@
                 grid.innerHTML = '';
                 grid.appendChild(Object.assign(document.createElement('div'), { className: 'grid-header', textContent: 'Time/Day' }));
                 timetableData.days.forEach(function (day) {
-                    grid.appendChild(Object.assign(document.createElement('div'), { className: 'grid-header', textContent: formatDayName(day) }));
+                    // Full day name normally; CSS swaps in the 3-letter form on narrow phones
+                    const header = document.createElement('div');
+                    header.className = 'grid-header';
+                    header.innerHTML = '<span class="day-full">' + formatDayName(day) + '</span><span class="day-short" aria-hidden="true">' + formatDayName(day).slice(0, 3) + '</span>';
+                    grid.appendChild(header);
                 });
 
                 let cellIndex = 0;
+                const compact = isCompact();
+                const todayName = getCurrentDay();
 
                 timetableData.timeSlots.forEach(function (timeSlot) {
                     grid.appendChild(Object.assign(document.createElement('div'), { className: 'grid-time', textContent: timeSlot }));
@@ -2346,7 +3390,7 @@
                         let cellText = subject || 'FREE';
 
                         // Updated Logic: Check for mobile width and use abbreviation
-                        if (subject && window.innerWidth < 768) {
+                        if (subject && compact) {
                             const subjectDetails = timetableData.subjects[subject];
                             if (subjectDetails) {
                                 // Priority 1: Use explicit abbreviation
@@ -2382,11 +3426,24 @@
                         } else {
                             // Simple check for Lab in the subject name
                             cell.classList.add((subject.indexOf('Lab') > -1 || subject.indexOf('LAB') > -1 || subject.includes('/')) ? 'lab' : 'subject');
-                            cell.addEventListener('click', function () {
+
+                            const openSubject = function () {
                                 showModal('subjectModal', { subject: subject, timeSlot: timeSlot, day: day, room: room });
+                            };
+                            // Works with a tap, a click, and the keyboard (Tab to a class, then Enter or Space)
+                            const subjectInfo = timetableData.subjects[subject];
+                            cell.setAttribute('role', 'button');
+                            cell.tabIndex = 0;
+                            cell.setAttribute('aria-label', (subjectInfo ? subjectInfo.name : subject) + ', ' + formatDayName(day) + ' ' + timeSlot + (room ? ', room ' + room : ''));
+                            cell.addEventListener('click', openSubject);
+                            cell.addEventListener('keydown', function (e) {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    openSubject();
+                                }
                             });
                         }
-                        if (day === getCurrentDay()) {
+                        if (day === todayName) {
                             cell.classList.add('today');
                         }
                         grid.appendChild(cell);
@@ -2398,27 +3455,106 @@
                 return day.charAt(0) + day.slice(1).toLowerCase();
             }
 
-            function showModal(modalId, data) {
-                const modal = document.getElementById(modalId);
-                if (!modal) return;
-                modal.classList.remove('is-closing');
-                populateModalContent(modalId, data);
-                modal.classList.remove('hidden');
+            // Per-popup bookkeeping: where to return focus, and how to cancel a pending close
+            const modalState = new WeakMap();
+
+            function lockScroll() {
+                document.documentElement.classList.add('modal-open');
+                if (document.body.style.overflow === 'hidden') return;
+                // Keep the page from jumping sideways when its scrollbar disappears behind the overlay
+                const scrollbarGap = window.innerWidth - document.documentElement.clientWidth;
+                if (scrollbarGap > 0) document.body.style.paddingRight = scrollbarGap + 'px';
                 document.body.style.overflow = 'hidden';
             }
 
+            function unlockScroll() {
+                if (document.querySelector('.modal:not(.hidden)')) return;
+                document.documentElement.classList.remove('modal-open');
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            }
+
+            function focusModal(modal) {
+                const target = modal.querySelector('.modal-close, .syllabus-close-btn');
+                if (!target) return;
+                try {
+                    target.focus({ preventScroll: true });
+                } catch (e) {
+                    target.focus();
+                }
+            }
+
+            function showModal(modalId, data) {
+                const modal = document.getElementById(modalId);
+                if (!modal) return;
+                const state = modalState.get(modal) || {};
+                // Re-opened while its closing animation was still running: cancel that close
+                if (state.cancelClose) state.cancelClose();
+                if (modalId === 'calendarModal') hideTooltip();
+                modal.classList.remove('is-closing');
+                populateModalContent(modalId, data);
+                if (modal.classList.contains('hidden')) {
+                    state.returnFocus = document.activeElement;
+                }
+                modal.classList.remove('hidden');
+                modalState.set(modal, state);
+                lockScroll();
+                focusModal(modal);
+                if (modalId === 'studentModal') positionTabIndicator(false);
+                // Show the scrollbars for a moment, so it is clear that a long popup can scroll
+                scrollbarFade.flashWithin(modal);
+            }
+
             function hideModal(modalElement) {
-                if (!modalElement || modalElement.classList.contains('hidden')) return;
+                if (!modalElement || modalElement.classList.contains('hidden') || modalElement.classList.contains('is-closing')) return;
 
-                modalElement.classList.add('is-closing');
+                const state = modalState.get(modalElement) || {};
+                const content = modalElement.querySelector('.modal-content');
+                let finished = false;
+                let fallbackTimer = null;
 
-                modalElement.addEventListener('animationend', () => {
+                function cleanup() {
+                    finished = true;
+                    clearTimeout(fallbackTimer);
+                    if (content) content.removeEventListener('animationend', onAnimationEnd);
+                    state.cancelClose = null;
+                }
+
+                function finish() {
+                    if (finished) return;
+                    cleanup();
                     modalElement.classList.add('hidden');
                     modalElement.classList.remove('is-closing');
-                    if (!document.querySelector('.modal:not(.hidden)')) {
-                        document.body.style.overflow = 'auto';
+                    unlockScroll();
+                    const returnTo = state.returnFocus;
+                    state.returnFocus = null;
+                    if (returnTo && document.contains(returnTo) && typeof returnTo.focus === 'function') {
+                        try {
+                            returnTo.focus({ preventScroll: true });
+                        } catch (e) {
+                            // Ignore: focus return is a nicety.
+                        }
                     }
-                }, { once: true });
+                }
+
+                // Only the popup's own exit animation counts (animations inside it also bubble up here)
+                function onAnimationEnd(e) {
+                    if (e.target === content) finish();
+                }
+
+                state.cancelClose = cleanup;
+                modalState.set(modalElement, state);
+                if (modalElement.id === 'calendarModal') hideTooltip();
+                modalElement.classList.add('is-closing');
+
+                // Nothing to wait for (reduced motion, animations off): close right away
+                const closeStyle = content ? getComputedStyle(content) : null;
+                if (!closeStyle || closeStyle.animationName === 'none' || (parseFloat(closeStyle.animationDuration) || 0) < 0.02) {
+                    finish();
+                    return;
+                }
+                content.addEventListener('animationend', onAnimationEnd);
+                fallbackTimer = setTimeout(finish, 800); // safety net, e.g. a tab that was in the background
             }
 
             function populateModalContent(modalId, data) {
@@ -2456,38 +3592,41 @@
                 } else if (modalId === 'syllabusModal') {
                     renderSyllabus();
                 } else if (modalId === 'importantDatesModal') {
-                    renderImportantDates('all');
+                    // It always opens on "All", so the highlighted filter button has to match the list
+                    document.querySelectorAll('#datesFilterControls .date-filter-btn').forEach(function (btn) {
+                        btn.classList.toggle('active', btn.dataset.filter === 'all');
+                    });
+                    renderImportantDates('all', true);
                 }
             }
 
             function renderSyllabus() {
                 const modalContent = document.querySelector('#syllabusModal .modal-content');
                 const subjects = Object.keys(syllabusData);
-                let navHTML = '';
+                const firstSubject = subjects[0];
 
-                if (window.innerWidth <= 768) {
-                    const firstSubject = subjects[0];
-                    navHTML = `
-                        <div class="syllabus-select-wrapper" id="customSyllabusSelect">
-                            <button class="syllabus-select-trigger" aria-haspopup="listbox" aria-expanded="false">
-                                <span class="selected-value">${firstSubject}</span>
-                                <span class="chevron">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </span>
-                            </button>
-                            <div class="syllabus-select-options" role="listbox">
-                    `;
-                    subjects.forEach((subject, index) => {
-                        navHTML += `<div class="syllabus-select-option ${index === 0 ? 'selected' : ''}" data-value="${subject}" role="option">${subject}</div>`;
-                    });
-                    navHTML += `</div></div>`;
-                } else {
-                    navHTML += `<nav class="syllabus-nav">`;
-                    subjects.forEach((subject, index) => {
-                        navHTML += `<button class="syllabus-nav-btn ${index === 0 ? 'active' : ''}" data-subject="${subject}">${subject}</button>`;
-                    });
-                    navHTML += `</nav>`;
-                }
+                // Both the side list (wide screens) and the dropdown (narrow screens) are built; the
+                // stylesheet shows whichever fits. So rotating a phone or resizing the window while the
+                // syllabus is open can never leave it without a way to switch subject.
+                let navHTML = `<nav class="syllabus-nav" aria-label="Subjects">`;
+                subjects.forEach((subject, index) => {
+                    navHTML += `<button type="button" class="syllabus-nav-btn ${index === 0 ? 'active' : ''}" data-subject="${subject}">${subject}</button>`;
+                });
+                navHTML += `</nav>`;
+
+                let selectHTML = `
+                    <div class="syllabus-select-wrapper" id="customSyllabusSelect">
+                        <button type="button" class="syllabus-select-trigger" aria-haspopup="listbox" aria-expanded="false">
+                            <span class="selected-value">${firstSubject}</span>
+                            <span class="chevron">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </span>
+                        </button>
+                        <div class="syllabus-select-options" role="listbox">`;
+                subjects.forEach((subject, index) => {
+                    selectHTML += `<div class="syllabus-select-option ${index === 0 ? 'selected' : ''}" data-value="${subject}" role="option" tabindex="-1" aria-selected="${index === 0}">${subject}</div>`;
+                });
+                selectHTML += `</div></div>`;
 
                 let contentHTML = '';
                 subjects.forEach((subject, index) => {
@@ -2498,10 +3637,11 @@
                     <div class="syllabus-page-container">
                         <header class="syllabus-header">
                             <h3>Syllabus</h3>
-                            <button class="syllabus-close-btn">&times;</button>
+                            <button type="button" class="syllabus-close-btn" aria-label="Close syllabus">&times;</button>
                         </header>
                         <div class="syllabus-body">
                             ${navHTML}
+                            ${selectHTML}
                             <main class="syllabus-details-content">
                                 ${contentHTML}
                             </main>
@@ -2511,82 +3651,182 @@
                 modalContent.innerHTML = pageHTML;
 
                 const contentArea = modalContent.querySelector('.syllabus-details-content');
+                const navContainer = modalContent.querySelector('.syllabus-nav');
+                const navButtons = modalContent.querySelectorAll('.syllabus-nav-btn');
+                const wrapper = modalContent.querySelector('#customSyllabusSelect');
+                const trigger = wrapper.querySelector('.syllabus-select-trigger');
+                const selectedValue = wrapper.querySelector('.selected-value');
+                const optionList = wrapper.querySelector('.syllabus-select-options');
+                const options = Array.from(wrapper.querySelectorAll('.syllabus-select-option'));
 
+                const staggerListItems = (container) => {
+                    container.querySelectorAll('li').forEach((li, index) => {
+                        li.style.animationDelay = `${Math.min(index, 12) * 40}ms`;
+                    });
+                };
+
+                // Swap the visible subject. If the user switches again before the exit animation ends,
+                // the old one is dropped at once so two subjects can never show together.
+                let switchToken = 0;
                 const switchTab = (subject) => {
-                    const currentlyActive = contentArea.querySelector('.syllabus-content.active');
+                    const token = ++switchToken;
                     const newActive = contentArea.querySelector(`.syllabus-content[data-subject-content="${subject}"]`);
+                    if (!newActive) return;
+
+                    contentArea.querySelectorAll('.syllabus-content.is-exiting').forEach((el) => {
+                        el.classList.remove('active', 'is-exiting');
+                    });
+
+                    const currentlyActive = contentArea.querySelector('.syllabus-content.active');
                     if (currentlyActive === newActive) return;
-                    if (currentlyActive) {
-                        currentlyActive.classList.add('is-exiting');
-                        currentlyActive.addEventListener('animationend', () => {
-                            currentlyActive.classList.remove('active', 'is-exiting');
-                            newActive.classList.add('active');
-                            newActive.querySelectorAll('li').forEach((li, index) => {
-                                li.style.animationDelay = `${index * 50}ms`;
-                            });
-                        }, { once: true });
-                    } else {
+
+                    const reveal = () => {
+                        if (token !== switchToken) return;
                         newActive.classList.add('active');
-                        newActive.querySelectorAll('li').forEach((li, index) => {
-                            li.style.animationDelay = `${index * 50}ms`;
-                        });
+                        staggerListItems(newActive);
+                        contentArea.scrollTop = 0;
+                    };
+
+                    if (!currentlyActive) {
+                        reveal();
+                        return;
                     }
+
+                    currentlyActive.classList.add('is-exiting');
+                    let exitTimer = null;
+                    const onExitEnd = (e) => {
+                        if (e.target === currentlyActive) done();
+                    };
+                    const done = () => {
+                        clearTimeout(exitTimer);
+                        currentlyActive.removeEventListener('animationend', onExitEnd);
+                        currentlyActive.classList.remove('active', 'is-exiting');
+                        reveal();
+                    };
+                    currentlyActive.addEventListener('animationend', onExitEnd);
+                    exitTimer = setTimeout(done, 450);
+                };
+
+                // One place keeps the side list, the dropdown and the content in sync
+                const selectSubject = (subject) => {
+                    navButtons.forEach((btn) => btn.classList.toggle('active', btn.dataset.subject === subject));
+                    options.forEach((opt) => {
+                        const isSelected = opt.dataset.value === subject;
+                        opt.classList.toggle('selected', isSelected);
+                        opt.setAttribute('aria-selected', String(isSelected));
+                    });
+                    selectedValue.textContent = subject;
+                    switchTab(subject);
                 };
 
                 modalContent.querySelector('.syllabus-close-btn').addEventListener('click', () => {
                     hideModal(document.getElementById('syllabusModal'));
                 });
 
-                if (window.innerWidth <= 768) {
-                    const wrapper = modalContent.querySelector('#customSyllabusSelect');
-                    const trigger = wrapper.querySelector('.syllabus-select-trigger');
-                    const selectedValue = wrapper.querySelector('.selected-value');
-                    const options = wrapper.querySelectorAll('.syllabus-select-option');
+                // Side list (wide screens)
+                navContainer.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.syllabus-nav-btn');
+                    if (btn) selectSubject(btn.dataset.subject);
+                });
 
-                    const toggleDropdown = () => {
-                        wrapper.classList.toggle('open');
-                        trigger.setAttribute('aria-expanded', wrapper.classList.contains('open'));
-                    };
+                // Dropdown (narrow screens)
+                const setDropdownOpen = (open) => {
+                    wrapper.classList.toggle('open', open);
+                    trigger.setAttribute('aria-expanded', String(open));
+                };
 
-                    trigger.addEventListener('click', toggleDropdown);
+                // Move keyboard focus onto the chosen option. The list is visible the moment it opens, so
+                // this normally lands at once; if a browser is slower, it tries again on the next frames.
+                const focusOption = (option, triesLeft) => {
+                    if (!wrapper.classList.contains('open')) return;
+                    option.focus({ preventScroll: true });
+                    if (document.activeElement !== option && triesLeft > 0) {
+                        requestAnimationFrame(() => focusOption(option, triesLeft - 1));
+                        return;
+                    }
+                    // Scroll only the option list itself (not the whole popup) so the chosen row is in view
+                    const top = option.offsetTop;
+                    const bottom = top + option.offsetHeight;
+                    if (top < optionList.scrollTop) {
+                        optionList.scrollTop = top;
+                    } else if (bottom > optionList.scrollTop + optionList.clientHeight) {
+                        optionList.scrollTop = bottom - optionList.clientHeight;
+                    }
+                };
 
-                    options.forEach(option => {
-                        option.addEventListener('click', () => {
-                            const value = option.dataset.value;
-                            selectedValue.textContent = value;
-                            options.forEach(opt => opt.classList.remove('selected'));
-                            option.classList.add('selected');
-                            switchTab(value);
-                            toggleDropdown();
-                        });
+                trigger.addEventListener('click', () => {
+                    const willOpen = !wrapper.classList.contains('open');
+                    setDropdownOpen(willOpen);
+                    if (willOpen) {
+                        const selected = options.find((o) => o.classList.contains('selected')) || options[0];
+                        focusOption(selected, 12);
+                    }
+                });
+
+                trigger.addEventListener('keydown', (e) => {
+                    const isOpen = wrapper.classList.contains('open');
+                    if (e.key === 'Escape' && isOpen) {
+                        e.stopPropagation();
+                        setDropdownOpen(false);
+                    } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && !isOpen) {
+                        e.preventDefault();
+                        trigger.click();
+                    }
+                });
+
+                options.forEach((option) => {
+                    option.addEventListener('click', () => {
+                        selectSubject(option.dataset.value);
+                        setDropdownOpen(false);
+                        trigger.focus({ preventScroll: true });
                     });
+                });
 
-                    document.addEventListener('click', (e) => {
-                        if (wrapper.classList.contains('open') && !wrapper.contains(e.target)) {
-                            toggleDropdown();
-                        }
-                    }, { capture: true });
+                optionList.addEventListener('keydown', (e) => {
+                    const currentIndex = options.indexOf(document.activeElement);
+                    let nextIndex = null;
+                    if (e.key === 'ArrowDown') {
+                        nextIndex = Math.min(options.length - 1, currentIndex + 1);
+                    } else if (e.key === 'ArrowUp') {
+                        nextIndex = Math.max(0, currentIndex - 1);
+                    } else if (e.key === 'Home') {
+                        nextIndex = 0;
+                    } else if (e.key === 'End') {
+                        nextIndex = options.length - 1;
+                    } else if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        if (currentIndex > -1) options[currentIndex].click();
+                        return;
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setDropdownOpen(false);
+                        trigger.focus({ preventScroll: true });
+                        return;
+                    } else if (e.key === 'Tab') {
+                        setDropdownOpen(false);
+                        return;
+                    }
+                    if (nextIndex !== null) {
+                        e.preventDefault();
+                        options[nextIndex].focus();
+                    }
+                });
 
-                } else {
-                    const navContainer = modalContent.querySelector('.syllabus-nav');
-                    navContainer.addEventListener('click', (e) => {
-                        if (e.target.matches('.syllabus-nav-btn')) {
-                            const subject = e.target.dataset.subject;
-                            navContainer.querySelectorAll('.syllabus-nav-btn').forEach(btn => btn.classList.remove('active'));
-                            e.target.classList.add('active');
-                            switchTab(subject);
-                        }
-                    });
+                // Tap/click outside the dropdown closes it (one listener, replaced on every render)
+                if (modalContent._syllabusOutsideClick) {
+                    document.removeEventListener('click', modalContent._syllabusOutsideClick, true);
                 }
+                modalContent._syllabusOutsideClick = (e) => {
+                    if (wrapper.classList.contains('open') && !wrapper.contains(e.target)) {
+                        setDropdownOpen(false);
+                    }
+                };
+                document.addEventListener('click', modalContent._syllabusOutsideClick, true);
 
                 const firstActiveContent = modalContent.querySelector('.syllabus-content.active');
-                if (firstActiveContent) {
-                    firstActiveContent.querySelectorAll('li').forEach((li, index) => {
-                        li.style.animationDelay = `${index * 50}ms`;
-                    });
-                }
+                if (firstActiveContent) staggerListItems(firstActiveContent);
             }
-
 
             function renderStudentList(section) {
                 const container = document.getElementById('studentListContainer');
@@ -2600,6 +3840,22 @@
                 document.querySelectorAll('#studentModal .tab-btn').forEach(function (btn) {
                     btn.classList.toggle('active', btn.getAttribute('data-section') === section);
                 });
+            }
+
+            // Moves the underline of the Section B / Section A tabs under the selected tab
+            function positionTabIndicator(animate) {
+                const tabs = document.querySelector('#studentModal .modal-tabs');
+                const active = tabs && tabs.querySelector('.tab-btn.active');
+                // While the popup is closed nothing can be measured; it is placed again when it opens
+                if (!active || !active.offsetWidth) return;
+                if (!animate) tabs.classList.add('no-slide');
+                tabs.style.setProperty('--tab-x', active.offsetLeft + 'px');
+                tabs.style.setProperty('--tab-w', active.offsetWidth + 'px');
+                tabs.classList.add('has-indicator');
+                if (!animate) {
+                    void tabs.offsetWidth; // apply the new place at once, then allow sliding again
+                    tabs.classList.remove('no-slide');
+                }
             }
 
             function renderFacultyList() {
@@ -2685,6 +3941,10 @@
 
                         dayEl.appendChild(dotContainer);
                         dayEl.dataset.tooltipHtml = tooltipHTML;
+                        // Keyboard / screen reader access for days that have events
+                        dayEl.tabIndex = 0;
+                        dayEl.setAttribute('role', 'button');
+                        dayEl.setAttribute('aria-label', `${monthNames[cal_current_month]} ${day}: ${Array.from(eventTypes).join(', ')}`);
                     }
                     if (day === new Date().getDate() && cal_current_month === new Date().getMonth() && cal_current_year === new Date().getFullYear()) {
                         dayEl.classList.add('current-day');
@@ -2693,15 +3953,20 @@
                 }
             }
 
-            function renderImportantDates(filter = 'all') {
+            let datesTimer = null;
+
+            function renderImportantDates(filter = 'all', immediate = false) {
                 const container = document.getElementById('datesListContainer');
                 const existingItems = container.querySelectorAll('.date-item');
+                clearTimeout(datesTimer);
 
+                // The old rows fade out first, then the new ones come in. When the popup opens there is nothing to wait for.
+                const waitMs = (immediate || !existingItems.length || reduceMotion.matches) ? 0 : 170;
                 existingItems.forEach(item => {
                     item.classList.add('is-exiting');
                 });
 
-                setTimeout(() => {
+                const build = () => {
                     const allEvents = [];
                     Object.keys(academicEvents).forEach(dateStr => {
                         academicEvents[dateStr].forEach(event => {
@@ -2743,57 +4008,91 @@
 
                     const newItems = container.querySelectorAll('.date-item');
                     newItems.forEach((item, index) => {
-                        item.style.animationDelay = `${index * 50}ms`;
+                        // Only the first rows are staggered, so a long list still appears quickly
+                        item.style.animationDelay = `${Math.min(index, 10) * 40}ms`;
                     });
-                }, 200);
+                };
+
+                if (waitMs === 0) {
+                    build();
+                } else {
+                    datesTimer = setTimeout(build, waitMs);
+                }
+            }
+
+            // Calendar day tooltip (kept inside the screen on every device)
+            const tooltip = document.getElementById('customTooltip');
+            let activeTooltipTarget = null;
+
+            function hideTooltip() {
+                tooltip.classList.remove('visible');
+                activeTooltipTarget = null;
+            }
+
+            function showTooltip(target) {
+                if (!target || !target.dataset.tooltipHtml) return;
+                const edgeGap = 8;
+
+                tooltip.innerHTML = target.dataset.tooltipHtml;
+                tooltip.classList.remove('position-top', 'visible');
+
+                // Measure at a neutral spot so the screen edge cannot squeeze the width
+                tooltip.style.left = '0px';
+                tooltip.style.top = '0px';
+                tooltip.style.visibility = 'hidden';
+                tooltip.style.display = 'block';
+                const tooltipWidth = tooltip.offsetWidth;
+                const tooltipHeight = tooltip.offsetHeight;
+                tooltip.style.display = '';
+                tooltip.style.visibility = '';
+
+                const rect = target.getBoundingClientRect();
+                const viewportWidth = document.documentElement.clientWidth;
+                const viewportHeight = window.innerHeight;
+                const targetCenter = rect.left + rect.width / 2;
+
+                // Centre on the day, but never run off the left or right edge
+                const left = Math.max(edgeGap, Math.min(targetCenter - tooltipWidth / 2, viewportWidth - tooltipWidth - edgeGap));
+                // The little arrow keeps pointing at the day even when the box had to move
+                const arrowX = Math.max(14, Math.min(targetCenter - left, tooltipWidth - 14));
+                tooltip.style.setProperty('--arrow-x', `${arrowX}px`);
+
+                if ((rect.bottom + tooltipHeight + 20) > viewportHeight) {
+                    tooltip.style.top = `${Math.max(edgeGap, rect.top - tooltipHeight - 12)}px`;
+                    tooltip.classList.add('position-top');
+                } else {
+                    tooltip.style.top = `${rect.bottom + 12}px`;
+                }
+
+                tooltip.style.left = `${left}px`;
+                tooltip.classList.add('visible');
+                activeTooltipTarget = target;
             }
 
             function bindCalendarEvents() {
-                const tooltip = document.getElementById('customTooltip');
                 const calendarGrid = document.getElementById('calendarGrid');
                 const calendarModal = document.getElementById('calendarModal');
-                let activeTooltipTarget = null;
+                const dateTimeTrigger = document.getElementById('dateTimeTrigger');
 
-                function showTooltip(target) {
-                    if (!target.dataset.tooltipHtml) return;
-
-                    tooltip.innerHTML = target.dataset.tooltipHtml;
-                    tooltip.classList.remove('position-top', 'visible');
-
-                    tooltip.style.visibility = 'hidden';
-                    tooltip.style.display = 'block';
-                    const tooltipHeight = tooltip.offsetHeight;
-                    tooltip.style.display = '';
-                    tooltip.style.visibility = '';
-
-                    const rect = target.getBoundingClientRect();
-
-                    if ((rect.bottom + tooltipHeight + 20) > window.innerHeight) {
-                        tooltip.style.top = `${rect.top - tooltipHeight - 12}px`;
-                        tooltip.classList.add('position-top');
+                const toggleTooltip = (target) => {
+                    if (activeTooltipTarget === target) {
+                        hideTooltip();
                     } else {
-                        tooltip.style.top = `${rect.bottom + 12}px`;
+                        showTooltip(target);
                     }
-
-                    tooltip.style.left = `${rect.left + rect.width / 2}px`;
-                    tooltip.style.transform = 'translateX(-50%)';
-                    tooltip.classList.add('visible');
-                    activeTooltipTarget = target;
-                }
-
-                function hideTooltip() {
-                    tooltip.classList.remove('visible');
-                    activeTooltipTarget = null;
-                }
+                };
 
                 calendarGrid.addEventListener('click', (e) => {
                     const target = e.target.closest('.calendar-day[data-tooltip-html]');
+                    if (target) toggleTooltip(target);
+                });
+
+                calendarGrid.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Enter' && e.key !== ' ') return;
+                    const target = e.target.closest('.calendar-day[data-tooltip-html]');
                     if (target) {
-                        if (activeTooltipTarget === target) {
-                            hideTooltip();
-                        } else {
-                            showTooltip(target);
-                        }
+                        e.preventDefault();
+                        toggleTooltip(target);
                     }
                 });
 
@@ -2803,8 +4102,17 @@
                     }
                 });
 
-                document.getElementById('dateTimeTrigger').addEventListener('click', function () {
+                // The tooltip is pinned to the screen, so drop it if the list moves underneath it
+                calendarModal.querySelector('.modal-body').addEventListener('scroll', hideTooltip, { passive: true });
+
+                dateTimeTrigger.addEventListener('click', function () {
                     showModal('calendarModal');
+                });
+                dateTimeTrigger.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        showModal('calendarModal');
+                    }
                 });
                 document.getElementById('prevMonthBtn').addEventListener('click', () => {
                     cal_current_month--;
@@ -2813,6 +4121,7 @@
                         cal_current_year--;
                     }
                     renderCalendar();
+                    slideCalendar(-1);
                 });
                 document.getElementById('nextMonthBtn').addEventListener('click', () => {
                     cal_current_month++;
@@ -2821,7 +4130,44 @@
                         cal_current_year++;
                     }
                     renderCalendar();
+                    slideCalendar(1);
                 });
+            }
+
+            // The new month glides in from the side it came from (a tooltip from the old month is dropped)
+            function slideCalendar(direction) {
+                hideTooltip();
+                if (reduceMotion.matches) return;
+                const grid = document.getElementById('calendarGrid');
+                const title = document.getElementById('calendarTitle');
+                if (!grid.animate) return;
+                grid.animate(
+                    [{ opacity: 0, transform: 'translateX(' + (direction * 28) + 'px)' }, { opacity: 1, transform: 'translateX(0)' }],
+                    { duration: 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+                );
+                title.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: 'ease-out' });
+            }
+
+            // Keeps Tab / Shift+Tab inside the open popup
+            function trapFocus(e) {
+                const openModals = document.querySelectorAll('.modal:not(.hidden):not(.is-closing)');
+                const modal = openModals[openModals.length - 1];
+                if (!modal) return;
+                const focusable = Array.from(modal.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+                    .filter(function (el) { return el.getClientRects().length > 0; });
+                if (!focusable.length) return;
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (!modal.contains(document.activeElement)) {
+                    e.preventDefault();
+                    first.focus();
+                } else if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
             }
 
             function bindModalEvents() {
@@ -2840,6 +4186,8 @@
                 document.addEventListener('keydown', function (e) {
                     if (e.key === 'Escape') {
                         document.querySelectorAll('.modal:not(.hidden)').forEach(hideModal);
+                    } else if (e.key === 'Tab') {
+                        trapFocus(e);
                     }
                 });
 
@@ -2848,6 +4196,7 @@
                     studentModalTabs.addEventListener('click', function (e) {
                         if (e.target && e.target.matches('.tab-btn')) {
                             renderStudentList(e.target.getAttribute('data-section'));
+                            positionTabIndicator(true);
                         }
                     });
                 }
@@ -2864,7 +4213,6 @@
                     });
                 }
             }
-
 
             function bindFooterLinks() {
                 document.getElementById('totalStudentsLink').addEventListener('click', function (e) {
@@ -2892,32 +4240,53 @@
                 });
             }
 
-            function highlightCurrentPeriod() {
+            // Returns the time slot that is running right now, or null (weekend / outside class hours)
+            function getActiveSlot() {
                 const now = new Date();
                 const currentDay = getCurrentDay();
-                if (currentDay === 'SATURDAY' || currentDay === 'SUNDAY') return;
-                const currentHours = now.getHours();
-                const currentMinutes = now.getMinutes();
+                if (currentDay === 'SATURDAY' || currentDay === 'SUNDAY') return null;
+                const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
+                // Slots are written in 12-hour style without AM/PM ("12:30-1:30"), so 1 to 7 means afternoon
+                const to24Hour = function (hour) { return hour < 8 ? hour + 12 : hour; };
                 const timeSlots = timetableData.timeSlots;
-                let activeSlot = null;
                 for (let i = 0; i < timeSlots.length; i++) {
                     const slot = timeSlots[i];
                     const [startTime, endTime] = slot.split('-');
                     const [startHour, startMinute] = startTime.split(':').map(Number);
                     const [endHour, endMinute] = endTime.split(':').map(Number);
-                    const currentTotalMinutes = currentHours * 60 + currentMinutes;
-                    const startTotalMinutes = startHour * 60 + startMinute;
-                    const endTotalMinutes = endHour * 60 + endMinute;
+                    const startTotalMinutes = to24Hour(startHour) * 60 + startMinute;
+                    const endTotalMinutes = to24Hour(endHour) * 60 + endMinute;
                     if (currentTotalMinutes >= startTotalMinutes && currentTotalMinutes < endTotalMinutes) {
-                        activeSlot = slot;
-                        break;
+                        return slot;
                     }
                 }
+                return null;
+            }
+
+            function highlightCurrentPeriod() {
+                const activeSlot = getActiveSlot();
+                const currentDay = getCurrentDay();
+                // Remove the highlight only from cells that stopped being current. Cells that stay current
+                // are left alone, so their pulse animation is not restarted every minute.
+                document.querySelectorAll('.grid-cell.active-period').forEach(cell => {
+                    if (!activeSlot || cell.dataset.day !== currentDay || cell.dataset.time !== activeSlot) {
+                        cell.classList.remove('active-period');
+                    }
+                });
                 if (!activeSlot) return;
                 const activeCells = document.querySelectorAll(`.grid-cell[data-day="${currentDay}"][data-time="${activeSlot}"]`);
                 activeCells.forEach(cell => {
                     cell.classList.add('active-period');
                 });
+            }
+
+            // "Today" and "current period" follow the real clock, even if the page stays open for hours
+            function refreshLiveState() {
+                const currentDay = getCurrentDay();
+                document.querySelectorAll('.grid-cell').forEach(cell => {
+                    cell.classList.toggle('today', cell.dataset.day === currentDay);
+                });
+                highlightCurrentPeriod();
             }
 
             function bindInteractiveLegendEvents() {
@@ -2929,45 +4298,116 @@
                     if (!type) return;
 
                     const targetSelector = `.grid-cell.${type}`;
+                    let touchTimer = null;
+                    let lastPointerType = 'mouse';
 
-                    item.addEventListener('mouseover', () => {
+                    const setHighlight = (on) => {
                         document.querySelectorAll(targetSelector).forEach(cell => {
-                            cell.classList.add('highlight-legend');
+                            cell.classList.toggle('highlight-legend', on);
                         });
+                    };
+
+                    item.addEventListener('pointerdown', (e) => {
+                        lastPointerType = e.pointerType || 'mouse';
                     });
 
-                    item.addEventListener('mouseout', () => {
-                        document.querySelectorAll(targetSelector).forEach(cell => {
-                            cell.classList.remove('highlight-legend');
-                        });
+                    // Mouse / pen: highlight while hovering
+                    item.addEventListener('pointerenter', (e) => {
+                        if (e.pointerType === 'mouse' || e.pointerType === 'pen') setHighlight(true);
                     });
+                    item.addEventListener('pointerleave', (e) => {
+                        if (e.pointerType === 'mouse' || e.pointerType === 'pen') setHighlight(false);
+                    });
+
+                    // Touch: there is no hover, so a tap highlights for a moment
+                    item.addEventListener('click', () => {
+                        if (lastPointerType === 'touch') {
+                            setHighlight(true);
+                            clearTimeout(touchTimer);
+                            touchTimer = setTimeout(() => setHighlight(false), 1800);
+                        }
+                    });
+
+                    // Keyboard: highlight while the item has keyboard focus
+                    item.addEventListener('focus', () => {
+                        let keyboardFocus = true;
+                        try {
+                            keyboardFocus = item.matches(':focus-visible');
+                        } catch (e) {
+                            // Older browsers: treat any focus as keyboard focus
+                        }
+                        if (keyboardFocus) setHighlight(true);
+                    });
+                    item.addEventListener('blur', () => setHighlight(false));
                 });
+            }
+
+            function bindViewportEvents() {
+                // Rebuild the timetable only when the screen crosses the phone / tablet breakpoint (that is
+                // when subject names switch between short and full). Ordinary resizes, and the mobile address
+                // bar sliding in and out, no longer rebuild and re-animate the whole table.
+                let wasCompact = isCompact();
+                const onBreakpointChange = function () {
+                    if (isCompact() === wasCompact) return;
+                    wasCompact = isCompact();
+                    generateTimetable();
+                    highlightCurrentPeriod();
+                };
+                if (compactQuery.addEventListener) {
+                    compactQuery.addEventListener('change', onBreakpointChange);
+                } else if (compactQuery.addListener) {
+                    compactQuery.addListener(onBreakpointChange); // older Safari
+                }
+
+                window.addEventListener('resize', function () {
+                    hideTooltip();
+                    positionTabIndicator(false);
+                });
+
+                // Phones pause background tabs: stop the clock while hidden, catch up when visible again
+                document.addEventListener('visibilitychange', function () {
+                    if (document.hidden) {
+                        stopClock();
+                    } else {
+                        startClock();
+                    }
+                });
+                window.addEventListener('pageshow', function (e) {
+                    if (e.persisted) startClock();
+                });
+            }
+
+            // The header gets a soft shadow once the page has scrolled underneath it
+            function bindScrollEffects() {
+                const header = document.querySelector('.header');
+                if (!header) return;
+                let stuck = false;
+                const update = function () {
+                    const scrolled = (window.pageYOffset || document.documentElement.scrollTop) > 4;
+                    if (scrolled !== stuck) {
+                        stuck = scrolled;
+                        header.classList.toggle('is-stuck', stuck);
+                    }
+                };
+                window.addEventListener('scroll', update, { passive: true });
+                update();
             }
 
             function init() {
                 initTheme();
                 generateTimetable();
-                updateDateTime();
-                setInterval(updateDateTime, 1000);
+                startClock();
                 bindModalEvents();
                 bindFooterLinks();
                 highlightCurrentPeriod();
                 renderCalendar();
                 bindCalendarEvents();
                 bindInteractiveLegendEvents();
+                bindViewportEvents();
+                bindScrollEffects();
+                // Let the page's own scrollbar show for a moment once everything has settled
+                setTimeout(function () { scrollbarFade.flash(document.documentElement); }, 900);
             }
-
-            // ADDED: Resize Listener for Mobile Abbreviation
-            let resizeTimer;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimer);
-                // Debounce: wait 200ms after resizing stops before regenerating
-                resizeTimer = setTimeout(() => {
-                    generateTimetable();
-                    // Re-highlight current period after regeneration
-                    highlightCurrentPeriod();
-                }, 200);
-            });
 
             init();
         });
