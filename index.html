@@ -2066,6 +2066,79 @@
             }
         }
 
+        /* "Old Python Syllabus" dropdown at the end of the Python Programming syllabus */
+        .syllabus-content .old-syllabus {
+            margin-top: var(--space-24);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background-color: var(--color-surface);
+        }
+
+        .syllabus-content .old-syllabus>summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-12);
+            padding: var(--space-12) var(--space-16);
+            border-radius: calc(var(--radius-md) - 1px);
+            color: var(--color-text);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            list-style: none;
+            -webkit-user-select: none;
+            user-select: none;
+            transition: background-color var(--duration-fast);
+        }
+
+        .syllabus-content .old-syllabus>summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .syllabus-content .old-syllabus>summary::after {
+            content: "";
+            flex-shrink: 0;
+            width: 8px;
+            height: 8px;
+            margin-top: -4px;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(45deg);
+            transition: transform var(--duration-normal) var(--ease-in-out), margin-top var(--duration-normal) var(--ease-in-out);
+        }
+
+        .syllabus-content .old-syllabus[open]>summary {
+            border-bottom: 1px solid var(--color-border);
+            border-radius: calc(var(--radius-md) - 1px) calc(var(--radius-md) - 1px) 0 0;
+        }
+
+        .syllabus-content .old-syllabus[open]>summary::after {
+            margin-top: 4px;
+            transform: rotate(-135deg);
+        }
+
+        @media (hover: hover) {
+            .syllabus-content .old-syllabus>summary:hover {
+                background-color: var(--color-secondary);
+            }
+        }
+
+        .syllabus-content .old-syllabus-body {
+            padding: var(--space-16) var(--space-16) 0;
+            animation: oldSyllabusIn 260ms var(--ease-out);
+        }
+
+        @keyframes oldSyllabusIn {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .syllabus-table {
             width: 100%;
             border-collapse: collapse;
@@ -3024,26 +3097,61 @@
 
         const syllabusData = {
             "Python Programming": `
-                <h4>Unit-1</h4>
-                <p>History, Need for Python, Application, Python Installation and IDLE, Interactive and script mode, Indentation, comments, Identifiers, and Keywords, Variables, Building blocks of python, and Data Types. Basic Input/output operations. Operators and Expressions.</p>
-                <h4>Unit-2</h4>
-                <p>Control Structures: Conditional blocks using if, if-else, nested if, and multiway if-elif statements. Loops- while loop, for loop, else clauses in loops, nested loops, loop manipulation using pass, continue, break and else. Structured Data Types: Lists: create, access, slicing, negative indices, list methods, list comprehensions. Tuples: Create, indexing and slicing, operations on tuples. Dictionary: Create, add, replace values, operations on dictionaries. Sets: Creation and operations.</p>
-                <h4>Unit-3</h4>
-                <p>Functions- defining and calling function, parameters and arguments: positional arguments, keyword arguments, parameters with default values- local and global scope of variables, Functions with arbitrary arguments- Recursive function, Lambda function, built-in Functions Map(), filter(), and reduce() functions.</p>
-                <h4>Unit-4</h4>
-                <p>Python Object Oriented Programming: OOP Concepts, class, object, and instances, Constructor, Python attributes and destructors, Real-time use of class in live projects, Inheritance, Polymorphism, overlapping and overloading operators, Method overriding, Method overloading.</p>
-                <h4>Unit-5</h4>
-                <p>Exception handling: Types of Errors (Compile-Time, Runtime, Logical), Exception handling Using try-except Blocks, The assert Statement, User-Defined Exceptions, Logging Exceptions, Exception Classes & Custom Exceptions. Python Database Interaction- SQL Database connection using Python, Creating and searching tables, Reading and storing configuring information on database.</p>
+                <h4>Unit-1: BASIC CONCEPTS OF PYTHON</h4>
+                <p>Installation and Working with Python Understanding Python Variables Python Basic Operators Understanding python blocks, Variables and Data Types.</p>
+                <h4>Unit-2: FLOW CONTROL</h4>
+                <p>Python Program Flow Control- Conditional blocks using if, else and else if Simple for loops in python for loopusing ranges, string, list and dictionaries Use of while loops in python Loop manipulation using pass, continue, break and else Programming using Python conditional and loops block.</p>
+                <h4>Unit-3: PYTHON OBJECT ORIENTED PROGRAMMING</h4>
+                <p>Python Object Oriented Programming – Oops Concept of class, object and instances Constructor, class attributes and destructors Real time use of class in live projects Inheritance, overlapping and overloading operators.</p>
+                <h4>Unit-4: PYTHON CGI INTRODUCTION</h4>
+                <p>Python CGI Introduction Writing python program for CGI applications Creating menus and accessing files Server client program.</p>
+                <h4>Unit-5: PYTHON EXCEPTION HANDLING</h4>
+                <p>Python Exception Handling, Python Database Interaction-SQL Database connection using python, Creating and searching tables, Reading and storing configuring information on database.</p>
+                <h4>Text Books</h4>
+                <p>1. Martin C. Brown, “Python The Complete Reference (English,Paperback) McGraw Hill Education</p>
+                <h4>Reference Books</h4>
+                <p>1. Paul Barry, Head First Python: A Brain-Friendly GuidePaperback, Shroff/O'Reilly; Second edition</p>
+                <details class="old-syllabus">
+                    <summary>Old Python Syllabus</summary>
+                    <div class="old-syllabus-body">
+                        <h4>Unit-1</h4>
+                        <p>History, Need for Python, Application, Python Installation and IDLE, Interactive and script mode, Indentation, comments, Identifiers, and Keywords, Variables, Building blocks of python, and Data Types. Basic Input/output operations. Operators and Expressions.</p>
+                        <h4>Unit-2</h4>
+                        <p>Control Structures: Conditional blocks using if, if-else, nested if, and multiway if-elif statements. Loops- while loop, for loop, else clauses in loops, nested loops, loop manipulation using pass, continue, break and else. Structured Data Types: Lists: create, access, slicing, negative indices, list methods, list comprehensions. Tuples: Create, indexing and slicing, operations on tuples. Dictionary: Create, add, replace values, operations on dictionaries. Sets: Creation and operations.</p>
+                        <h4>Unit-3</h4>
+                        <p>Functions- defining and calling function, parameters and arguments: positional arguments, keyword arguments, parameters with default values- local and global scope of variables, Functions with arbitrary arguments- Recursive function, Lambda function, built-in Functions Map(), filter(), and reduce() functions.</p>
+                        <h4>Unit-4</h4>
+                        <p>Python Object Oriented Programming: OOP Concepts, class, object, and instances, Constructor, Python attributes and destructors, Real-time use of class in live projects, Inheritance, Polymorphism, overlapping and overloading operators, Method overriding, Method overloading.</p>
+                        <h4>Unit-5</h4>
+                        <p>Exception handling: Types of Errors (Compile-Time, Runtime, Logical), Exception handling Using try-except Blocks, The assert Statement, User-Defined Exceptions, Logging Exceptions, Exception Classes & Custom Exceptions. Python Database Interaction- SQL Database connection using Python, Creating and searching tables, Reading and storing configuring information on database.</p>
+                    </div>
+                </details>
             `,
             "Cloud Computing": `
                 <h4>Unit-1: INTRODUCTION</h4>
                 <p>Cloud Computing definition, private, and public and hybrid cloud. Cloud types; IaaS, PaaS, SaaS. Benefits and challenges of cloud computing, public vs private clouds.</p>
                 <h4>Unit-2: CLOUD APPLICATIONS</h4>
                 <p>Role of virtualization in enabling the cloud; Business Agility: Benefits and challenges to Cloud architecture. Application availability, performance.</p>
+                <h4>Unit-3: DESIGNING AND IMPLEMENTATION</h4>
+                <p>Designing and Implementing a Data Centre-Based Cloud, Industry and International Standards Communication Requirements for Cloud Implementation.</p>
+                <h4>Unit-4: SERVICE MODELS</h4>
+                <p>Hardware and Infrastructure. Software as a Service (Saas), Understanding SOA. IT Evolution Leading to the Cloud, Benefits of Paas Solutions, Disadvantages of Paas Solutions. Understanding IaaS, Improving Performance through Load Balancing.</p>
+                <h4>Unit-5: RELATED JAVA TECHNIQUES</h4>
+                <p>3D graphics – JAR file format and creation – Internationalization – Swing Programming.</p>
+                <h4>Text Books</h4>
+                <p>1. Cloud Computing: A Practical Approach by Anthony T. Velte Toby J. Velte, Robert Elsenpeter, 2010 by the McGraw-Hill.</p>
             `,
             "Analysis and Design Algorithm": `
-                <h4>Syllabus Content</h4>
-                <p>Syllabus details for Analysis and Design Algorithm will be updated soon.</p>
+                <h4>Unit-1</h4>
+                <p>Basic Design and Analysis techniques of Algorithms, Correctness of Algorithm, Models of computation: RAM, TM etc. time and space complexity Asymptotic Notation: Big-O, omega, theta etc.; finding time complexity of well-known algorithms like- heap sort, search algorithm.</p>
+                <h4>Unit-2</h4>
+                <p>Iterative techniques, Divide and Conquer, Dynamic Programming, Greedy algorithms, Divide and Conquer -Basic method, use, Examples: Merge sort, Quick Sort, Binary Search.</p>
+                <h4>Unit-3</h4>
+                <p>Basic method, use, Examples: matrix-chain multiplication, all pair shortest paths, single-source shortest path, Travelling Salesman problem.</p>
+                <h4>Unit-4</h4>
+                <p>Elementary sorting techniques–Bubble Sort, Insertion Sort, Merge Sort, Advanced Sorting techniques - Heap Sort, Quick Sort, Sorting in Linear Time - Bucket Sort, Radix Sort and Count Sort, Searching Techniques, Medians &amp; Order Statistics, complexity analysis.</p>
+                <h4>Unit-5</h4>
+                <p>P class, NP-hard class, NP-complete class, Circuit satisfiability problem, Clique Decision Problem.</p>
             `,
             "Computer Architecture & Organization": `
                 <h4>Unit-1</h4>
@@ -3651,6 +3759,14 @@
                 modalContent.innerHTML = pageHTML;
 
                 const contentArea = modalContent.querySelector('.syllabus-details-content');
+
+                // "Old Python Syllabus" dropdown: when it opens, bring it to the top of the pane so the text is in view
+                contentArea.addEventListener('toggle', (e) => {
+                    const d = e.target;
+                    if (d && d.classList && d.classList.contains('old-syllabus') && d.open) {
+                        contentArea.scrollTo({ top: Math.max(0, d.offsetTop - 16), behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+                    }
+                }, true);
                 const navContainer = modalContent.querySelector('.syllabus-nav');
                 const navButtons = modalContent.querySelectorAll('.syllabus-nav-btn');
                 const wrapper = modalContent.querySelector('#customSyllabusSelect');
